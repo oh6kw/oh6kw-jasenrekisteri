@@ -2,7 +2,14 @@
 
 Tekijä: Jarno Jaskari (oh6kw). Versiosta 3.0 alkaen lisäosaa on kehitetty yhdessä Claude-tekoälyn (Anthropic) kanssa.
 
-## Tulossa seuraavaan versioon
+## 4.8.7 (2026-10-18)
+
+### Uutta: Tietojen tarkistus
+- Jäsenet-sivun kortti *Jäsentä ilman sähköpostia* on korvattu kortilla **Jäsentä, joilta puuttuu tietoja** (suluissa edelleen sähköpostittomien määrä). Kortti vie uudelle **Tietojen tarkistus** -sivulle. Kun puutteita ei ole, kortti näyttää vihreänä *Kaikki tiedot kunnossa*.
+- Tarkistus koskee vain voimassa olevia jäseniä.
+- **Korjattavaa**, vakavimmat ensin: paperilaskun saaja ilman osoitetta (tai ei sähköpostia eikä osoitetta, jolloin laskua ei voi toimittaa), virheellinen sähköpostiosoite, outo puhelinnumero (kirjaimia, liian lyhyt tai pitkä), sama nimi useamman kerran (mahdollinen tupla) ja sama sähköposti eri nimillä (huomautus: voi olla perheen yhteinen osoite).
+- **Puuttuvat tiedot:** taulukko jäsenistä, joilta puuttuu sähköposti, osoite tai puhelin. Liittymispäivän ja syntymävuoden voi ottaa mukaan valinnoista; omia lisäkenttiä (esim. avaimet) ei tarkisteta. Jäsenen nimestä pääsee muokkaamaan hänen tietojaan.
+- **Tulosta puutelista** jäsenillaan täydennettäväksi: nimi, tunnus ja puuttuvien tietojen nimet viivoineen, johon tiedon voi kirjoittaa. Tulosteessa ei näy jäsenten olemassa olevia tietoja (osoitteita, sähköposteja, numeroita), joten paperia voi pitää esillä. Tulostus kirjataan muutoslokiin.
 
 ### Tekstit
 - wordpress.orgin kuvaus: osoitetarrojen usein kysytyssä kysymyksessä painikkeen ja sivun nimet englanniksi ja suomenkielinen nimi suluissa, kuten asennusohjeessa (*Print address labels (Tulosta osoitetarrat) on the Members page (Jäsenet)*).

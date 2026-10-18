@@ -191,6 +191,8 @@ function jasrek_page_members() {
     echo '<div class="wrap jasrek-wrap">';
     if ($view === 'tuonti') {
         jasrek_members_import_page();
+    } elseif ($view === 'tarkistus') {
+        jasrek_checkup_page();
     } elseif ($view === 'edit' || $view === 'new') {
         jasrek_member_form($view === 'edit' ? jasrek_get_int('id') : 0);
     } else {
@@ -462,7 +464,10 @@ function jasrek_member_list() {
         <a class="jasrek-card jasrek-card-link" href="<?php echo esc_url(admin_url('admin.php?page=jasrek-raportti&vuosi=' . substr($eka['pvm'], 0, 4) . '#merkkipaivat')); ?>"><span class="jasrek-card-num">🎉 <?php echo (int) count($tulossa); ?></span>
             <span class="jasrek-card-label">Merkkipäivää 60 päivän sisällä, ensimmäinen <?php echo esc_html(jasrek_date($eka['pvm']) . ': ' . $eka['m']->etunimi . ' ' . $eka['m']->sukunimi . ' ' . jasrek_merkkipaiva_teksti($eka)); ?></span></a>
         <?php endif; ?>
-        <div class="jasrek-card <?php echo esc_html($n_noemail ? 'jasrek-card-warn' : ''); ?>"><span class="jasrek-card-num"><?php echo esc_html($n_noemail); ?></span><span class="jasrek-card-label">Jäsentä ilman sähköpostia</span></div>
+        <?php $n_puute = count(jasrek_checkup_data(array_keys(array_filter(jasrek_checkup_kentat(), function ($k) { return $k[1]; })))['puutteet']); ?>
+        <a class="jasrek-card jasrek-card-link <?php echo $n_puute ? 'jasrek-card-warn' : 'jasrek-card-ok'; ?>" href="<?php echo esc_url(add_query_arg('view', 'tarkistus', $base)); ?>" title="Tietojen tarkistus: puuttuvat sähköpostit, osoitteet ja puhelinnumerot, tuplat ja virheelliset tiedot. Puutelistan voi tulostaa.">
+            <?php if ($n_puute): ?><span class="jasrek-card-num"><?php echo (int) $n_puute; ?></span><span class="jasrek-card-label">Jäsentä, joilta puuttuu tietoja<?php echo esc_html($n_noemail ? ' (' . $n_noemail . ' ilman sähköpostia)' : ''); ?></span>
+            <?php else: ?><span class="jasrek-card-num">✓</span><span class="jasrek-card-label">Kaikki tiedot kunnossa</span><?php endif; ?></a>
         <?php if ($n_paperi): ?>
         <div class="jasrek-card"><span class="jasrek-card-num"><?php echo esc_html($n_paperi); ?></span><span class="jasrek-card-label">Saa laskun paperilla</span></div>
         <?php endif; ?>

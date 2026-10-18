@@ -5,7 +5,7 @@ Tags: membership, members, invoices, association, finland
 Requires at least: 6.2
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 4.8.6
+Stable tag: 4.8.7
 License: AGPLv3 or later
 License URI: https://www.gnu.org/licenses/agpl-3.0.html
 
@@ -27,6 +27,7 @@ OH6KW Jäsenrekisteri ("membership register") is a complete membership register 
 **Printouts and exports**
 
 * Address labels printed straight onto ordinary A4 label sheets (e.g. 24 labels, 70 × 36 mm, or your own dimensions): paper-invoice recipients, all members, a membership class, resigned or selected members. Postal code and town in capitals as recommended by the Finnish postal service. A partly used sheet can be used up, and the printer offset can be fine-tuned. Also sender labels with the association's address.
+* Data check: missing email addresses, postal addresses and phone numbers, paper-invoice recipients without an address, invalid email addresses and phone numbers, and possible duplicates. The list of missing details can be printed for a club evening – it shows only what is missing, never anyone's existing details.
 * Printable member list (A4 landscape, paper or PDF): name, member ID, chosen custom fields, email, phone, address, joining date and year or date of birth.
 * Export everything to Excel: one workbook with a summary, members, each custom field (e.g. keys), membership classes, invoices, every invoice row with payments, open payments and the audit log.
 
@@ -135,6 +136,10 @@ The Finnish reference payment file (KTL / viitesiirtoaineisto), ISO 20022 camt.0
 14. Printable member list (A4 landscape) with chosen columns.
 
 == Changelog ==
+
+= 4.8.7 =
+* New: Data check page (from the new "members with missing details" card on the Members page): paper-invoice recipients without an address, invalid email addresses and phone numbers, possible duplicates, and a table of current members missing an email address, postal address or phone number (optionally joining date and year of birth). The list of missing details can be printed for members to fill in – it shows only the names of the missing details, never anyone's existing contact details.
+* The FAQ about address labels now names the button and page in English with the Finnish name in brackets.
 
 = 4.8.6 =
 * New: "Print address labels" button on the Members page and a bulk action for selected members. Address labels for common A4 label sheets (24 labels 70 × 36 mm, 70 × 37 mm, 21 labels 70 × 42.3 mm and more) or your own dimensions: paper-invoice recipients, all current members, a membership class, resigned, all or selected members. Postal code and town in capitals as recommended by the Finnish postal service. Start from any label on a partly used sheet, fine-tune the printer offset in millimetres; the choices are remembered. Members without an address are listed and skipped.
