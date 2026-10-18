@@ -247,4 +247,5 @@ a.jasrek-card-link:hover { border-color: #2271b1; }
 .jasrek-kp-form .jasrek-kp-pikat { flex-basis: 100%; color: var(--jasrek-muted); }
 .jasrek-kp-form .jasrek-kp-pikat label { display: inline; }
 .jasrek-r { text-align: right !important; white-space: nowrap; }
+.jasrek-c { text-align: center; }
 .jasrek-kp-viennit td:last-child { white-space: nowrap; }

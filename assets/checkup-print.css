@@ -1,0 +1,9 @@
+/* jasrek-checkup-print – tulostettava puutelista (voters.css:n päälle) */
+.tools .info { flex-basis: 100%; opacity: .85; font-size: 13px; }
+.ohje { margin: 0 0 4mm; color: #333; }
+table.puutteet td { vertical-align: top; padding: 2.5mm 1.5mm; }
+td.nimi { width: 62mm; }
+.tunnus { color: #555; font-size: 9pt; }
+.rivi { display: flex; align-items: flex-end; gap: 2mm; min-height: 8mm; }
+.kentta { white-space: nowrap; color: #333; min-width: 42mm; }
+.viiva { flex: 1; border-bottom: 0.5pt solid #333; height: 6mm; }

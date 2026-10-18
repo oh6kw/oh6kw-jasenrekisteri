@@ -45,6 +45,7 @@ Näin yhdistys saa jäsenrekisterin ilman erillistä palvelua, kuukausimaksuja t
 
 **Tulosteet ja viennit**
 - **Osoitetarrat** (Jäsenet-sivun yläreunassa tai valituille joukkotoiminnoista) suoraan tavalliselle A4-tarra-arkille – paperilaskun saajat, kaikki, jäsenluokka, eronneet tai valitut. Postinumero ja -toimipaikka isoilla kirjaimilla. Valmiit yleiset arkit (esim. 24 tarraa 70 × 36 mm) tai omat mitat, aloitus vajaan arkin keskeltä ja tulostimen hienosäätö. Myös lähettäjätarrat yhdistyksen osoitteella.
+- **Tietojen tarkistus** (Jäsenet-sivun kortti *Jäsentä, joilta puuttuu tietoja*): puuttuvat sähköpostit, osoitteet ja puhelinnumerot, paperilaskun saajat ilman osoitetta, virheelliset sähköpostit ja puhelinnumerot sekä mahdolliset tuplat. **Puutelistan voi tulostaa** jäsenillaan täydennettäväksi – tulosteessa näkyvät vain puuttuvien tietojen nimet, ei kenenkään olemassa olevia tietoja.
 - **Tulosta jäsenluettelo** (Jäsenet-sivun yläreunassa): siisti vaakasuuntainen A4-luettelo paperille tai PDF:ksi – nimi, tunnus, valitut omat lisäkentät, sähköposti, puhelin, osoite, liittymispäivä ja syntymävuosi/-päivä. Valittavissa voimassa olevat, eronneet tai kaikki, jäsenluokka ja järjestys.
 - **Vie kaikki tiedot Exceliin** (Jäsenet-sivun yläreunassa): koko rekisteri yhteen Excel-tiedostoon omille välilehdilleen – yhteenveto, jäsenet, jokainen oma lisäkenttä (esim. avaimet), jäsenluokat, laskut, kaikki laskurivit maksuineen, avoimet maksut ja muutosloki. Luettavaksi ja arkistoon; palautukseen käytetään varmuuskopiota.
 
@@ -93,6 +94,7 @@ Näin yhdistys saa jäsenrekisterin ilman erillistä palvelua, kuukausimaksuja t
 | ![Varmuuskopio](docs/kuvat/20-varmuuskopio.png) **Varmuuskopio ja siirto** asetuksissa. | ![Palautus](docs/kuvat/21-palautus.png) **Palautus:** yhteenveto ja vahvistus ennen kuin mitään muutetaan. |
 | ![Jäsenmaksut kirjanpitoon](docs/kuvat/26-kirjanpito.png) **Jäsenmaksut kirjanpitoon:** vientiehdotus kirjanpitäjälle, erittely jäsenluokittain ja avoimet jäsenmaksut. | ![Maksukortti puhelimessa](docs/kuvat/25-maksukortti-puhelin.png) **Sähköpostilasku puhelimessa.** |
 | ![Osoitetarrat](docs/kuvat/27-osoitetarrat.png) **Osoitetarrat** tavalliselle A4-tarra-arkille: paperilaskun saajat, kaikki, jäsenluokka tai valitut. Vajaan arkin voi käyttää loppuun. | ![Jäsenluettelo](docs/kuvat/28-jasenluettelo.png) **Jäsenluettelo** paperille tai PDF:ksi: valitut sarakkeet, jäsenluokka ja järjestys. |
+| ![Tietojen tarkistus](docs/kuvat/29-tietojen-tarkistus.png) **Tietojen tarkistus:** puuttuvat tiedot ja korjattavat. Puutelistan voi tulostaa jäsenillaan täydennettäväksi. | |
 | ![Tietosuojaseloste](docs/kuvat/23-tietosuojaseloste.png) **Tietosuojaselosteen pohja** yhdistyksen tiedoilla. | ![Tietoja ja palaute](docs/kuvat/12-tietoja.png) **Tietoja ja palaute:** palautelomake ja Ko-fi. |
 
 ## Asennus
@@ -192,6 +194,7 @@ includes/
   report.php                Vuosiraportti (näyttö ja Excel)
   member-print.php          Tulostettava jäsenluettelo
   labels.php                Osoite- ja lähettäjätarrat
+  checkup.php               Tietojen tarkistus ja tulostettava puutelista
   voters.php                Äänioikeusluettelo
   backup.php                Varmuuskopio ja palautus (JSON)
   privacy.php               Tietosuoja: henkilötietojen vienti ja poisto, tietosuojaselosteen pohja
