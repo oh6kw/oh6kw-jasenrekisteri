@@ -2,6 +2,11 @@
 
 Tekijä: Jarno Jaskari (oh6kw). Versiosta 3.0 alkaen lisäosaa on kehitetty yhdessä Claude-tekoälyn (Anthropic) kanssa.
 
+## Tulossa seuraavaan versioon
+
+### Tekstit
+- wordpress.orgin kuvaus: osoitetarrojen usein kysytyssä kysymyksessä painikkeen ja sivun nimet englanniksi ja suomenkielinen nimi suluissa, kuten asennusohjeessa (*Print address labels (Tulosta osoitetarrat) on the Members page (Jäsenet)*).
+
 ## 4.8.6 (2026-10-18)
 
 ### Uutta: Osoitetarrat ja lähettäjätarrat

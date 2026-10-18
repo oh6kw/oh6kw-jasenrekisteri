@@ -111,7 +111,7 @@ When you deactivate the plugin you are asked whether the data should be kept or 
 
 = Can I print address labels for letters? =
 
-Yes. Members → Tulosta osoitetarrat prints address labels on ordinary A4 label sheets (24 labels 70 × 36 mm and other common sizes, or your own dimensions) for paper-invoice recipients, all members, a membership class or selected members. You can start from any label on a partly used sheet, and sender labels with the association's address are also available.
+Yes. The Print address labels button (Tulosta osoitetarrat) on the Members page (Jäsenet) prints address labels on ordinary A4 label sheets (24 labels 70 × 36 mm and other common sizes, or your own dimensions) for paper-invoice recipients, all members, a membership class or selected members. You can start from any label on a partly used sheet, and sender labels with the association's address are also available.
 
 = Which bank files are supported? =
 
