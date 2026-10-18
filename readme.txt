@@ -134,6 +134,7 @@ The Finnish reference payment file (KTL / viitesiirtoaineisto), ISO 20022 camt.0
 12. Membership fees for bookkeeping: posting proposal for the accountant, breakdown by membership class and open fees.
 13. Address labels on an ordinary A4 label sheet, starting from any label on a partly used sheet.
 14. Printable member list (A4 landscape) with chosen columns.
+15. Data check: missing details and things to fix; the list of missing details can be printed.
 
 == Changelog ==
 

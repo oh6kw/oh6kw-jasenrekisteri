@@ -94,6 +94,7 @@ Näin yhdistys saa jäsenrekisterin ilman erillistä palvelua, kuukausimaksuja t
 | ![Varmuuskopio](docs/kuvat/20-varmuuskopio.png) **Varmuuskopio ja siirto** asetuksissa. | ![Palautus](docs/kuvat/21-palautus.png) **Palautus:** yhteenveto ja vahvistus ennen kuin mitään muutetaan. |
 | ![Jäsenmaksut kirjanpitoon](docs/kuvat/26-kirjanpito.png) **Jäsenmaksut kirjanpitoon:** vientiehdotus kirjanpitäjälle, erittely jäsenluokittain ja avoimet jäsenmaksut. | ![Maksukortti puhelimessa](docs/kuvat/25-maksukortti-puhelin.png) **Sähköpostilasku puhelimessa.** |
 | ![Osoitetarrat](docs/kuvat/27-osoitetarrat.png) **Osoitetarrat** tavalliselle A4-tarra-arkille: paperilaskun saajat, kaikki, jäsenluokka tai valitut. Vajaan arkin voi käyttää loppuun. | ![Jäsenluettelo](docs/kuvat/28-jasenluettelo.png) **Jäsenluettelo** paperille tai PDF:ksi: valitut sarakkeet, jäsenluokka ja järjestys. |
+| ![Tietojen tarkistus](docs/kuvat/29-tietojen-tarkistus.png) **Tietojen tarkistus:** puuttuvat tiedot ja korjattavat. Puutelistan voi tulostaa jäsenillaan täydennettäväksi. | |
 | ![Tietosuojaseloste](docs/kuvat/23-tietosuojaseloste.png) **Tietosuojaselosteen pohja** yhdistyksen tiedoilla. | ![Tietoja ja palaute](docs/kuvat/12-tietoja.png) **Tietoja ja palaute:** palautelomake ja Ko-fi. |
 
 ## Asennus
