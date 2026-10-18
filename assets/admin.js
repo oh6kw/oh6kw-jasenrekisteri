@@ -5,6 +5,7 @@
     // Varmistuskysymys linkeille, painikkeille ja lomakkeille
     $(document).on('click', '[data-confirm]', function (e) {
         if ($(this).is('.jasrek-run')) return; // ajoon oma käsittely
+        if ($(this).closest('.jasrek-bulk').find('#jasrek-mbulk').val() === 'tarrat') return; // tarrojen tulostus ei muuta tietoja
         if (!window.confirm($(this).data('confirm'))) {
             e.preventDefault();
             e.stopImmediatePropagation();

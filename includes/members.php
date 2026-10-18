@@ -132,6 +132,10 @@ function jasrek_handle_bulk_members() {
     $ids = jasrek_post_ids('jasenet');
     if (!$ids) jasrek_redirect('jasenrekisteri', array('nayta' => $nayta, 'jasrek_msg' => 'nothing_selected'));
     $op = jasrek_post('bulk_op');
+    if ($op === 'tarrat') {
+        wp_safe_redirect(jasrek_labels_url(array('kohde' => 'valitut', 'ids' => implode(',', $ids))));
+        exit;
+    }
     $n  = 0;
     $before = $wpdb->get_results($wpdb->prepare("SELECT * FROM {$wpdb->jasrek_jasenet} WHERE id IN (" . implode(',', array_fill(0, count($ids), '%d')) . ")", $ids), OBJECT_K);
     if (strpos($op, 'laji:') === 0) {
@@ -442,6 +446,7 @@ function jasrek_member_list() {
     <a href="<?php echo esc_url(add_query_arg(array('view' => 'new', 'laji' => strpos($nayta, 'l_') === 0 ? substr($nayta, 2) : null), $base)); ?>" class="page-title-action">Lisää uusi jäsen</a>
     <a href="<?php echo esc_url(wp_nonce_url(admin_url('admin-post.php?action=jasrek_export_all'), 'jasrek_export_all')); ?>" class="page-title-action" title="Jäsenet, lisäkentät, jäsenluokat, laskut, maksut ja muutosloki omille välilehdilleen">Vie kaikki tiedot Exceliin</a>
     <a href="<?php echo esc_url(jasrek_member_print_url($nayta === 'eronnut' ? array('tila' => 'eronnut') : (strpos($nayta, 'l_') === 0 ? array('laji' => substr($nayta, 2)) : array()))); ?>" class="page-title-action" target="_blank" title="Jäsenluettelo tulostettavana A4-sivuna: nimi, <?php echo esc_attr(jasrek_tunnus_on() ? jasrek_lower(jasrek_tunnus_nimi()) . ', ' : ''); ?>sähköposti, puhelin, osoite, liittymis- ja syntymäpäivä. Paperille tai PDF:ksi.">Tulosta jäsenluettelo</a>
+    <a href="<?php echo esc_url(jasrek_labels_url($nayta === 'eronnut' ? array('kohde' => 'eronnut') : (strpos($nayta, 'l_') === 0 ? array('kohde' => 'laji:' . substr($nayta, 2)) : array()))); ?>" class="page-title-action" target="_blank" title="Osoitetarrat A4-tarra-arkille (esim. 24 tarraa, 70 × 36 mm): paperilaskun saajat, kaikki, jäsenluokka, eronneet tai valitut. Myös lähettäjätarrat yhdistyksen osoitteella.">Tulosta osoitetarrat</a>
     <hr class="wp-header-end">
     <?php jasrek_notice(); ?>
 
@@ -577,6 +582,9 @@ function jasrek_member_list() {
             <optgroup label="Laskun toimitus">
                 <option value="paperi_on">Lasku paperilla</option>
                 <option value="paperi_off">Lasku sähköpostilla</option>
+            </optgroup>
+            <optgroup label="Tulosta">
+                <option value="tarrat">Osoitetarrat valituille</option>
             </optgroup>
         </select>
         <button type="submit" class="button" data-confirm="Muutetaanko valittujen jäsenten tiedot?">Suorita</button>

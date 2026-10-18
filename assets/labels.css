@@ -1,0 +1,30 @@
+/* jasrek-labels – osoite- ja lähettäjätarrat A4-tarra-arkille */
+@page { size: A4; margin: 0; }
+* { box-sizing: border-box; }
+body { margin: 0; background: #e9ecef; font-family: Arial, Helvetica, sans-serif; color: #000; }
+.tools { background: #1d3557; color: #fff; padding: 10px 20px; display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; font-size: 14px; }
+.tools form { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; margin: 0; }
+.tools label { display: inline-flex; gap: 6px; align-items: center; }
+.tools select, .tools input { font-size: 14px; padding: 4px 6px; }
+.tools .oma input[type=text], .tools .oma input[type=number] { width: 4em; }
+.tools details { flex-basis: 100%; }
+.tools summary { cursor: pointer; }
+.tools .oma { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; margin-top: 6px; }
+.tools .vihje { opacity: .8; font-size: 13px; }
+.tools button { font-size: 14px; padding: 6px 14px; border-radius: 4px; border: 0; cursor: pointer; background: #fff; color: #1d3557; font-weight: bold; }
+.tools a { color: #fff; }
+.tools .info { flex-basis: 100%; opacity: .85; font-size: 13px; }
+.tools .warn { flex-basis: 100%; background: #fff4e5; color: #8a4b00; padding: 6px 10px; border-radius: 4px; font-size: 13px; }
+.arkki { position: relative; width: 210mm; height: 297mm; margin: 10mm auto; background: #fff; box-shadow: 0 2px 12px rgba(0,0,0,.2); overflow: hidden; page-break-after: always; break-after: page; }
+.arkki:last-child { page-break-after: auto; break-after: auto; }
+.tarra { position: absolute; display: flex; align-items: center; padding: 2mm 5mm; overflow: hidden; outline: 0.2mm dashed #c5ccd3; outline-offset: -0.1mm; }
+.tarra.tyhja { background: repeating-linear-gradient(45deg, #fafafa, #fafafa 2mm, #f0f2f4 2mm, #f0f2f4 4mm); }
+.rivit { width: 100%; max-height: 100%; font-size: 10pt; line-height: 1.25; overflow: hidden; }
+.rivit div { white-space: nowrap; overflow: hidden; }
+@media print {
+  body { background: #fff; }
+  .tools { display: none; }
+  .arkki { margin: 0; box-shadow: none; }
+  .tarra { outline: none; }
+  .tarra.tyhja { background: none; }
+}

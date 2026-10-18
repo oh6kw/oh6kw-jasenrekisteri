@@ -75,6 +75,7 @@ function jasrek_handle_save_settings() {
         'poista_tiedot'    => jasrek_post('poista_tiedot') === '1' ? '1' : '0',
         'viesti_oletus'    => sanitize_textarea_field(jasrek_post('viesti_oletus')),
         'muistutus_teksti' => sanitize_textarea_field(jasrek_post('muistutus_teksti')),
+        'tarrat'           => $vanha['tarrat'], // tarrasivun muistamat valinnat säilyvät
     );
     update_option('jasrek_settings', $s);
     jasrek_log_settings_change($vanha, jasrek_settings());
