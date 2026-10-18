@@ -2,7 +2,7 @@
 
 Jäsenrekisteri ja jäsenmaksulaskutus WordPressin hallintapaneeliin suomalaisille yhdistyksille.
 
-Lähetä koko jäsenistölle jäsenmaksulaskut sähköpostilla yhdellä painalluksella, ja tulosta paperilaskut niille, jotka niitä haluavat. Jokainen lasku saa oman suomalaisen viitenumeron, QR-koodin ja pankkiviivakoodin. Tuo maksut pankin tiedostosta, ja ne kohdistuvat oikeille jäsenille viitteen perusteella, vaikka maksaja olisi puoliso tai vanhempi. Vuosikokoukseen saat vuosiraportin ja äänioikeusluettelon, kirjanpitäjälle valmiin vientiehdotuksen jäsenmaksuista.
+Lähetä koko jäsenistölle jäsenmaksulaskut sähköpostilla yhdellä painalluksella, ja tulosta paperilaskut niille, jotka niitä haluavat. Jokainen lasku saa oman suomalaisen viitenumeron, QR-koodin ja pankkiviivakoodin. Tuo maksut pankin tiedostosta, ja ne kohdistuvat oikeille jäsenille viitteen perusteella, vaikka maksaja olisi puoliso tai vanhempi. Vuosikokoukseen saat vuosiraportin ja äänioikeusluettelon, kirjanpitäjälle valmiin vientiehdotuksen jäsenmaksuista ja kirjepostia varten osoitetarrat suoraan tavalliselle tarra-arkille.
 
 [![Versio](https://img.shields.io/github/v/release/oh6kw/oh6kw-jasenrekisteri?label=versio)](https://github.com/oh6kw/oh6kw-jasenrekisteri/releases/latest)
 ![WordPress 6.2+](https://img.shields.io/badge/WordPress-6.2%2B-21759b)
@@ -38,13 +38,15 @@ Näin yhdistys saa jäsenrekisterin ilman erillistä palvelua, kuukausimaksuja t
 - Eroamispäivä tallentuu, kun jäsen merkitään eronneeksi.
 - **Merkkipäivät:** tasavuosia täyttävät (jäsenen vapaaehtoinen *syntymävuosi tai -päivä*; pelkkä vuosi riittää) ja jäsenyysvuodet (liittymispäivästä) asetuksissa valituilla vuosilla, esim. 50, 60, 70, 80 ja 90 vuotta tai 10, 25 ja 50 vuotta jäsenenä. Lähestyvät merkkipäivät näkyvät jäsenlistassa. Ominaisuuden voi kytkeä pois asetuksista.
 - Tuonti ja vienti CSV-muodossa (Excel-yhteensopiva). Sarakkeet tunnistetaan otsikoista, ja puhelinnumeroiden etunollat säilyvät.
-- **Tulosta osoitetarrat** (Jäsenet-sivun yläreunassa tai valituille joukkotoiminnoista): osoitetarrat A4-tarra-arkille – paperilaskun saajat, kaikki, jäsenluokka, eronneet tai valitut. Postinumero ja -toimipaikka isoilla kirjaimilla. Valmiit yleiset arkit (esim. 24 tarraa 70 × 36 mm) tai omat mitat, aloitus vajaan arkin keskeltä ja tulostimen hienosäätö. Myös lähettäjätarrat yhdistyksen osoitteella.
-- **Tulosta jäsenluettelo** (Jäsenet-sivun yläreunassa): siisti vaakasuuntainen A4-luettelo paperille tai PDF:ksi – nimi, tunnus, valitut omat lisäkentät, sähköposti, puhelin, osoite, liittymispäivä ja syntymävuosi/-päivä. Valittavissa voimassa olevat, eronneet tai kaikki, jäsenluokka ja järjestys.
-- **Vie kaikki tiedot Exceliin** (Jäsenet-sivun yläreunassa): koko rekisteri yhteen Excel-tiedostoon omille välilehdilleen – yhteenveto, jäsenet, jokainen oma lisäkenttä (esim. avaimet), jäsenluokat, laskut, kaikki laskurivit maksuineen, avoimet maksut ja muutosloki. Luettavaksi ja arkistoon; palautukseen käytetään varmuuskopiota.
 - Varoitus mahdollisesta tuplakirjauksesta.
 - **Tietosuoja (GDPR):** valmis pohja jäsenrekisterin tietosuojaselosteeseen yhdistyksen tiedoilla (Tietoja-sivu). WordPressin *Vie / Poista henkilötiedot* -työkalut tuntevat jäsenrekisterin, ja poisto nimettömöi jäsenen niin, että jäsenmaksujen summat säilyvät.
 - **Varmuuskopio ja siirto:** koko rekisteri (jäsenet, laskut, maksut, asetukset ja halutessa muutosloki) yhteen pakattuun tiedostoon. Palautus samalle tai toiselle sivustolle, esim. kun rekisteri siirtyy uudelle sivustolle tai rahastonhoitajalle. Ennen palautusta näytetään yhteenveto, ja palautuksen voi perua.
 - **Kesken kauden liittyvä jäsen** lisätään jäsenlomakkeesta suoraan jo lähetetylle laskulle. Hän saa oman viitteen ja eräpäivän, ja laskun voi lähettää heti.
+
+**Tulosteet ja viennit**
+- **Osoitetarrat** (Jäsenet-sivun yläreunassa tai valituille joukkotoiminnoista) suoraan tavalliselle A4-tarra-arkille – paperilaskun saajat, kaikki, jäsenluokka, eronneet tai valitut. Postinumero ja -toimipaikka isoilla kirjaimilla. Valmiit yleiset arkit (esim. 24 tarraa 70 × 36 mm) tai omat mitat, aloitus vajaan arkin keskeltä ja tulostimen hienosäätö. Myös lähettäjätarrat yhdistyksen osoitteella.
+- **Tulosta jäsenluettelo** (Jäsenet-sivun yläreunassa): siisti vaakasuuntainen A4-luettelo paperille tai PDF:ksi – nimi, tunnus, valitut omat lisäkentät, sähköposti, puhelin, osoite, liittymispäivä ja syntymävuosi/-päivä. Valittavissa voimassa olevat, eronneet tai kaikki, jäsenluokka ja järjestys.
+- **Vie kaikki tiedot Exceliin** (Jäsenet-sivun yläreunassa): koko rekisteri yhteen Excel-tiedostoon omille välilehdilleen – yhteenveto, jäsenet, jokainen oma lisäkenttä (esim. avaimet), jäsenluokat, laskut, kaikki laskurivit maksuineen, avoimet maksut ja muutosloki. Luettavaksi ja arkistoon; palautukseen käytetään varmuuskopiota.
 
 **Laskutus**
 - Lasku koko jäsenistölle tai valituille jäsenille. Summa määräytyy jäsenluokan mukaan, ja sitä voi muuttaa laskukohtaisesti.
@@ -90,6 +92,7 @@ Näin yhdistys saa jäsenrekisterin ilman erillistä palvelua, kuukausimaksuja t
 | ![Merkkipäivät](docs/kuvat/19-merkkipaivat.png) **Merkkipäivät** vuosiraportissa (valinnainen). | ![Uusi jäsen kesken kauden](docs/kuvat/11-uusi-jasen-laskulle.png) **Kesken kauden liittyvä jäsen** lisätään jo lähetetylle laskulle, ja hän saa oman eräpäivän. |
 | ![Varmuuskopio](docs/kuvat/20-varmuuskopio.png) **Varmuuskopio ja siirto** asetuksissa. | ![Palautus](docs/kuvat/21-palautus.png) **Palautus:** yhteenveto ja vahvistus ennen kuin mitään muutetaan. |
 | ![Jäsenmaksut kirjanpitoon](docs/kuvat/26-kirjanpito.png) **Jäsenmaksut kirjanpitoon:** vientiehdotus kirjanpitäjälle, erittely jäsenluokittain ja avoimet jäsenmaksut. | ![Maksukortti puhelimessa](docs/kuvat/25-maksukortti-puhelin.png) **Sähköpostilasku puhelimessa.** |
+| ![Osoitetarrat](docs/kuvat/27-osoitetarrat.png) **Osoitetarrat** tavalliselle A4-tarra-arkille: paperilaskun saajat, kaikki, jäsenluokka tai valitut. Vajaan arkin voi käyttää loppuun. | ![Jäsenluettelo](docs/kuvat/28-jasenluettelo.png) **Jäsenluettelo** paperille tai PDF:ksi: valitut sarakkeet, jäsenluokka ja järjestys. |
 | ![Tietosuojaseloste](docs/kuvat/23-tietosuojaseloste.png) **Tietosuojaselosteen pohja** yhdistyksen tiedoilla. | ![Tietoja ja palaute](docs/kuvat/12-tietoja.png) **Tietoja ja palaute:** palautelomake ja Ko-fi. |
 
 ## Asennus

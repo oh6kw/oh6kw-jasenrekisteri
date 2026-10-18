@@ -16,6 +16,10 @@ Tekijä: Jarno Jaskari (oh6kw). Versiosta 3.0 alkaen lisäosaa on kehitetty yhde
 - Ohje työkalurivillä: marginaalit ei mitään, skaalaus 100 %, kokeilu ensin tavalliselle paperille.
 - Tulostus kirjataan muutoslokiin.
 
+### Tekstit ja kuvat
+- README ja wordpress.orgin kuvaus: uusi kohta *Tulosteet ja viennit* (osoitetarrat, jäsenluettelo, kaikki tiedot Exceliin), osoitetarrat mainitaan esittelyssä, ja wordpress.orgiin uusi usein kysytty kysymys osoitetarroista.
+- Uudet kuvakaappaukset: osoitetarrat (README 27, wordpress.org 13) ja jäsenluettelo (README 28, wordpress.org 14).
+
 ### Julkaisuautomaatio
 - GitHubin julkaisu vie version nyt myös WordPress.orgiin (trunk, tags/VERSIO ja assets), kun repositorioon on asetettu salaisuudet `SVN_USERNAME` ja `SVN_PASSWORD`. SVN-komentoja ei tarvitse enää ajaa käsin. Jo WordPress.orgissa oleva versio ohitetaan.
 - Ajoon asennetaan Subversion (GitHubin uusissa Ubuntu-koneissa sitä ei ole valmiina).

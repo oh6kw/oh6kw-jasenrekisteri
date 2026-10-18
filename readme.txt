@@ -13,7 +13,7 @@ Membership register and dues invoicing for Finnish associations: Finnish referen
 
 == Description ==
 
-OH6KW Jäsenrekisteri ("membership register") is a complete membership register and membership-fee invoicing tool for Finnish associations (yhdistys / ry), built into the WordPress admin. The user interface is in Finnish, because the plugin implements Finnish banking standards.
+OH6KW Jäsenrekisteri ("membership register") is a complete membership register and membership-fee invoicing tool for Finnish associations (yhdistys / ry), built into the WordPress admin. Send membership fee invoices by email, print paper invoices and address labels, import payments from the bank and get reports for the general meeting and the accountant. The user interface is in Finnish, because the plugin implements Finnish banking standards.
 
 **Members**
 
@@ -21,11 +21,14 @@ OH6KW Jäsenrekisteri ("membership register") is a complete membership register 
 * Search, sorting, bulk actions and a full invoice and payment history for every member.
 * Custom fields defined in the settings, such as a clubhouse key number (text) or a yes/no checkbox, optionally shown as a column in the member list.
 * CSV import and export (Excel compatible). Columns are recognised from the headers.
-* Address labels for A4 label sheets (e.g. 24 labels, 70 × 36 mm, or your own dimensions): paper-invoice recipients, all members, a membership class, resigned or selected members. Also sender labels with the association's address.
-* Printable member list (A4 landscape, paper or PDF): name, member ID, chosen custom fields, email, phone, address, joining date and year or date of birth.
-* Export everything to Excel: one workbook with a summary, members, each custom field (e.g. keys), membership classes, invoices, every invoice row with payments, open payments and the audit log.
 * The resignation date is recorded, for accurate yearly member counts.
 * Optional milestones: members reaching round birthdays (from an optional birth year or birth date) or membership anniversaries; the years are configurable and the feature can be switched off.
+
+**Printouts and exports**
+
+* Address labels printed straight onto ordinary A4 label sheets (e.g. 24 labels, 70 × 36 mm, or your own dimensions): paper-invoice recipients, all members, a membership class, resigned or selected members. Postal code and town in capitals as recommended by the Finnish postal service. A partly used sheet can be used up, and the printer offset can be fine-tuned. Also sender labels with the association's address.
+* Printable member list (A4 landscape, paper or PDF): name, member ID, chosen custom fields, email, phone, address, joining date and year or date of birth.
+* Export everything to Excel: one workbook with a summary, members, each custom field (e.g. keys), membership classes, invoices, every invoice row with payments, open payments and the audit log.
 
 **Invoicing**
 
@@ -106,6 +109,10 @@ No. All data stays in your WordPress database. Emails are sent through your site
 
 When you deactivate the plugin you are asked whether the data should be kept or removed when the plugin is deleted. By default all data is kept. The choice can also be changed in the settings.
 
+= Can I print address labels for letters? =
+
+Yes. Members → Tulosta osoitetarrat prints address labels on ordinary A4 label sheets (24 labels 70 × 36 mm and other common sizes, or your own dimensions) for paper-invoice recipients, all members, a membership class or selected members. You can start from any label on a partly used sheet, and sender labels with the association's address are also available.
+
 = Which bank files are supported? =
 
 The Finnish reference payment file (KTL / viitesiirtoaineisto), ISO 20022 camt.054 and camt.053 XML files, and bank statement CSV files with reference and amount columns.
@@ -124,6 +131,8 @@ The Finnish reference payment file (KTL / viitesiirtoaineisto), ISO 20022 camt.0
 10. Backup and restore in the settings.
 11. The email invoice on a phone.
 12. Membership fees for bookkeeping: posting proposal for the accountant, breakdown by membership class and open fees.
+13. Address labels on an ordinary A4 label sheet, starting from any label on a partly used sheet.
+14. Printable member list (A4 landscape) with chosen columns.
 
 == Changelog ==
 
