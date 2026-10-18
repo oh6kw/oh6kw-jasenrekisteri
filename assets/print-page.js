@@ -18,6 +18,15 @@
         }
     });
     window.addEventListener('load', function () {
+        // Osoitetarrat: pitkä nimi tai osoite pienennetään mahtumaan tarraan (enintään 6,5 pt:iin)
+        Array.prototype.forEach.call(document.querySelectorAll('.tarra .rivit'), function (r) {
+            var pt = 10, yli = function () {
+                if (r.scrollHeight > r.parentNode.clientHeight) return true;
+                for (var i = 0; i < r.children.length; i++) if (r.children[i].scrollWidth > r.children[i].clientWidth + 1) return true;
+                return false;
+            };
+            while (yli() && pt > 6.5) { pt -= 0.5; r.style.fontSize = pt + 'pt'; }
+        });
         // Tilisiirtomalli: jos saate ei mahdu lomakkeen yläpuolelle, tekstiä pienennetään (enintään 8,5 pt:iin)
         // ja jos se ei vieläkään mahdu, yläpalkissa näytetään varoitus.
         var yli = [];

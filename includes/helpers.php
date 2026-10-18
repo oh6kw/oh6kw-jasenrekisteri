@@ -54,6 +54,7 @@ function jasrek_settings() {
         'postimaksu'      => '0',
         'osoite'          => '',
         'sposti_pdf'      => '0',
+        'tarrat'          => array(), // osoitetarrojen arkki ja hienosäätö (muistetaan tarrasivulta)
         'kp_pankki'       => '',
         'kp_tuotot'       => '',
         'kp_posti'        => '',

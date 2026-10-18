@@ -5,7 +5,7 @@ Tags: membership, members, invoices, association, finland
 Requires at least: 6.2
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 4.8.5
+Stable tag: 4.8.6
 License: AGPLv3 or later
 License URI: https://www.gnu.org/licenses/agpl-3.0.html
 
@@ -21,6 +21,7 @@ OH6KW Jäsenrekisteri ("membership register") is a complete membership register 
 * Search, sorting, bulk actions and a full invoice and payment history for every member.
 * Custom fields defined in the settings, such as a clubhouse key number (text) or a yes/no checkbox, optionally shown as a column in the member list.
 * CSV import and export (Excel compatible). Columns are recognised from the headers.
+* Address labels for A4 label sheets (e.g. 24 labels, 70 × 36 mm, or your own dimensions): paper-invoice recipients, all members, a membership class, resigned or selected members. Also sender labels with the association's address.
 * Printable member list (A4 landscape, paper or PDF): name, member ID, chosen custom fields, email, phone, address, joining date and year or date of birth.
 * Export everything to Excel: one workbook with a summary, members, each custom field (e.g. keys), membership classes, invoices, every invoice row with payments, open payments and the audit log.
 * The resignation date is recorded, for accurate yearly member counts.
@@ -125,6 +126,10 @@ The Finnish reference payment file (KTL / viitesiirtoaineisto), ISO 20022 camt.0
 12. Membership fees for bookkeeping: posting proposal for the accountant, breakdown by membership class and open fees.
 
 == Changelog ==
+
+= 4.8.6 =
+* New: "Print address labels" button on the Members page and a bulk action for selected members. Address labels for common A4 label sheets (24 labels 70 × 36 mm, 70 × 37 mm, 21 labels 70 × 42.3 mm and more) or your own dimensions: paper-invoice recipients, all current members, a membership class, resigned, all or selected members. Postal code and town in capitals as recommended by the Finnish postal service. Start from any label on a partly used sheet, fine-tune the printer offset in millimetres; the choices are remembered. Members without an address are listed and skipped.
+* New: sender labels with the association's name and return address.
 
 = 4.8.5 =
 * New: "Print member list" button on the Members page. A tidy A4 landscape list for paper or PDF: name, member ID, chosen custom fields, membership class, email, phone, address, joining date and year or date of birth. Choose current, resigned or all members, a membership class and the sort order.

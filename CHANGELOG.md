@@ -2,7 +2,19 @@
 
 Tekijä: Jarno Jaskari (oh6kw). Versiosta 3.0 alkaen lisäosaa on kehitetty yhdessä Claude-tekoälyn (Anthropic) kanssa.
 
-## Tulossa seuraavaan versioon
+## 4.8.6 (2026-10-18)
+
+### Uutta: Osoitetarrat ja lähettäjätarrat
+- Jäsenet-sivun yläreunaan, *Tulosta jäsenluettelo* -painikkeen viereen, uusi painike **Tulosta osoitetarrat**. Lisäksi jäsenlistan joukkotoiminnoissa on *Tulosta → Osoitetarrat valituille*.
+- **Kenelle:** paperilaskun saajat (oletus), kaikki voimassa olevat, jäsenluokka, eronneet, kaikki (myös eronneet) tai valitut jäsenet. Jos jäsenlistassa on auki jäsenluokan tai eronneiden välilehti, tarrasivu avautuu sen mukaisena.
+- **Lähettäjätarrat:** yhdistyksen nimi ja palautusosoite (tai yhdistyksen osoite) haluttu määrä kertaa, esim. koko arkillinen kuorien taakse.
+- **Tarra-arkki:** valmiit yleiset A4-arkit (24 tarraa 70 × 36 mm, 24 tarraa 70 × 37 mm, 21 tarraa 70 × 42,3 mm, 27 tarraa 70 × 32 mm, 14 tarraa 105 × 42,3 mm) tai **oma arkki** millimetreinä (sarakkeet, rivit, tarran koko, reunat ja välit).
+- **Aloita tarrasta nro:** osittain käytetyn arkin voi käyttää loppuun. Käytetyt paikat näkyvät esikatselussa raidallisina.
+- **Hienosäätö** oikealle/alas millimetreinä tulostimen heiton korjaamiseen. Arkin valinta, omat mitat ja hienosäätö muistetaan seuraavalla kerralla.
+- **Tarran sisältö:** nimi, katuosoite sekä postinumero ja postitoimipaikka isoilla kirjaimilla Postin suosituksen mukaan (60100 SEINÄJOKI). Osoitteen pilkut erottavat rivit (esim. c/o-rivi). Pitkä nimi tai osoite pienenee automaattisesti mahtumaan tarraan.
+- Jäsenet, joilta osoite puuttuu, luetellaan työkalurivillä, eikä heille tulosteta tyhjää tarraa.
+- Ohje työkalurivillä: marginaalit ei mitään, skaalaus 100 %, kokeilu ensin tavalliselle paperille.
+- Tulostus kirjataan muutoslokiin.
 
 ### Julkaisuautomaatio
 - GitHubin julkaisu vie version nyt myös WordPress.orgiin (trunk, tags/VERSIO ja assets), kun repositorioon on asetettu salaisuudet `SVN_USERNAME` ja `SVN_PASSWORD`. SVN-komentoja ei tarvitse enää ajaa käsin. Jo WordPress.orgissa oleva versio ohitetaan.

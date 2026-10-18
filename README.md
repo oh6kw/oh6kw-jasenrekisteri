@@ -38,6 +38,7 @@ Näin yhdistys saa jäsenrekisterin ilman erillistä palvelua, kuukausimaksuja t
 - Eroamispäivä tallentuu, kun jäsen merkitään eronneeksi.
 - **Merkkipäivät:** tasavuosia täyttävät (jäsenen vapaaehtoinen *syntymävuosi tai -päivä*; pelkkä vuosi riittää) ja jäsenyysvuodet (liittymispäivästä) asetuksissa valituilla vuosilla, esim. 50, 60, 70, 80 ja 90 vuotta tai 10, 25 ja 50 vuotta jäsenenä. Lähestyvät merkkipäivät näkyvät jäsenlistassa. Ominaisuuden voi kytkeä pois asetuksista.
 - Tuonti ja vienti CSV-muodossa (Excel-yhteensopiva). Sarakkeet tunnistetaan otsikoista, ja puhelinnumeroiden etunollat säilyvät.
+- **Tulosta osoitetarrat** (Jäsenet-sivun yläreunassa tai valituille joukkotoiminnoista): osoitetarrat A4-tarra-arkille – paperilaskun saajat, kaikki, jäsenluokka, eronneet tai valitut. Postinumero ja -toimipaikka isoilla kirjaimilla. Valmiit yleiset arkit (esim. 24 tarraa 70 × 36 mm) tai omat mitat, aloitus vajaan arkin keskeltä ja tulostimen hienosäätö. Myös lähettäjätarrat yhdistyksen osoitteella.
 - **Tulosta jäsenluettelo** (Jäsenet-sivun yläreunassa): siisti vaakasuuntainen A4-luettelo paperille tai PDF:ksi – nimi, tunnus, valitut omat lisäkentät, sähköposti, puhelin, osoite, liittymispäivä ja syntymävuosi/-päivä. Valittavissa voimassa olevat, eronneet tai kaikki, jäsenluokka ja järjestys.
 - **Vie kaikki tiedot Exceliin** (Jäsenet-sivun yläreunassa): koko rekisteri yhteen Excel-tiedostoon omille välilehdilleen – yhteenveto, jäsenet, jokainen oma lisäkenttä (esim. avaimet), jäsenluokat, laskut, kaikki laskurivit maksuineen, avoimet maksut ja muutosloki. Luettavaksi ja arkistoon; palautukseen käytetään varmuuskopiota.
 - Varoitus mahdollisesta tuplakirjauksesta.
@@ -187,6 +188,7 @@ includes/
   print.php                 Tulostettavat paperilaskut ja postitusmerkinnät
   report.php                Vuosiraportti (näyttö ja Excel)
   member-print.php          Tulostettava jäsenluettelo
+  labels.php                Osoite- ja lähettäjätarrat
   voters.php                Äänioikeusluettelo
   backup.php                Varmuuskopio ja palautus (JSON)
   privacy.php               Tietosuoja: henkilötietojen vienti ja poisto, tietosuojaselosteen pohja
