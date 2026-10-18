@@ -10,6 +10,7 @@ Tekijä: Jarno Jaskari (oh6kw). Versiosta 3.0 alkaen lisäosaa on kehitetty yhde
 - **Korjattavaa**, vakavimmat ensin: paperilaskun saaja ilman osoitetta (tai ei sähköpostia eikä osoitetta, jolloin laskua ei voi toimittaa), virheellinen sähköpostiosoite, outo puhelinnumero (kirjaimia, liian lyhyt tai pitkä), sama nimi useamman kerran (mahdollinen tupla) ja sama sähköposti eri nimillä (huomautus: voi olla perheen yhteinen osoite).
 - **Puuttuvat tiedot:** taulukko jäsenistä, joilta puuttuu sähköposti, osoite tai puhelin. Liittymispäivän ja syntymävuoden voi ottaa mukaan valinnoista; omia lisäkenttiä (esim. avaimet) ei tarkisteta. Jäsenen nimestä pääsee muokkaamaan hänen tietojaan.
 - Uusi kuvakaappaus: tietojen tarkistus (README 29, wordpress.org 15).
+- Vanhat kuvakaappaukset päivitetty nykyiseen ulkoasuun: jäsenlista (uudet painikkeet ja tarkistuskortti), asetukset, vuosiraportti (välilehdet), äänioikeusluettelo, merkkipäivät, varmuuskopio ja palautus, tietoja-sivu, tiedote ja tietosuojaselosteen pohja.
 - **Tulosta puutelista** jäsenillassa täydennettäväksi: nimi, tunnus ja puuttuvien tietojen nimet viivoineen, johon tiedon voi kirjoittaa. Tulosteessa ei näy jäsenten olemassa olevia tietoja (osoitteita, sähköposteja, numeroita), joten paperia voi pitää esillä. Tulostus kirjataan muutoslokiin.
 
 ### Tekstit
