@@ -6,7 +6,7 @@ if (!defined('ABSPATH')) exit;
  * Tietojen tarkistus: voimassa olevien jäsenten puuttuvat tiedot (sähköposti, osoite, puhelin,
  * valinnaisesti liittymispäivä ja syntymävuosi) sekä korjattavat asiat (paperilaskun saaja ilman
  * osoitetta, virheellinen sähköposti, tuplat, outo puhelinnumero). Puutelistan voi tulostaa
- * jäsenillaan: tulosteessa näkyvät vain puuttuvien tietojen nimet, ei jäsenten olemassa olevia tietoja.
+ * jäsenillassa: tulosteessa näkyvät vain puuttuvien tietojen nimet, ei jäsenten olemassa olevia tietoja.
  */
 
 /** Tarkistettavat tiedot: avain => array(otsikko, oletuksena mukana). */
@@ -110,7 +110,7 @@ function jasrek_checkup_page() {
     <?php if ($d['puutteet']): ?><a class="page-title-action" target="_blank" href="<?php echo esc_url(jasrek_checkup_print_url($kentat)); ?>">Tulosta puutelista</a><?php endif; ?>
     <hr class="wp-header-end">
     <p><a href="<?php echo esc_url($base); ?>">← Jäsenet</a></p>
-    <p class="description">Tarkistaa voimassa olevien jäsenten tiedot. Jäsenen nimestä pääset muokkaamaan hänen tietojaan. Puutelistan voi tulostaa esimerkiksi jäsenillaan täydennettäväksi: tulosteessa näkyvät vain puuttuvien tietojen nimet, ei jäsenten olemassa olevia tietoja.</p>
+    <p class="description">Tarkistaa voimassa olevien jäsenten tiedot. Jäsenen nimestä pääset muokkaamaan hänen tietojaan. Puutelistan voi tulostaa esimerkiksi jäsenillassa täydennettäväksi: tulosteessa näkyvät vain puuttuvien tietojen nimet, ei jäsenten olemassa olevia tietoja.</p>
 
     <form method="get" class="jasrek-kp-form">
         <input type="hidden" name="page" value="jasenrekisteri">
