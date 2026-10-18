@@ -2,6 +2,14 @@
 
 Tekijä: Jarno Jaskari (oh6kw). Versiosta 3.0 alkaen lisäosaa on kehitetty yhdessä Claude-tekoälyn (Anthropic) kanssa.
 
+## Tulossa seuraavaan versioon
+
+### Julkaisuautomaatio
+- GitHubin julkaisu vie version nyt myös WordPress.orgiin (trunk, tags/VERSIO ja assets), kun repositorioon on asetettu salaisuudet `SVN_USERNAME` ja `SVN_PASSWORD`. SVN-komentoja ei tarvitse enää ajaa käsin. Jo WordPress.orgissa oleva versio ohitetaan.
+- Ajoon asennetaan Subversion (GitHubin uusissa Ubuntu-koneissa sitä ei ole valmiina).
+- WordPress.orgin assets-kansioon viedään vain kuvat ja valmis `blueprint.json`, ei esikatselun lähdetiedostoja.
+- Ei vaikuta lisäosaan.
+
 ## 4.8.5 (2026-10-17)
 
 ### Uutta: Tulosta jäsenluettelo

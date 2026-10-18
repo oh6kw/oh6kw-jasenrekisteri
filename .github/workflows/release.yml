@@ -1,6 +1,7 @@
 # Julkaisu: kun repositorioon viedään versiotagi (esim. v4.4.0), GitHub
 #  1) rakentaa asennettavan oh6kw-jasenrekisteri.zip-tiedoston (kansion nimi aina "oh6kw-jasenrekisteri")
 #  2) luo julkaisun (Release), jonka kuvaus otetaan CHANGELOG.md:n vastaavasta osiosta
+#  3) vie version WordPress.orgiin (trunk, tags/VERSIO ja assets), jos SVN-tunnukset on asetettu
 # Jos julkaisu tehdään käsin GitHubin sivulla, julkaisu luo tagin, ja tämä sama tagiajo liittää zipin siihen.
 # (Erillistä release-tapahtumaa ei käytetä: muuten samaan julkaisuun yritettiin ladata zip kahdesti yhtä aikaa.)
 name: Julkaisu
@@ -69,6 +70,10 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
+      - name: Asenna Subversion
+        # Uusimmissa GitHubin Ubuntu-koneissa ei ole svn-komentoa valmiina
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq subversion
+
       - name: Tarkista tunnukset ja versio
         id: check
         env:
@@ -87,6 +92,15 @@ jobs:
             echo "vie=true" >> "$GITHUB_OUTPUT"
           fi
 
+      - name: Kokoa assets-kansio
+        # WordPress.orgin assets-kansioon vain kuvat ja valmis blueprint.json,
+        # ei Playground-esikatselun lähdetiedostoja (build.py, demo-seed.php ...)
+        if: steps.check.outputs.vie == 'true'
+        run: |
+          mkdir -p wporg-assets/blueprints
+          cp .wordpress-org/*.png wporg-assets/
+          cp .wordpress-org/blueprints/blueprint.json wporg-assets/blueprints/
+
       - name: Vie WordPress.orgiin
         if: steps.check.outputs.vie == 'true'
         uses: 10up/action-wordpress-plugin-deploy@stable
@@ -95,4 +109,4 @@ jobs:
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
           SLUG: oh6kw-jasenrekisteri
           VERSION: ${{ steps.check.outputs.versio }}
-          ASSETS_DIR: .wordpress-org
+          ASSETS_DIR: wporg-assets
