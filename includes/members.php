@@ -178,7 +178,7 @@ function jasrek_handle_export_members() {
         $out[] = $row;
     }
     jasrek_log('vienti', 0, 'vienti', 'Jäsenrekisteri CSV-tiedostoon (' . count($rows) . ' jäsentä)');
-    jasrek_csv_output('jasenrekisteri-' . current_time('Y-m-d') . '.csv',
+    jasrek_csv_output('jasenrekisteri_' . jasrek_file_stamp() . '.csv',
         array_merge(array('ID', 'Etunimi', 'Sukunimi', jasrek_tunnus_nimi(), 'Osoite', 'Puhelin', 'Sähköposti', 'Liittynyt', 'Syntynyt', 'Jäsenluokka', 'Jäsenyys', 'Eronnut', 'Paperilasku', 'Lisätiedot'),
             array_values(array_map(function ($k) { return $k['nimi']; }, $kentat))), $out);
 }

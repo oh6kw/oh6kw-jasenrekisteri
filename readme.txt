@@ -144,6 +144,7 @@ The Finnish reference payment file (KTL / viitesiirtoaineisto), ISO 20022 camt.0
 
 = 4.8.8 =
 * Fix: after restoring a backup on MySQL/MariaDB, new members and invoices continue numbering right after the restored ones. Previously the database kept counting from the old highest number, so a cleaned-up backup did not start from 1.
+* Backup, Excel and CSV file names now include the date and time of the download (e.g. jasenrekisteri-kaikki_2026-10-19_16-02.xlsx), so several files are easy to tell apart.
 * Fix: names are sorted in Finnish alphabetical order (Å, Ä and Ö after Z) in the member list, printouts, labels, invoices and exports. Previously the database treated Å and Ä as A.
 * The description and the About page now say clearly that the plugin is completely free, and a new FAQ answers "Is it really free?".
 

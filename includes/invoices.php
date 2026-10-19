@@ -464,7 +464,7 @@ function jasrek_handle_export_lasku() {
             (string) $r->maksaja, (string) $r->arkistotunnus, $r->virhe);
     }
     jasrek_log('vienti', 0, 'vienti', 'Lasku ' . $lasku->nimi . ' CSV-tiedostoon');
-    jasrek_csv_output(sanitize_file_name($lasku->nimi) . '.csv',
+    jasrek_csv_output(sanitize_file_name($lasku->nimi) . '_' . jasrek_file_stamp() . '.csv',
         array('Nimi', jasrek_tunnus_nimi(), 'Sähköposti', 'Viite', 'Summa', 'Eräpäivä', 'Lähetetty', 'Muistutettu', 'Maksettu', 'Maksettu summa', 'Maksaja', 'Arkistointitunnus', 'Virhe'), $out);
 }
 

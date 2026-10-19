@@ -149,6 +149,11 @@ function jasrek_sort_by_name(array &$rows, $desc = false, $etunimi_ensin = false
     $rows = array_values($rows);
 }
 
+/** Päivä ja kellonaika tiedostonimiin, esim. 2026-10-19_16-02 (sivuston aikavyöhyke). */
+function jasrek_file_stamp() {
+    return current_time('Y-m-d_H-i');
+}
+
 /** Etsii jäsenluokan nimellä (kirjainkoolla ei väliä). */
 function jasrek_laji_by_name($nimi) {
     $nimi = jasrek_lower(trim($nimi));

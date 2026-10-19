@@ -320,7 +320,7 @@ function jasrek_backup_undo_save() {
 
 function jasrek_backup_filename($prefix = 'varmuuskopio') {
     $nimi = sanitize_title(jasrek_settings()['yhdistys']);
-    return 'jasenrekisteri-' . $prefix . ($nimi !== '' ? '-' . $nimi : '') . '-' . current_time('Y-m-d') . '.json';
+    return 'jasenrekisteri-' . $prefix . ($nimi !== '' ? '-' . $nimi : '') . '-' . jasrek_file_stamp() . '.json';
 }
 
 function jasrek_backup_download($json, $filename) {

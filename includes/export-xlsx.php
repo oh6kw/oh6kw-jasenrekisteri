@@ -112,7 +112,7 @@ function jasrek_handle_export_xlsx() {
                 JASREK_Xlsx::formula("SUM({$paidcol}2:{$paidcol}{last})", JASREK_Xlsx::S_BOLD_MONEY))));
     }
 
-    $nimi = $id ? sanitize_file_name($laskut[0]->nimi) : 'jasenmaksut-' . current_time('Y-m-d');
+    $nimi = ($id ? sanitize_file_name($laskut[0]->nimi) : 'jasenmaksut') . '_' . jasrek_file_stamp();
     $bin = $x->build();
     jasrek_log('vienti', 0, 'vienti', $id ? 'Lasku ' . $laskut[0]->nimi . ' Exceliin' : 'Kaikki laskut Exceliin (' . count($laskut) . ' laskua)');
     nocache_headers();
@@ -330,7 +330,7 @@ function jasrek_handle_export_all() {
     jasrek_log('vienti', 0, 'vienti', 'Kaikki tiedot Exceliin (' . count($jasenet) . ' jäsentä, ' . count($laskut) . ' laskua)');
     nocache_headers();
     header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-    header('Content-Disposition: attachment; filename="jasenrekisteri-kaikki-' . $today . '.xlsx"');
+    header('Content-Disposition: attachment; filename="jasenrekisteri-kaikki_' . jasrek_file_stamp() . '.xlsx"');
     header('Content-Length: ' . strlen($bin));
     echo $bin; // phpcs:ignore -- binääritiedosto
     exit;

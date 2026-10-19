@@ -152,7 +152,7 @@ function jasrek_handle_kp_xlsx() {
     jasrek_log('vienti', 0, 'vienti', 'Jäsenmaksut kirjanpitoon ' . jasrek_date($alku) . '–' . jasrek_date($loppu) . ' Exceliin');
     nocache_headers();
     header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-    header('Content-Disposition: attachment; filename="jasenmaksut-kirjanpitoon-' . $alku . '-' . $loppu . '.xlsx"');
+    header('Content-Disposition: attachment; filename="jasenmaksut-kirjanpitoon-' . $alku . '-' . $loppu . '_' . jasrek_file_stamp() . '.xlsx"');
     header('Content-Length: ' . strlen($bin));
     echo $bin; // phpcs:ignore -- binääritiedosto
     exit;
