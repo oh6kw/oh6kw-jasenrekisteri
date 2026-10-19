@@ -6,6 +6,7 @@ Tekijä: Jarno Jaskari (oh6kw). Versiosta 3.0 alkaen lisäosaa on kehitetty yhde
 
 ### Korjattu
 - **Varmuuskopion palautus (MySQL/MariaDB):** palautuksen jälkeen uudet jäsenet ja laskut saavat numeron heti palautettujen jälkeen. Aiemmin tietokanta jatkoi numerointia vanhasta suurimmasta numerosta, koska taulujen tyhjennys ei nollaa tietokannan laskuria. Esim. jos rekisterissä oli ollut 30 testijäsentä ja palautettiin varmuuskopio, jossa on 3 jäsentä, seuraava uusi jäsen sai numeron 31 eikä 4 – ja ensimmäinen lasku jatkoi testilaskujen numerointia, mikä näkyi viitenumeroissa. Testattu MariaDB:llä; SQLite-sivustoihin muutos ei vaikuta.
+- **Aakkosjärjestys:** nimet lajitellaan suomen aakkosten mukaan, eli Å, Ä ja Ö tulevat Z:n jälkeen. Aiemmin tietokannan oletuslajittelu piti Å:ta ja Ä:tä A:na, joten esim. *Åkerberg* näkyi A-kirjaimen kohdalla. Koskee jäsenlistaa (järjestys suku- tai etunimen mukaan, myös käänteisenä), jäsenluetteloa, osoitetarroja, äänioikeusluetteloa, tietojen tarkistusta, laskun rivejä, paperilaskujen tulostusta, CSV-vientiä ja Excel-vientiä. Myös sanan keskellä (*Mattila* ennen *Mäkelä*). Toimii kaikilla tietokannoilla ja ilman mbstringiä.
 
 ### Tekstit
 - README, wordpress.orgin kuvaus ja Tietoja-sivu kertovat, että lisäosa on **täysin ilmainen**: ei maksullista versiota, kuukausimaksuja eikä rajoituksia jäsenmäärään. wordpress.orgiin uusi usein kysytty kysymys *Is it really free?*.

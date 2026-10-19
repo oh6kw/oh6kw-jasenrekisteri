@@ -597,6 +597,7 @@ function jasrek_invoice_new_form() {
     global $wpdb;
     $s = jasrek_settings();
     $members = $wpdb->get_results("SELECT * FROM {$wpdb->jasrek_jasenet} WHERE tila IN ('aktiivinen', 'eronnut') ORDER BY tila ASC, sukunimi, etunimi");
+    jasrek_sort_by_name($members, false, false, function ($m) { return $m->tila; });
     $n_akt = 0; $n_noemail = 0; $n_mv = 0; $n_pap = 0;
     $lajit = jasrek_jasenlajit();
     $laji_n = array();
@@ -717,6 +718,7 @@ function jasrek_invoice_detail($id) {
     if (!$lasku) { echo '<p>Laskua ei löytynyt.</p>'; return; }
 
     $rows  = jasrek_get_rivit('WHERE r.lasku_id = %d ORDER BY m.sukunimi, m.etunimi, r.nimi', array($id));
+    jasrek_sort_by_name($rows);
     $today = current_time('Y-m-d');
     $no_iban = false;
 

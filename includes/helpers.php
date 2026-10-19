@@ -115,6 +115,40 @@ function jasrek_upper($s) {
     return strtr(strtoupper($s), array('å' => 'Å', 'ä' => 'Ä', 'ö' => 'Ö', 'ü' => 'Ü', 'é' => 'É', 'š' => 'Š', 'ž' => 'Ž'));
 }
 
+/**
+ * Lajitteluavain suomen aakkosjärjestykseen: … X, Y, Z, Å, Ä, Ö (tietokannan oletuslajittelu
+ * pitää Å:ta ja Ä:tä A:na). Toimii ilman mbstringiä.
+ */
+function jasrek_fi_key($s) {
+    return strtr(jasrek_lower(trim((string) $s)), array(
+        'å' => '{', 'ä' => '|', 'ö' => '}', 'æ' => '|', 'ø' => '}', 'ü' => 'y',
+        'á' => 'a', 'à' => 'a', 'â' => 'a', 'é' => 'e', 'è' => 'e', 'ê' => 'e', 'í' => 'i', 'ó' => 'o', 'ú' => 'u',
+        'š' => 's', 'ž' => 'z', 'č' => 'c', 'ñ' => 'n',
+    ));
+}
+/**
+ * Lajittelee jäsenet tai laskurivit nimen mukaan suomen aakkosjärjestyksessä.
+ * $etunimi_ensin: etunimi ennen sukunimeä. $pre: valinnainen funktion, jonka arvo lajittelee ensin (esim. tila).
+ * Rivit voivat olla olioita tai taulukoita; laskuriveillä ilman jäsentä käytetään kenttää "nimi".
+ */
+function jasrek_sort_by_name(array &$rows, $desc = false, $etunimi_ensin = false, $pre = null) {
+    $get = function ($r, $k) { return is_array($r) ? (isset($r[$k]) ? (string) $r[$k] : '') : (isset($r->$k) ? (string) $r->$k : ''); };
+    $keys = array();
+    foreach ($rows as $i => $r) {
+        $suku = $get($r, 'sukunimi'); $etu = $get($r, 'etunimi');
+        if ($suku === '' && $etu === '') { $suku = $get($r, 'nimi'); }
+        $a = jasrek_fi_key($etunimi_ensin ? $etu : $suku); $b = jasrek_fi_key($etunimi_ensin ? $suku : $etu);
+        $keys[$i] = array($pre ? (string) $pre($r) : '', $a, $b, (int) $get($r, 'id'));
+    }
+    uksort($rows, function ($x, $y) use ($keys, $desc) {
+        $kx = $keys[$x]; $ky = $keys[$y];
+        if ($kx[0] !== $ky[0]) return strcmp($kx[0], $ky[0]);
+        $c = strcmp($kx[1], $ky[1]); if ($c === 0) $c = strcmp($kx[2], $ky[2]); if ($c === 0) $c = $kx[3] - $ky[3];
+        return $desc ? -$c : $c;
+    });
+    $rows = array_values($rows);
+}
+
 /** Etsii jäsenluokan nimellä (kirjainkoolla ei väliä). */
 function jasrek_laji_by_name($nimi) {
     $nimi = jasrek_lower(trim($nimi));

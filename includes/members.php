@@ -166,6 +166,7 @@ function jasrek_handle_export_members() {
     jasrek_check('jasrek_export_members');
     global $wpdb;
     $rows = $wpdb->get_results("SELECT * FROM {$wpdb->jasrek_jasenet} ORDER BY sukunimi, etunimi");
+    jasrek_sort_by_name($rows);
     $kentat = jasrek_lisakentat();
     $out = array();
     foreach ($rows as $m) {
@@ -426,6 +427,7 @@ function jasrek_member_list() {
     $args[] = $order_by; // sarake sallittujen listalta, sidotaan tunnisteena (%i)
     $sql = "SELECT * FROM {$wpdb->jasrek_jasenet} WHERE $where ORDER BY %i " . ($order === 'DESC' ? 'DESC' : 'ASC') . ', sukunimi ASC, etunimi ASC';
     $members = $wpdb->get_results($wpdb->prepare($sql, $args)); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- $sql is built from literal fragments above; all values are bound here.
+    if ($order_by === 'sukunimi' || $order_by === 'etunimi') jasrek_sort_by_name($members, $order === 'DESC', $order_by === 'etunimi'); // suomen aakkoset (Å, Ä, Ö lopussa)
     $n_noemail = (int) $wpdb->get_var("SELECT COUNT(*) FROM {$wpdb->jasrek_jasenet} WHERE tila = 'aktiivinen' AND (email IS NULL OR email = '')");
     $n_paperi  = (int) $wpdb->get_var("SELECT COUNT(*) FROM {$wpdb->jasrek_jasenet} WHERE tila = 'aktiivinen' AND (paperilasku = 1 OR email IS NULL OR email = '')");
     $kentat = jasrek_lisakentat();
