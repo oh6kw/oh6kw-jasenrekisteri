@@ -205,7 +205,17 @@ function jasrek_mail_draft_key($sivu, $uid) {
 }
 
 function jasrek_mail_draft($sivu) {
-    $draft = get_transient(jasrek_mail_draft_key($sivu, get_current_user_id()));
+    $uid = get_current_user_id();
+    $draft = get_transient(jasrek_mail_draft_key($sivu, $uid));
+    // Aiemmin tarkistuspyyntö täytettiin tiedotteen luonnokseen. Sellainen siirretään omalle
+    // välilehdelleen (jos siellä ei ole omaa luonnosta), ja tiedote jää tyhjäksi.
+    if ($sivu === '' && is_array($draft) && strpos((string) $draft['body'], '{omat_tiedot}') !== false) {
+        if (!is_array(get_transient(jasrek_mail_draft_key('tarkistus', $uid)))) {
+            set_transient(jasrek_mail_draft_key('tarkistus', $uid), $draft, DAY_IN_SECONDS);
+        }
+        delete_transient(jasrek_mail_draft_key('', $uid));
+        $draft = null;
+    }
     if ($sivu === 'tarkistus' && jasrek_get('pohja') === 'uusi') {
         delete_transient(jasrek_mail_draft_key($sivu, get_current_user_id()));
         $draft = null;
@@ -214,6 +224,8 @@ function jasrek_mail_draft($sivu) {
         $draft = array_merge(jasrek_tarkista_pohja(), array('kohde' => 'aktiiviset'));
     }
     if (!is_array($draft)) $draft = array('subject' => '', 'body' => '', 'kohde' => 'aktiiviset');
+    if ($sivu === 'tarkistus' && !in_array($draft['kohde'], array('aktiiviset', 'puuttuvat'), true) && strpos((string) $draft['kohde'], 'luokka_') !== 0) $draft['kohde'] = 'aktiiviset';
+    if ($sivu === '' && $draft['kohde'] === 'puuttuvat') $draft['kohde'] = 'aktiiviset';
     // Tietojen tarkistus -sivun painike valitsee vastaanottajiksi ne, joilta puuttuu tietoja
     if ($sivu === 'tarkistus' && jasrek_get('kohde') === 'puuttuvat') $draft['kohde'] = 'puuttuvat';
     return $draft;
