@@ -109,10 +109,10 @@ function jasrek_checkup_page() {
     ?>
     <h1 class="wp-heading-inline">Tietojen tarkistus</h1>
     <?php if ($d['puutteet']): ?><a class="page-title-action" target="_blank" href="<?php echo esc_url(jasrek_checkup_print_url($kentat)); ?>">Tulosta puutelista</a>
-    <a class="page-title-action" href="<?php echo esc_url(admin_url('admin.php?page=jasrek-sahkoposti&pohja=tarkista&kohde=puuttuvat')); ?>" title="Sähköposti jäsenille, joilta puuttuu osoite tai puhelinnumero: jokainen saa omat tietonsa ja pyynnön täydentää ne. Jäsenet ilman sähköpostia eivät saa viestiä – heille puutelista.">Pyydä puuttuvat tiedot sähköpostilla</a><?php endif; ?>
+    <a class="page-title-action" href="<?php echo esc_url(admin_url('admin.php?page=jasrek-sahkoposti&view=tarkistus&kohde=puuttuvat')); ?>" title="Avaa sähköpostisivun tietojentarkistuspyynnön valmiiksi täytettynä. Mitään ei lähetetä ennen kuin painat siellä Lähetä.">Tietojentarkistuspyyntö sähköpostilla…</a><?php endif; ?>
     <hr class="wp-header-end">
     <p><a href="<?php echo esc_url($base); ?>">← Jäsenet</a></p>
-    <p class="description">Tarkistaa voimassa olevien jäsenten tiedot. Jäsenen nimestä pääset muokkaamaan hänen tietojaan. Puutelistan voi tulostaa esimerkiksi jäsenillassa täydennettäväksi: tulosteessa näkyvät vain puuttuvien tietojen nimet, ei jäsenten olemassa olevia tietoja.</p>
+    <p class="description">Tarkistaa voimassa olevien jäsenten tiedot. Jäsenen nimestä pääset muokkaamaan hänen tietojaan. Puutelistan voi tulostaa esimerkiksi jäsenillassa täydennettäväksi: tulosteessa näkyvät vain puuttuvien tietojen nimet, ei jäsenten olemassa olevia tietoja. <em>Tietojentarkistuspyyntö sähköpostilla</em> avaa viestin valmiiksi täytettynä niille, joilta puuttuu osoite tai puhelinnumero – viesti ei lähde heti, vaan voit ensin muokata sitä, vaihtaa vastaanottajat, katsoa esikatselun ja lähettää testin itsellesi.</p>
 
     <form method="get" class="jasrek-kp-form">
         <input type="hidden" name="page" value="jasenrekisteri">

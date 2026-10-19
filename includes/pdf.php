@@ -194,7 +194,7 @@ function jasrek_pdf_page($pdf, $lasku, $r, $reminder) {
     }
 
     // Saate (58–169 mm). Pitkä teksti pienennetään 8,5 pt:iin; jos ei silti mahdu, loput jätetään pois.
-    $text = $fill($reminder ? $s['muistutus_teksti'] : ($lasku->viesti !== '' ? $lasku->viesti : $s['viesti_oletus']));
+    $text = $fill(jasrek_saate_omat_tiedot($reminder ? $s['muistutus_teksti'] : ($lasku->viesti !== '' ? $lasku->viesti : $s['viesti_oletus']), $r, 'teksti'));
     $note = jasrek_postimaksu_note($reminder ? $s['muistutus_teksti'] : ($lasku->viesti !== '' ? $lasku->viesti : $s['viesti_oletus']), $r, $vars);
     $top = 58;
     $bottom = 169;

@@ -77,7 +77,7 @@ function jasrek_invoice_html($lasku, $r, $reminder = false, $img = 'cid') {
 
     $jasen = esc_html($vars['nimi']) . (jasrek_tunnus_on() && $vars['tunnus'] !== '' ? ' (' . esc_html($vars['tunnus']) . ')' : '');
 
-    $html  = '<p style="margin:0 0 20px;">' . jasrek_fill($text, $vars) . '</p>';
+    $html  = '<div style="margin:0 0 20px;">' . jasrek_saate_omat_tiedot(jasrek_fill($text, $vars), $r, 'html') . '</div>';
     $note  = jasrek_postimaksu_note($text, $r, $vars);
     if ($note !== '') $html .= '<p style="margin:0 0 20px;font-weight:bold;">' . esc_html($note) . '</p>';
     $html .= '<div style="font-size:12px;letter-spacing:.08em;color:#6b7785;text-transform:uppercase;margin:0 0 4px;">'
@@ -157,7 +157,7 @@ function jasrek_invoice_html_maksukortti($lasku, $r, $reminder = false, $img = '
     $navy = '#1d3557';
     $line = '#e3e8ee';
 
-    $html  = '<p style="margin:0 0 22px;">' . jasrek_fill($text, jasrek_invoice_vars($lasku, $r)) . '</p>';
+    $html  = '<div style="margin:0 0 22px;">' . jasrek_saate_omat_tiedot(jasrek_fill($text, jasrek_invoice_vars($lasku, $r)), $r, 'html') . '</div>';
     $note  = jasrek_postimaksu_note($text, $r, jasrek_invoice_vars($lasku, $r));
     if ($note !== '') $html .= '<p style="margin:0 0 22px;font-weight:bold;">' . esc_html($note) . '</p>';
 

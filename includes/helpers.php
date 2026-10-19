@@ -379,6 +379,15 @@ function jasrek_data_gen() {
     return (string) get_option('jasrek_data_gen', '0');
 }
 
+/** Testiviestin ilmoitukseen: kenen jäsenen tiedoilla testi lähti. */
+function jasrek_test_jasen_teksti() {
+    global $wpdb;
+    $id = jasrek_get_int('jasrek_jasen');
+    if (!$id) return '';
+    $m = $wpdb->get_row($wpdb->prepare("SELECT etunimi, sukunimi FROM {$wpdb->jasrek_jasenet} WHERE id = %d", $id)); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- the plugin's own table, admin-only.
+    return $m ? ' Viestissä on jäsenen ' . trim($m->etunimi . ' ' . $m->sukunimi) . ' tiedot (arvottu valituista vastaanottajista).' : '';
+}
+
 function jasrek_redirect($page, $args = array()) {
     $args = array_filter($args, function ($v) { return $v !== null && $v !== ''; });
     wp_safe_redirect(add_query_arg($args, admin_url('admin.php?page=' . $page)));
@@ -466,7 +475,7 @@ function jasrek_notice() {
         'row_deleted'     => array('success', 'Jäsen poistettu tältä laskulta.'),
         'sent_one'        => array('success', 'Lasku lähetetty.'),
         'send_failed'     => array('error',   'Lähetys epäonnistui. Tarkista sähköpostiosoite ja sivuston sähköpostiasetukset.'),
-        'test_sent'       => array('success', 'Testiviesti lähetetty osoitteeseen ' . sanitize_email(jasrek_get('jasrek_to')) . '.'),
+        'test_sent'       => array('success', 'Testiviesti lähetetty osoitteeseen ' . sanitize_email(jasrek_get('jasrek_to')) . '.' . jasrek_test_jasen_teksti()),
         'test_invalid'    => array('error',   'Anna kelvollinen sähköpostiosoite testiviestille.'),
         'settings_saved'  => array('success', 'Asetukset tallennettu.'),
         'iban_invalid'    => array('warning', 'Asetukset tallennettu, mutta IBAN-tilinumero ei näytä oikealta. Tarkista se.'),
@@ -706,11 +715,12 @@ function jasrek_placeholders($target_id, $tyyppi = 'lasku', $lisa = '') {
         'laskun_nimi' => 'Laskun nimi, esim. Jäsenmaksu 2027', 'summa' => 'Jäsenmaksu, esim. 25,00 € (ilman paperilaskun postimaksua)',
         'maksettava' => 'Maksettava yhteensä (paperilaskussa jäsenmaksu + postimaksu)', 'postimaksu' => 'Postimaksu (0,00 €, jos lasku tulee sähköpostilla)',
         'viite' => 'Viitenumero', 'erapaiva' => 'Eräpäivä', 'yhdistys' => 'Yhdistyksen nimi',
-        'maksupaiva' => 'Maksupäivä', 'omat_tiedot' => 'Jäsenen omat tiedot taulukkona (nimi, osoite, puhelin, sähköposti, liittymispäivä …) – esim. tietojen tarkistuspyyntöön',
+        'maksupaiva' => 'Maksupäivä', 'omat_tiedot' => 'Jäsenen omat tiedot (nimi, osoite, puhelin, sähköposti, liittymispäivä …), puuttuvat korostettuina – sähköpostissa taulukkona, paperilaskussa ja PDF:ssä tekstinä',
     );
-    if ($tyyppi === 'tiedote') $merkit = array('etunimi', 'sukunimi', 'nimi', 'tunnus', 'jasenluokka', 'yhdistys', 'omat_tiedot');
+    if ($tyyppi === 'tiedote') $merkit = array('etunimi', 'sukunimi', 'nimi', 'tunnus', 'jasenluokka', 'yhdistys');
+    elseif ($tyyppi === 'tarkistus') $merkit = array('etunimi', 'sukunimi', 'nimi', 'tunnus', 'jasenluokka', 'yhdistys', 'omat_tiedot');
     elseif ($tyyppi === 'vahvistus') $merkit = array('etunimi', 'sukunimi', 'tunnus', 'jasenluokka', 'laskun_nimi', 'summa', 'maksupaiva', 'viite', 'yhdistys');
-    else $merkit = array('etunimi', 'sukunimi', 'tunnus', 'jasenluokka', 'laskun_nimi', 'summa', 'maksettava', 'viite', 'erapaiva', 'yhdistys');
+    else $merkit = array('etunimi', 'sukunimi', 'tunnus', 'jasenluokka', 'laskun_nimi', 'summa', 'maksettava', 'viite', 'erapaiva', 'yhdistys', 'omat_tiedot');
     if (!jasrek_tunnus_on()) $merkit = array_values(array_diff($merkit, array('tunnus')));
     $out = '<span class="description jasrek-phs">Paikkamerkit – lisää klikkaamalla: ';
     foreach ($merkit as $k) {

@@ -79,7 +79,8 @@ Näin yhdistys saa jäsenrekisterin ilman erillistä palvelua, kuukausimaksuja t
 
 **Tiedotteet**
 - Sähköposti kaikille jäsenille, yhdelle jäsenluokalle, viimeisimmän laskun maksamattomille tai jäsenille, joilta puuttuu osoite tai puhelinnumero.
-- **Valmis pohja *Tarkista tietosi*:** jokainen jäsen saa vain omat tietonsa taulukkona (`{omat_tiedot}`), puuttuvat korostettuina, ja vastaa viestiin, jos jokin on muuttunut. Tietojen tarkistus -sivulta pääsee suoraan lähettämään pyynnön niille, joilta tietoja puuttuu.
+- **Tietojentarkistuspyyntö** (oma välilehti tiedotteen rinnalla): jokainen jäsen saa vain omat tietonsa taulukkona (`{omat_tiedot}`), puuttuvat korostettuina, ja vastaa viestiin, jos jokin on muuttunut. Tietojen tarkistus -sivulta pääsee suoraan pyytämään tietoja niiltä, joilta niitä puuttuu. `{omat_tiedot}` toimii myös laskun saatteessa (sähköpostissa taulukkona, paperilla ja PDF:ssä tekstinä).
+- **Esikatselu ja testi:** viestin voi esikatsella arvotun vastaanottajan tiedoilla, ja testiviesti omaan osoitteeseen käyttää arvotun jäsenen oikeita tietoja.
 - Viestissä voi käyttää paikkamerkkejä, kuten `{etunimi}` ja `{jasenluokka}`. Ne lisätään tekstiin klikkaamalla. Jokainen saa oman viestinsä, eivätkä osoitteet näy muille.
 
 ## Kuvat

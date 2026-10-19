@@ -181,7 +181,7 @@ function jasrek_print_head($lasku, $r, $reminder, $s, $vars, $erittely = true) {
     }
     $h .= '</table></div></div>';
 
-    $h .= '<div class="saate">' . jasrek_fill($text, $vars) . '</div>';
+    $h .= '<div class="saate">' . jasrek_fill(jasrek_saate_omat_tiedot($text, $r, 'teksti'), $vars) . '</div>';
     $note = jasrek_postimaksu_note($text, $r, $vars);
     if ($note !== '') $h .= '<p class="postihuom">' . esc_html($note) . '</p>';
     if (!$erittely) return $h; // tilisiirtomalli: summat ovat tietolaatikossa ja lomakkeessa

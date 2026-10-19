@@ -22,11 +22,18 @@ Kaikki uudet toiminnot ovat valinnaisia: maksuvahvistus ja automaattinen varmuus
 - Asetuksissa on muistutus: liite sisältää jäsenten henkilötietoja, joten vastaanottajaksi kannattaa valita oma, henkilökohtainen osoite eikä yhteistä postilaatikkoa.
 - Jokainen lähetys kirjataan muutoslokiin.
 
-### Uutta: Tarkista tietosi -viesti
-- *Sähköposti jäsenille* -sivun yläreunassa valmis pohja **Tarkista tietosi**. Se täyttää otsikon ja viestin, joita voi muokata ennen lähetystä.
+### Uutta: Sähköpostisivulle välilehdet *Tiedote* ja *Tietojentarkistuspyyntö*
+- **Tiedote** on entisellään ja tyhjä, kun sen avaa – tarkistuspyynnön teksti ei enää täytä tiedotekenttää. Kummankin välilehden keskeneräinen viesti muistetaan erikseen.
+- **Tietojentarkistuspyyntö** on oma välilehtensä, jossa on valmis viesti (*Tarkistathan jäsentietosi*). Vastaanottajiksi voi valita kaikki jäsenet, yhden jäsenluokan tai **jäsenet, joilta puuttuu osoite tai puhelinnumero** (voimassa olevat, joilla on sähköposti). Linkki *Palauta oletusteksti* palauttaa alkuperäisen viestin.
 - Uusi paikkamerkki **`{omat_tiedot}`** lisää viestiin jäsenen omat tiedot taulukkona: nimi, tunnus, jäsenluokka, osoite, puhelin, sähköposti, liittymispäivä, syntymävuosi tai -päivä ja omat lisäkentät. Puuttuva osoite, puhelin tai sähköposti näkyy oranssina sanalla *puuttuu*. Jokainen jäsen näkee vain omat tietonsa.
-- Uusi vastaanottajaryhmä: **jäsenet, joilta puuttuu osoite tai puhelinnumero** (voimassa olevat, joilla on sähköposti).
-- *Tietojen tarkistus* -sivulla uusi painike **Pyydä puuttuvat tiedot sähköpostilla**. Se avaa viestin valmiiksi pohjalla ja tällä vastaanottajaryhmällä.
+- **Esikatselu** (molemmilla välilehdillä): näyttää viestin sellaisena kuin arvottu vastaanottaja sen saisi. Mitään ei lähetetä. Uusi painallus arpoo toisen jäsenen.
+- **Testiviesti** (molemmilla välilehdillä) käyttää nyt arvotun vastaanottajan oikeita tietoja tyhjän mallin sijaan, ja ilmoitus kertoo, kenen tiedoilla testi lähti.
+- *Tietojen tarkistus* -sivulla uusi painike **Tietojentarkistuspyyntö sähköpostilla…**. Se avaa tarkistuspyynnön välilehden, jossa vastaanottajina ovat valmiiksi ne, joilta puuttuu tietoja. Viesti ei lähde heti: sivulla voi muokata tekstiä, vaihtaa vastaanottajat, katsoa esikatselun ja lähettää testin. Tämä kerrotaan myös painikkeen ohjeessa ja sivun kuvauksessa.
+
+### Uutta: `{omat_tiedot}` laskun saatteeseen
+- Paikkamerkin voi lisätä myös laskun saatteeseen (laskua luotaessa ja muokatessa sekä asetusten oletussaatteeseen ja muistutustekstiin). Silloin jäsenmaksulaskun mukana voi pyytää tarkistamaan ja täydentämään omat tiedot.
+- **Sähköpostilasku** (molemmat mallit): tiedot taulukkona, puuttuvat korostettuina.
+- **Paperilasku ja PDF:** tiedot tiiviinä tekstinä, koska tilaa on vähän tilisiirtolomakkeen yläpuolella (esim. *Puhelin: PUUTTUU*). Tyhjät lisäkentät jätetään pois. Jos teksti ei mahdu, tulostussivu varoittaa kuten ennenkin.
 
 ### Muuta
 - Lisäosan poistaminen käytöstä poistaa myös varmuuskopion ja maksuvahvistusten ajastukset. Lisäosan poistaminen kokonaan poistaa lisäksi lähettämättömät vahvistukset ja varmuuskopion tilatiedot.

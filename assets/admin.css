@@ -249,3 +249,7 @@ a.jasrek-card-link:hover { border-color: #2271b1; }
 .jasrek-r { text-align: right !important; white-space: nowrap; }
 .jasrek-c { text-align: center; }
 .jasrek-kp-viennit td:last-child { white-space: nowrap; }
+
+/* Sähköposti: esikatselu ja tarkistuspyynnön ohje */
+.jasrek-mail-intro { max-width: 900px; margin: 12px 0 14px; }
+.jasrek-esikatselu .jasrek-preview-frame { display: block; width: 100%; max-width: 700px; height: 640px; border: 1px solid var(--jasrek-border); border-radius: 6px; background: #eef1f5; }

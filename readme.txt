@@ -64,7 +64,7 @@ OH6KW Jäsenrekisteri ("membership register") is a complete membership register 
 **Newsletters**
 
 * Email to all members, one membership class, members with unpaid invoices, or members missing a postal address or phone number. Placeholders such as {etunimi} (first name) personalise every message.
-* Ready-made "Check your details" message: every member receives only their own details in a table, with missing ones highlighted, and replies with corrections.
+* Ready-made "Data check request" message: every member receives only their own details in a table, with missing ones highlighted, and replies with corrections. Preview with a randomly picked member before sending. The details can also be included in the invoice text.
 
 **Admin only – nothing is published on the website**
 
@@ -148,7 +148,9 @@ The Finnish reference payment file (KTL / viitesiirtoaineisto), ISO 20022 camt.0
 = 4.8.9 =
 * New (optional): payment confirmation email to the member when a payment is imported from the bank file or marked as paid on the invoice page; a single confirmation can also be sent from the invoice row. Off by default; subject and text are editable in the settings. Sent in the background in small batches, only to members with an email address.
 * New (optional): automatic backup by email – weekly, monthly or quarterly, at a rough time of day, to one or more addresses (default: the site admin). The attachment is the same compressed backup file that can be restored in the settings. "Send backup now" button, last successful send and any error are shown in the settings. Off by default.
-* New: "Check your details" message template on the Email page and a new placeholder {omat_tiedot} that inserts the member's own details as a table, highlighting a missing address, phone or email. New recipient group: members missing a postal address or phone number. The Data check page links straight to it.
+* New: the Email page has two tabs, "Newsletter" (Tiedote, empty as before) and "Data check request" (Tietojentarkistuspyyntö) with a ready-made message. The new placeholder {omat_tiedot} inserts the member's own details as a table, highlighting a missing address, phone or email. New recipient group: members missing a postal address or phone number. The Data check page links straight to it.
+* New: Preview button on both tabs shows the message as a randomly picked recipient would receive it; nothing is sent. The test email now uses a randomly picked recipient's real details and says whose.
+* New: {omat_tiedot} can also be used in the invoice text: a table in email invoices, compact text lines on paper and PDF invoices.
 * Scheduled tasks and queued confirmations are removed when the plugin is deactivated or deleted.
 
 = 4.8.8 =
