@@ -174,6 +174,15 @@ function jasrek_backup_summary($data) {
  * Korvaa nykyiset tiedot varmuuskopiolla. Kutsujan pitää tarkistaa tiedosto ensin (jasrek_backup_validate).
  * Palauttaa true tai virheilmoituksen.
  */
+/** Asettaa taulun tunnistelaskurin suurimman käytetyn tunnisteen jälkeen (MySQL/MariaDB). SQLitessä ei tehdä mitään. */
+function jasrek_reset_autoincrement($table) {
+    global $wpdb;
+    if ((defined('DB_ENGINE') && DB_ENGINE === 'sqlite') || (defined('DATABASE_TYPE') && DATABASE_TYPE === 'sqlite')) return;
+    $suppress = $wpdb->suppress_errors(true);
+    $wpdb->query($wpdb->prepare('ALTER TABLE %i AUTO_INCREMENT = 1', $table)); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.SchemaChange -- vain laskurin arvo, ei rakennemuutosta
+    $wpdb->suppress_errors($suppress);
+}
+
 function jasrek_backup_restore($data) {
     global $wpdb;
     $tables = array('rivit', 'laskut', 'jasenet');
@@ -198,6 +207,9 @@ function jasrek_backup_restore($data) {
 
     update_option('jasrek_settings', jasrek_backup_clean_settings((array) $data['settings']));
     $wpdb->query('COMMIT');
+    // Tunnisteiden laskurit alkamaan palautetun suurimman tunnisteen jälkeen, jotta numerointi jatkuu
+    // kuten varmuuskopion lähteessä (DELETE ei nollaa laskuria; MySQL/MariaDB asettaa arvon 1 tilalle MAX(id)+1).
+    foreach (array('rivit', 'laskut', 'jasenet', 'loki') as $key) jasrek_reset_autoincrement($wpdb->{'jasrek_' . $key});
     // Keskeneräiset tuonnit ja lähetykset viittaavat vanhoihin tunnisteisiin: ne mitätöidään.
     update_option('jasrek_data_gen', (string) ((int) jasrek_data_gen() + 1));
 
@@ -308,7 +320,7 @@ function jasrek_backup_undo_save() {
 
 function jasrek_backup_filename($prefix = 'varmuuskopio') {
     $nimi = sanitize_title(jasrek_settings()['yhdistys']);
-    return 'jasenrekisteri-' . $prefix . ($nimi !== '' ? '-' . $nimi : '') . '-' . current_time('Y-m-d') . '.json';
+    return 'jasenrekisteri-' . $prefix . ($nimi !== '' ? '-' . $nimi : '') . '-' . jasrek_file_stamp() . '.json';
 }
 
 function jasrek_backup_download($json, $filename) {

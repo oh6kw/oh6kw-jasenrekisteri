@@ -146,7 +146,7 @@ function jasrek_handle_report_xlsx() {
     jasrek_log('vienti', 0, 'vienti', 'Vuosiraportti ' . $year . ' Exceliin');
     nocache_headers();
     header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-    header('Content-Disposition: attachment; filename="vuosiraportti-' . $year . '.xlsx"');
+    header('Content-Disposition: attachment; filename="vuosiraportti-' . $year . '_' . jasrek_file_stamp() . '.xlsx"');
     header('Content-Length: ' . strlen($bin));
     echo $bin; // phpcs:ignore -- binääritiedosto
     exit;

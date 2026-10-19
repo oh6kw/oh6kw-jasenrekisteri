@@ -16,6 +16,7 @@ function jasrek_print_url($lasku_id, $args = array()) {
 function jasrek_paper_rows($lasku, $joukko) {
     global $wpdb;
     $rows = jasrek_get_rivit('WHERE r.lasku_id = %d ORDER BY m.sukunimi, m.etunimi, r.nimi', array($lasku->id));
+    jasrek_sort_by_name($rows);
     $today = current_time('Y-m-d');
     return array_values(array_filter($rows, function ($r) use ($lasku, $joukko, $today) {
         if (!jasrek_is_paperi($r)) return false;

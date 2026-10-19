@@ -36,6 +36,7 @@ function jasrek_handle_member_print() {
     $members = $jarj === 'tunnus'
         ? $wpdb->get_results("SELECT * FROM {$wpdb->jasrek_jasenet} ORDER BY tunnus = '', tunnus, sukunimi, etunimi")
         : $wpdb->get_results("SELECT * FROM {$wpdb->jasrek_jasenet} ORDER BY sukunimi, etunimi");
+    if ($jarj === 'nimi') jasrek_sort_by_name($members);
     $members = array_values(array_filter($members, function ($m) use ($tila, $laji) {
         if ($tila !== 'kaikki' && $m->tila !== $tila) return false;
         return $laji === '' || (string) $m->jasenlaji === $laji;

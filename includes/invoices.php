@@ -464,7 +464,7 @@ function jasrek_handle_export_lasku() {
             (string) $r->maksaja, (string) $r->arkistotunnus, $r->virhe);
     }
     jasrek_log('vienti', 0, 'vienti', 'Lasku ' . $lasku->nimi . ' CSV-tiedostoon');
-    jasrek_csv_output(sanitize_file_name($lasku->nimi) . '.csv',
+    jasrek_csv_output(sanitize_file_name($lasku->nimi) . '_' . jasrek_file_stamp() . '.csv',
         array('Nimi', jasrek_tunnus_nimi(), 'Sähköposti', 'Viite', 'Summa', 'Eräpäivä', 'Lähetetty', 'Muistutettu', 'Maksettu', 'Maksettu summa', 'Maksaja', 'Arkistointitunnus', 'Virhe'), $out);
 }
 
@@ -597,6 +597,7 @@ function jasrek_invoice_new_form() {
     global $wpdb;
     $s = jasrek_settings();
     $members = $wpdb->get_results("SELECT * FROM {$wpdb->jasrek_jasenet} WHERE tila IN ('aktiivinen', 'eronnut') ORDER BY tila ASC, sukunimi, etunimi");
+    jasrek_sort_by_name($members, false, false, function ($m) { return $m->tila; });
     $n_akt = 0; $n_noemail = 0; $n_mv = 0; $n_pap = 0;
     $lajit = jasrek_jasenlajit();
     $laji_n = array();
@@ -717,6 +718,7 @@ function jasrek_invoice_detail($id) {
     if (!$lasku) { echo '<p>Laskua ei löytynyt.</p>'; return; }
 
     $rows  = jasrek_get_rivit('WHERE r.lasku_id = %d ORDER BY m.sukunimi, m.etunimi, r.nimi', array($id));
+    jasrek_sort_by_name($rows);
     $today = current_time('Y-m-d');
     $no_iban = false;
 

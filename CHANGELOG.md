@@ -2,6 +2,18 @@
 
 Tekijä: Jarno Jaskari (oh6kw). Versiosta 3.0 alkaen lisäosaa on kehitetty yhdessä Claude-tekoälyn (Anthropic) kanssa.
 
+## 4.8.8 (2026-10-19)
+
+### Korjattu
+- **Varmuuskopion palautus (MySQL/MariaDB):** palautuksen jälkeen uudet jäsenet ja laskut saavat numeron heti palautettujen jälkeen. Aiemmin tietokanta jatkoi numerointia vanhasta suurimmasta numerosta, koska taulujen tyhjennys ei nollaa tietokannan laskuria. Esim. jos rekisterissä oli ollut 30 testijäsentä ja palautettiin varmuuskopio, jossa on 3 jäsentä, seuraava uusi jäsen sai numeron 31 eikä 4 – ja ensimmäinen lasku jatkoi testilaskujen numerointia, mikä näkyi viitenumeroissa. Testattu MariaDB:llä; SQLite-sivustoihin muutos ei vaikuta.
+- **Aakkosjärjestys:** nimet lajitellaan suomen aakkosten mukaan, eli Å, Ä ja Ö tulevat Z:n jälkeen. Aiemmin tietokannan oletuslajittelu piti Å:ta ja Ä:tä A:na, joten esim. *Åkerberg* näkyi A-kirjaimen kohdalla. Koskee jäsenlistaa (järjestys suku- tai etunimen mukaan, myös käänteisenä), jäsenluetteloa, osoitetarroja, äänioikeusluetteloa, tietojen tarkistusta, laskun rivejä, paperilaskujen tulostusta, CSV-vientiä ja Excel-vientiä. Myös sanan keskellä (*Mattila* ennen *Mäkelä*). Toimii kaikilla tietokannoilla ja ilman mbstringiä.
+
+### Uutta
+- **Päivä ja kellonaika tiedostonimiin:** varmuuskopiot, Excel- ja CSV-viennit saavat nimeensä latausajan sivuston aikavyöhykkeen mukaan, esim. `jasenrekisteri-varmuuskopio-…-2026-10-19_16-02.json.gz`, `jasenrekisteri-kaikki_2026-10-19_16-02.xlsx`, `vuosiraportti-2026_2026-10-19_16-02.xlsx`. Useammasta tiedostosta näkee heti, mikä on otettu milloinkin. Koskee varmuuskopiota (myös *ennen palautusta* -kopiota), kaikkia Excel-vientejä (kaikki tiedot, kaikki laskut, yksi lasku, vuosiraportti, kirjanpito) sekä jäsenten ja laskun CSV-vientiä.
+
+### Tekstit
+- README, wordpress.orgin kuvaus ja Tietoja-sivu kertovat, että lisäosa on **täysin ilmainen**: ei maksullista versiota, kuukausimaksuja eikä rajoituksia jäsenmäärään. wordpress.orgiin uusi usein kysytty kysymys *Is it really free?*.
+
 ## 4.8.7 (2026-10-18)
 
 ### Uutta: Tietojen tarkistus

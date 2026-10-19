@@ -28,6 +28,7 @@ function jasrek_handle_export_xlsx() {
         $rows = $wpdb->get_results($wpdb->prepare(
             "SELECT r.*, m.etunimi, m.sukunimi, m.tunnus, m.tila, COALESCE(NULLIF(r.jasenlaji, ''), m.jasenlaji, '') AS jasenlaji, m.puhelin, COALESCE(NULLIF(m.email, ''), r.email) AS to_email FROM {$wpdb->jasrek_rivit} r LEFT JOIN {$wpdb->jasrek_jasenet} m ON m.id = r.jasen_id WHERE r.lasku_id = %d ORDER BY m.sukunimi, m.etunimi, r.nimi", $l->id
         ));
+        jasrek_sort_by_name($rows);
         $n = 0; $n_mak = 0; $n_era = 0; $e_lask = 0; $e_mak = 0; $e_avoin = 0;
         $out = array();
         foreach ($rows as $r) {
@@ -111,7 +112,7 @@ function jasrek_handle_export_xlsx() {
                 JASREK_Xlsx::formula("SUM({$paidcol}2:{$paidcol}{last})", JASREK_Xlsx::S_BOLD_MONEY))));
     }
 
-    $nimi = $id ? sanitize_file_name($laskut[0]->nimi) : 'jasenmaksut-' . current_time('Y-m-d');
+    $nimi = ($id ? sanitize_file_name($laskut[0]->nimi) : 'jasenmaksut') . '_' . jasrek_file_stamp();
     $bin = $x->build();
     jasrek_log('vienti', 0, 'vienti', $id ? 'Lasku ' . $laskut[0]->nimi . ' Exceliin' : 'Kaikki laskut Exceliin (' . count($laskut) . ' laskua)');
     nocache_headers();
@@ -147,6 +148,7 @@ function jasrek_handle_export_all() {
 
     // Jäsenet
     $jasenet = $wpdb->get_results("SELECT * FROM {$wpdb->jasrek_jasenet} ORDER BY sukunimi, etunimi, id");
+    jasrek_sort_by_name($jasenet);
     $m_rows = array(); $lisa_rows = array(); $n_tila = array(); $n_laji = array();
     foreach ($jasenet as $m) {
         $lisa = jasrek_member_lisa($m);
@@ -184,6 +186,7 @@ function jasrek_handle_export_all() {
         $rows = $wpdb->get_results($wpdb->prepare(
             "SELECT r.*, m.etunimi, m.sukunimi, m.tunnus, m.puhelin, m.paperilasku, COALESCE(NULLIF(m.email, ''), r.email) AS to_email FROM {$wpdb->jasrek_rivit} r LEFT JOIN {$wpdb->jasrek_jasenet} m ON m.id = r.jasen_id WHERE r.lasku_id = %d ORDER BY m.sukunimi, m.etunimi, r.nimi", $l->id
         ));
+        jasrek_sort_by_name($rows);
         $n = 0; $n_mak = 0; $n_era = 0; $e_lask = 0; $e_post = 0; $e_mak = 0; $e_avoin = 0;
         foreach ($rows as $r) {
             $p = jasrek_rivi_person($r);
@@ -327,7 +330,7 @@ function jasrek_handle_export_all() {
     jasrek_log('vienti', 0, 'vienti', 'Kaikki tiedot Exceliin (' . count($jasenet) . ' jäsentä, ' . count($laskut) . ' laskua)');
     nocache_headers();
     header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-    header('Content-Disposition: attachment; filename="jasenrekisteri-kaikki-' . $today . '.xlsx"');
+    header('Content-Disposition: attachment; filename="jasenrekisteri-kaikki_' . jasrek_file_stamp() . '.xlsx"');
     header('Content-Length: ' . strlen($bin));
     echo $bin; // phpcs:ignore -- binääritiedosto
     exit;

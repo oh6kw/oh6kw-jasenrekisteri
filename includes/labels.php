@@ -95,6 +95,7 @@ function jasrek_handle_labels() {
         else for ($i = 0; $i < $maara; $i++) $tarrat[] = array_merge(array((string) $s['yhdistys']), $rivit);
     } else {
         $members = $wpdb->get_results("SELECT * FROM {$wpdb->jasrek_jasenet} ORDER BY sukunimi, etunimi");
+        jasrek_sort_by_name($members);
         foreach ($members as $m) {
             if ($kohde === 'valitut') { if (!in_array((int) $m->id, $ids, true)) continue; }
             elseif ($kohde === 'paperi') { if ($m->tila !== 'aktiivinen' || !jasrek_is_paperi($m)) continue; }

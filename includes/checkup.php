@@ -47,6 +47,7 @@ function jasrek_checkup_puhelin_outo($p) {
 function jasrek_checkup_data($kentat) {
     global $wpdb;
     $members = $wpdb->get_results("SELECT * FROM {$wpdb->jasrek_jasenet} WHERE tila = 'aktiivinen' ORDER BY sukunimi, etunimi");
+    jasrek_sort_by_name($members);
     $puutteet = array(); $korj = array();
     $nimet = array(); $emails = array();
     foreach ($members as $m) {
@@ -84,7 +85,7 @@ function jasrek_checkup_data($kentat) {
     $jarj = array('err' => 0, 'warn' => 1, 'info' => 2);
     usort($korj, function ($a, $b) use ($jarj) {
         if ($jarj[$a['taso']] !== $jarj[$b['taso']]) return $jarj[$a['taso']] - $jarj[$b['taso']];
-        return strcmp(jasrek_lower($a['m']->sukunimi . ' ' . $a['m']->etunimi), jasrek_lower($b['m']->sukunimi . ' ' . $b['m']->etunimi));
+        return strcmp(jasrek_fi_key($a['m']->sukunimi . ' ' . $a['m']->etunimi), jasrek_fi_key($b['m']->sukunimi . ' ' . $b['m']->etunimi));
     });
     return array('puutteet' => $puutteet, 'korjattavat' => $korj);
 }

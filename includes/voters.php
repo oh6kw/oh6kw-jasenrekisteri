@@ -19,6 +19,7 @@ function jasrek_voters_url($args = array()) {
 function jasrek_voters_data($lasku_id) {
     global $wpdb;
     $members = $wpdb->get_results("SELECT * FROM {$wpdb->jasrek_jasenet} WHERE tila = 'aktiivinen' ORDER BY sukunimi, etunimi");
+    jasrek_sort_by_name($members);
     $rows = $lasku_id ? $wpdb->get_results($wpdb->prepare("SELECT jasen_id, maksettu, summa FROM {$wpdb->jasrek_rivit} WHERE lasku_id = %d", $lasku_id), OBJECT_K) : array();
     $out = array();
     foreach ($members as $m) {
