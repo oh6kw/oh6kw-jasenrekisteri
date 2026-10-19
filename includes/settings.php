@@ -76,17 +76,26 @@ function jasrek_handle_save_settings() {
         'viesti_oletus'    => sanitize_textarea_field(jasrek_post('viesti_oletus')),
         'muistutus_teksti' => sanitize_textarea_field(jasrek_post('muistutus_teksti')),
         'tarrat'           => $vanha['tarrat'], // tarrasivun muistamat valinnat säilyvät
+        'vahvistus_kaytossa' => jasrek_post('vahvistus_kaytossa') === '1' ? '1' : '0',
+        'vahvistus_otsikko'  => sanitize_text_field(jasrek_post('vahvistus_otsikko')),
+        'vahvistus_teksti'   => sanitize_textarea_field(jasrek_post('vahvistus_teksti')),
+        'autobackup'       => jasrek_post('autobackup') === '1' ? '1' : '0',
+        'autobackup_vali'  => array_key_exists(jasrek_post('autobackup_vali'), jasrek_autobackup_valit()) ? jasrek_post('autobackup_vali') : 'kk',
+        'autobackup_aika'  => array_key_exists(jasrek_post('autobackup_aika'), jasrek_autobackup_ajat()) ? (string) jasrek_post('autobackup_aika') : '3',
+        'autobackup_to'    => implode(', ', array_filter(array_map('sanitize_email', preg_split('/[\s,;]+/', (string) jasrek_post('autobackup_to'))), 'is_email')),
+        'autobackup_loki'  => jasrek_post('autobackup_loki') === '1' ? '1' : '0',
     );
     update_option('jasrek_settings', $s);
     jasrek_log_settings_change($vanha, jasrek_settings());
     jasrek_schedule_cron();
+    jasrek_schedule_autobackup();
     jasrek_redirect('jasrek-asetukset', array('jasrek_msg' => ($iban !== '' && !jasrek_iban_valid($iban)) ? 'iban_invalid' : 'settings_saved'));
 }
 
 /** Kirjaa muuttuneet asetukset muutoslokiin. */
 function jasrek_log_settings_change($a, $b) {
     $labels = array(
-        'yhdistys' => 'Yhdistyksen nimi', 'iban' => 'IBAN', 'bic' => 'BIC', 'ytunnus' => 'Y-tunnus', 'maksukoodi' => 'Maksukoodi', 'sposti_malli' => 'Sähköpostilaskun malli', 'sposti_pdf' => 'Sähköpostilasku PDF-liitteenä', 'kp_pankki' => 'Kirjanpito: pankkitili', 'kp_tuotot' => 'Kirjanpito: jäsenmaksutuotot', 'kp_posti' => 'Kirjanpito: postimaksut',
+        'yhdistys' => 'Yhdistyksen nimi', 'iban' => 'IBAN', 'bic' => 'BIC', 'ytunnus' => 'Y-tunnus', 'maksukoodi' => 'Maksukoodi', 'sposti_malli' => 'Sähköpostilaskun malli', 'sposti_pdf' => 'Sähköpostilasku PDF-liitteenä', 'vahvistus_kaytossa' => 'Maksuvahvistus jäsenelle', 'vahvistus_otsikko' => 'Maksuvahvistuksen otsikko', 'vahvistus_teksti' => 'Maksuvahvistuksen teksti', 'autobackup' => 'Automaattinen varmuuskopio', 'autobackup_vali' => 'Automaattinen varmuuskopio: väli', 'autobackup_aika' => 'Automaattinen varmuuskopio: kellonaika', 'autobackup_to' => 'Automaattinen varmuuskopio: vastaanottajat', 'autobackup_loki' => 'Automaattinen varmuuskopio: muutosloki mukaan', 'kp_pankki' => 'Kirjanpito: pankkitili', 'kp_tuotot' => 'Kirjanpito: jäsenmaksutuotot', 'kp_posti' => 'Kirjanpito: postimaksut',
         'yhteystiedot' => 'Yhteystiedot', 'lahettaja_nimi' => 'Lähettäjän nimi', 'lahettaja_email' => 'Lähettäjän osoite',
         'vastaus_email' => 'Vastausosoite', 'tunnus_kaytossa' => 'Lisätunniste käytössä', 'tunnus_nimi' => 'Lisätunnisteen nimi',
         'tunnus_isot' => 'Lisätunniste isoilla', 'auto_muistutus' => 'Automaattinen muistutus', 'auto_paivia' => 'Muistutus päivää eräpäivän jälkeen',
@@ -95,7 +104,7 @@ function jasrek_log_settings_change($a, $b) {
         'merkki_kaytossa' => 'Merkkipäivät käytössä', 'viesti_oletus' => 'Laskun saateteksti', 'muistutus_teksti' => 'Muistutuksen teksti',
     );
     $fmt = function ($k, $v) {
-        if (in_array($k, array('sposti_pdf', 'tunnus_kaytossa', 'tunnus_isot', 'auto_muistutus', 'auto_raportti', 'poista_tiedot', 'merkki_kaytossa'), true)) return $v === '1' ? 'kyllä' : 'ei';
+        if (in_array($k, array('sposti_pdf', 'vahvistus_kaytossa', 'autobackup', 'autobackup_loki', 'tunnus_kaytossa', 'tunnus_isot', 'auto_muistutus', 'auto_raportti', 'poista_tiedot', 'merkki_kaytossa'), true)) return $v === '1' ? 'kyllä' : 'ei';
         return (string) $v;
     };
     $old = array(); $new = array();
@@ -301,6 +310,17 @@ function jasrek_page_settings() {
                 <?php if ($s['auto_muistutus'] === '1' && $next): ?><br>Seuraava tarkistus: <?php echo esc_html(wp_date('j.n.Y H:i', $next)); ?><?php endif; ?></p>
             </div>
 
+            <div class="jasrek-panel" id="jasrek-vahvistus">
+                <h2>Maksuvahvistus jäsenelle</h2>
+                <p><label class="jasrek-radio"><input type="checkbox" name="vahvistus_kaytossa" value="1" <?php checked($s['vahvistus_kaytossa'], '1'); ?>> Lähetä jäsenelle sähköpostilla vahvistus, kun hänen maksunsa kirjataan</label></p>
+                <p class="description">Kun maksuja kirjataan pankkitiedostosta tai joukkotoiminnolla, kirjauksen yhteydessä on ruksi <em>Lähetä maksuvahvistus</em> (valmiiksi valittuna), jonka voi poistaa esim. vanhoja maksuja kirjattaessa. Laskun sivulla maksetun rivin kohdalla on lisäksi painike <em>Lähetä vahvistus</em>. Vahvistukset lähtevät taustalla pienissä erissä. Vain jäsenille, joilla on sähköpostiosoite.</p>
+                <p><label for="jasrek-vot">Otsikko</label>
+                   <input type="text" id="jasrek-vot" name="vahvistus_otsikko" value="<?php echo esc_attr($s['vahvistus_otsikko']); ?>"></p>
+                <p><label for="jasrek-vte">Viesti</label>
+                   <textarea id="jasrek-vte" name="vahvistus_teksti" rows="6"><?php echo esc_textarea($s['vahvistus_teksti']); ?></textarea>
+                   <?php echo wp_kses_post(jasrek_placeholders('jasrek-vte', 'vahvistus', '{summa} on maksettu summa.')); ?></p>
+            </div>
+
             <div class="jasrek-panel">
                 <h2>Sähköpostin lähettäjä</h2>
                 <div class="jasrek-grid">
@@ -338,6 +358,8 @@ function jasrek_page_settings() {
                    </select>
                    <span class="description">Loki sisältää henkilötietoja (esim. vanhoja osoitteita), joten sitä ei kannata säilyttää tarpeettoman pitkään. Vanhemmat merkinnät poistetaan automaattisesti.</span></p>
             </div>
+
+            <?php jasrek_autobackup_panel($s); ?>
 
             <div class="jasrek-panel" id="jasrek-poisto">
                 <h2>Lisäosan poistaminen</h2>

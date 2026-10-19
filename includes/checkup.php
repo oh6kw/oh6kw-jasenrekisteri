@@ -108,7 +108,8 @@ function jasrek_checkup_page() {
     $tasonimet = array('err' => 'Korjaa', 'warn' => 'Tarkista', 'info' => 'Huom.');
     ?>
     <h1 class="wp-heading-inline">Tietojen tarkistus</h1>
-    <?php if ($d['puutteet']): ?><a class="page-title-action" target="_blank" href="<?php echo esc_url(jasrek_checkup_print_url($kentat)); ?>">Tulosta puutelista</a><?php endif; ?>
+    <?php if ($d['puutteet']): ?><a class="page-title-action" target="_blank" href="<?php echo esc_url(jasrek_checkup_print_url($kentat)); ?>">Tulosta puutelista</a>
+    <a class="page-title-action" href="<?php echo esc_url(admin_url('admin.php?page=jasrek-sahkoposti&pohja=tarkista&kohde=puuttuvat')); ?>" title="Sähköposti jäsenille, joilta puuttuu osoite tai puhelinnumero: jokainen saa omat tietonsa ja pyynnön täydentää ne. Jäsenet ilman sähköpostia eivät saa viestiä – heille puutelista.">Pyydä puuttuvat tiedot sähköpostilla</a><?php endif; ?>
     <hr class="wp-header-end">
     <p><a href="<?php echo esc_url($base); ?>">← Jäsenet</a></p>
     <p class="description">Tarkistaa voimassa olevien jäsenten tiedot. Jäsenen nimestä pääset muokkaamaan hänen tietojaan. Puutelistan voi tulostaa esimerkiksi jäsenillassa täydennettäväksi: tulosteessa näkyvät vain puuttuvien tietojen nimet, ei jäsenten olemassa olevia tietoja.</p>

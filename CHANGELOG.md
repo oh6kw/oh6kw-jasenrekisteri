@@ -2,6 +2,36 @@
 
 Tekijä: Jarno Jaskari (oh6kw). Versiosta 3.0 alkaen lisäosaa on kehitetty yhdessä Claude-tekoälyn (Anthropic) kanssa.
 
+## 4.8.9 (2026-10-19)
+
+Kaikki uudet toiminnot ovat valinnaisia: maksuvahvistus ja automaattinen varmuuskopio ovat oletuksena pois päältä, eikä mikään muutu ennen kuin ne kytketään asetuksista päälle.
+
+### Uutta: Maksuvahvistus jäsenelle
+- *Asetukset → Maksuvahvistus jäsenelle:* kytkin, viestin otsikko ja teksti. Paikkamerkit `{etunimi}`, `{sukunimi}`, `{tunnus}`, `{jasenluokka}`, `{laskun_nimi}`, `{summa}`, `{maksupaiva}`, `{viite}` ja `{yhdistys}`. Valmis oletusteksti: *Hei {etunimi}, kiitos! Olemme vastaanottaneet maksusi …*
+- **Pankkitiedoston tuonti:** esikatselussa ruksi *Lähetä maksuvahvistus sähköpostilla jäsenille, joiden maksu nyt kirjataan* (valmiiksi valittu, kun toiminto on päällä).
+- **Laskun sivu:** joukkotoiminnon *Merkitse maksetuksi* viereen sama ruksi. Vahvistus lähtee vain riveille, jotka olivat ennen maksamattomia, eli jo maksettuja ei vahvisteta uudestaan.
+- **Laskun rivi:** maksetuilla riveillä painike *Lähetä vahvistus* yksittäistä lähetystä varten (esim. jos jäsen kysyy, onko maksu tullut perille).
+- Vahvistukset lähtevät taustalla 20 viestin erissä, joten pitkä pankkitiedosto ei hidasta tallennusta. Vahvistus lähetetään vain jäsenille, joilla on sähköpostiosoite. Paperilaskun saaneet ilman sähköpostia ohitetaan, ja ilmoitus kertoo, montako vahvistusta lähtee.
+- Jokainen vahvistus kirjataan muutoslokiin (*Maksuvahvistus lähetetty* / *Maksuvahvistus epäonnistui*). Jos toiminto kytketään pois päältä ennen kuin jono on lähetetty, jonossa olevat jätetään lähettämättä.
+
+### Uutta: Automaattinen varmuuskopio sähköpostiin
+- *Asetukset → Automaattinen varmuuskopio sähköpostilla:* kytkin, **kuinka usein** (viikoittain, kuukausittain tai neljännesvuosittain), **kellonaika** (yöllä n. klo 3, aamulla n. klo 7, päivällä n. klo 12 tai illalla n. klo 18) ja **kenelle** (yksi tai useampi osoite pilkulla erotettuna; tyhjänä sivuston ylläpitäjän osoite). Virheelliset osoitteet karsitaan tallennettaessa. Muutosloki voidaan ottaa mukaan tai jättää pois.
+- Liitteenä sama pakattu varmuuskopio (`.json.gz`), joka palautetaan kohdassa *Varmuuskopio ja siirto*. Tiedostonimessä on päivä ja kellonaika. Viestissä on yhteenveto: jäsenet (voimassa), laskut, laskurivit (maksettu) ja muutoslokin merkinnät.
+- Asetuksissa näkyy seuraava tarkistus, edellinen onnistunut lähetys ja mahdollinen virhe. Painike **Lähetä varmuuskopio nyt** lähettää kopion heti valittuihin osoitteisiin.
+- Lähetys käyttää WordPressin ajastettuja tehtäviä, jotka käynnistyvät sivuston kävijöistä. Hiljaisella sivustolla lähetys voi siksi tulla vähän valittua aikaa myöhemmin. Jos lähetys epäonnistuu, sitä yritetään uudelleen seuraavana päivänä.
+- Asetuksissa on muistutus: liite sisältää jäsenten henkilötietoja, joten vastaanottajaksi kannattaa valita oma, henkilökohtainen osoite eikä yhteistä postilaatikkoa.
+- Jokainen lähetys kirjataan muutoslokiin.
+
+### Uutta: Tarkista tietosi -viesti
+- *Sähköposti jäsenille* -sivun yläreunassa valmis pohja **Tarkista tietosi**. Se täyttää otsikon ja viestin, joita voi muokata ennen lähetystä.
+- Uusi paikkamerkki **`{omat_tiedot}`** lisää viestiin jäsenen omat tiedot taulukkona: nimi, tunnus, jäsenluokka, osoite, puhelin, sähköposti, liittymispäivä, syntymävuosi tai -päivä ja omat lisäkentät. Puuttuva osoite, puhelin tai sähköposti näkyy oranssina sanalla *puuttuu*. Jokainen jäsen näkee vain omat tietonsa.
+- Uusi vastaanottajaryhmä: **jäsenet, joilta puuttuu osoite tai puhelinnumero** (voimassa olevat, joilla on sähköposti).
+- *Tietojen tarkistus* -sivulla uusi painike **Pyydä puuttuvat tiedot sähköpostilla**. Se avaa viestin valmiiksi pohjalla ja tällä vastaanottajaryhmällä.
+
+### Muuta
+- Lisäosan poistaminen käytöstä poistaa myös varmuuskopion ja maksuvahvistusten ajastukset. Lisäosan poistaminen kokonaan poistaa lisäksi lähettämättömät vahvistukset ja varmuuskopion tilatiedot.
+- Sähköpostin liitteen tyyppi määräytyy tiedostopäätteen mukaan (`.gz`, `.json`, `.pdf`).
+
 ## 4.8.8 (2026-10-19)
 
 ### Korjattu

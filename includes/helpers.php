@@ -55,6 +55,14 @@ function jasrek_settings() {
         'osoite'          => '',
         'sposti_pdf'      => '0',
         'tarrat'          => array(), // osoitetarrojen arkki ja hienosäätö (muistetaan tarrasivulta)
+        'vahvistus_kaytossa' => '0',
+        'vahvistus_otsikko'  => 'Maksu vastaanotettu – {laskun_nimi}',
+        'vahvistus_teksti'   => "Hei {etunimi},\n\nkiitos! Olemme vastaanottaneet maksusi {summa} ({laskun_nimi}) {maksupaiva}.\n\nYstävällisin terveisin\n{yhdistys}",
+        'autobackup'      => '0',
+        'autobackup_vali' => 'kk',
+        'autobackup_aika' => '3',
+        'autobackup_to'   => '',
+        'autobackup_loki' => '1',
         'kp_pankki'       => '',
         'kp_tuotot'       => '',
         'kp_posti'        => '',
@@ -454,7 +462,7 @@ function jasrek_notice() {
         'lasku_updated'   => array('success', 'Laskun tiedot päivitetty.'),
         'lasku_deleted'   => array('success', 'Lasku poistettu.'),
         'rows_added'      => array('success', sprintf('Laskulle lisättiin %d jäsentä.', $n)),
-        'paid_updated'    => array('success', sprintf('Maksutiedot päivitetty (%d kpl).', $n)),
+        'paid_updated'    => array('success', sprintf('Maksutiedot päivitetty (%d kpl).', $n) . (jasrek_get_int('jasrek_v', 0) ? ' ' . sprintf('%d maksuvahvistusta lähtee taustalla.', jasrek_get_int('jasrek_v', 0)) : '')),
         'row_deleted'     => array('success', 'Jäsen poistettu tältä laskulta.'),
         'sent_one'        => array('success', 'Lasku lähetetty.'),
         'send_failed'     => array('error',   'Lähetys epäonnistui. Tarkista sähköpostiosoite ja sivuston sähköpostiasetukset.'),
@@ -477,7 +485,10 @@ function jasrek_notice() {
             !empty(jasrek_get('jasrek_l')) ? ' ' . jasrek_get_int('jasrek_l') . ' riviltä jäsenluokkaa ei tunnistettu – lisää luokka asetuksiin ja valitse se jäsenelle.' : '')),
         'upload_failed'   => array('error',   'Tiedoston lataus epäonnistui. Tarkista, että valitsit tiedoston (enintään 5 Mt).'),
         'no_payments'     => array('error',   'Tiedostosta ei löytynyt maksuja. Tarkista, että se on viitesiirtoaineisto (KTL), camt.054/053-XML tai tiliote CSV-muodossa, jossa on viite- ja summasarake.'),
-        'payments_imported' => array('success', sprintf('%d laskua merkitty maksetuksi pankin tiedostosta.', $n)),
+        'payments_imported' => array('success', sprintf('%d laskua merkitty maksetuksi pankin tiedostosta.', $n) . (jasrek_get_int('jasrek_v', 0) ? ' ' . sprintf('%d maksuvahvistusta lähtee taustalla.', jasrek_get_int('jasrek_v', 0)) : '')),
+        'vahvistus_sent'  => array('success', 'Maksuvahvistus lähetetty.'),
+        'autobackup_sent' => array('success', 'Varmuuskopio lähetetty sähköpostilla.'),
+        'autobackup_failed' => array('error', 'Varmuuskopion lähetys epäonnistui: ' . (string) get_transient('jasrek_backup_err_' . get_current_user_id())),
         'no_mail_recipients' => array('warning', 'Valitulla vastaanottajajoukolla ei ole yhtään sähköpostiosoitetta.'),
         'due_before_date' => array('error',   'Eräpäivä ei voi olla ennen laskun päiväystä.'),
         'member_duplicate'=> array('warning', 'Jäsen tallennettiin, mutta rekisterissä on jo toinen jäsen samalla nimellä tai sähköpostiosoitteella. Tarkista, ettei kyseessä ole tuplakirjaus.'),
@@ -673,7 +684,9 @@ function jasrek_mail($to, $subject, $html, $images = array(), $attachments = arr
         }
         // Liitteet muistista (esim. PDF-lasku) – ei väliaikaistiedostoja
         foreach ($attachments as $name => $data) {
-            $phpmailer->addStringAttachment($data, $name, 'base64', 'application/pdf');
+            $ext = strtolower(pathinfo($name, PATHINFO_EXTENSION));
+            $mime = $ext === 'gz' ? 'application/gzip' : ($ext === 'json' ? 'application/json' : 'application/pdf');
+            $phpmailer->addStringAttachment($data, $name, 'base64', $mime);
         }
     };
     add_action('phpmailer_init', $alt);
@@ -693,10 +706,11 @@ function jasrek_placeholders($target_id, $tyyppi = 'lasku', $lisa = '') {
         'laskun_nimi' => 'Laskun nimi, esim. Jäsenmaksu 2027', 'summa' => 'Jäsenmaksu, esim. 25,00 € (ilman paperilaskun postimaksua)',
         'maksettava' => 'Maksettava yhteensä (paperilaskussa jäsenmaksu + postimaksu)', 'postimaksu' => 'Postimaksu (0,00 €, jos lasku tulee sähköpostilla)',
         'viite' => 'Viitenumero', 'erapaiva' => 'Eräpäivä', 'yhdistys' => 'Yhdistyksen nimi',
+        'maksupaiva' => 'Maksupäivä', 'omat_tiedot' => 'Jäsenen omat tiedot taulukkona (nimi, osoite, puhelin, sähköposti, liittymispäivä …) – esim. tietojen tarkistuspyyntöön',
     );
-    $merkit = $tyyppi === 'tiedote'
-        ? array('etunimi', 'sukunimi', 'nimi', 'tunnus', 'jasenluokka', 'yhdistys')
-        : array('etunimi', 'sukunimi', 'tunnus', 'jasenluokka', 'laskun_nimi', 'summa', 'maksettava', 'viite', 'erapaiva', 'yhdistys');
+    if ($tyyppi === 'tiedote') $merkit = array('etunimi', 'sukunimi', 'nimi', 'tunnus', 'jasenluokka', 'yhdistys', 'omat_tiedot');
+    elseif ($tyyppi === 'vahvistus') $merkit = array('etunimi', 'sukunimi', 'tunnus', 'jasenluokka', 'laskun_nimi', 'summa', 'maksupaiva', 'viite', 'yhdistys');
+    else $merkit = array('etunimi', 'sukunimi', 'tunnus', 'jasenluokka', 'laskun_nimi', 'summa', 'maksettava', 'viite', 'erapaiva', 'yhdistys');
     if (!jasrek_tunnus_on()) $merkit = array_values(array_diff($merkit, array('tunnus')));
     $out = '<span class="description jasrek-phs">Paikkamerkit – lisää klikkaamalla: ';
     foreach ($merkit as $k) {

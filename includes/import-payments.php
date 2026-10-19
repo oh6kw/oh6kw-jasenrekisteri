@@ -266,7 +266,7 @@ function jasrek_handle_payments_confirm() {
 
     $valitut = array_flip(array_map('intval', jasrek_post_array('valitut')));
     $maksut = jasrek_match_payments($parsed['maksut']); // tarkistetaan uudelleen
-    $n = 0;
+    $n = 0; $maksetut = array();
     foreach ($maksut as $i => $p) {
         if (!isset($valitut[$i]) || !$p['rivi'] || !in_array($p['tila'], array('ok', 'ero'), true)) continue;
         $ok = $wpdb->query($wpdb->prepare(
@@ -276,14 +276,15 @@ function jasrek_handle_payments_confirm() {
             substr($p['arkisto'], 0, 40), $p['rivi']->id
         ));
         if ($ok) {
-            $n++;
+            $n++; $maksetut[] = (int) $p['rivi']->id;
             jasrek_log_rivi($p['rivi'], 'maksettu', 'pankkitiedosto ' . $parsed['tiedosto'] . ', maksupäivä ' . jasrek_date($p['pvm'])
                 . ($p['tila'] === 'ero' ? ', maksettu ' . html_entity_decode(jasrek_money($p['summa'])) : '') . ($p['maksaja'] !== '' ? ', maksaja ' . $p['maksaja'] : ''));
         }
     }
     if ($n) jasrek_log('vienti', 0, 'tuonti', 'Maksut tuotu pankin tiedostosta ' . $parsed['tiedosto'] . ' (' . $parsed['muoto'] . '): ' . $n . ' laskua merkitty maksetuksi');
     delete_transient($key);
-    jasrek_redirect('jasrek-laskutus', array('jasrek_msg' => 'payments_imported', 'jasrek_n' => $n));
+    $v = (jasrek_vahvistus_on() && jasrek_post('vahvistus') === '1') ? jasrek_queue_vahvistukset($maksetut) : 0;
+    jasrek_redirect('jasrek-laskutus', array('jasrek_msg' => 'payments_imported', 'jasrek_n' => $n, 'jasrek_v' => $v));
 }
 
 /* ------------------------------------------------------------------
@@ -353,6 +354,7 @@ function jasrek_payments_preview() {
             <?php endforeach; ?>
             </tbody>
         </table>
+        <?php jasrek_vahvistus_checkbox(); ?>
         <p class="jasrek-actions">
             <button type="submit" class="button button-primary button-large">Merkitse valitut maksetuiksi</button>
             <a class="button button-large" href="<?php echo esc_url(admin_url('admin.php?page=jasrek-laskutus')); ?>">Peruuta</a>

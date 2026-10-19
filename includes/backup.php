@@ -170,10 +170,6 @@ function jasrek_backup_summary($data) {
     );
 }
 
-/**
- * Korvaa nykyiset tiedot varmuuskopiolla. Kutsujan pitää tarkistaa tiedosto ensin (jasrek_backup_validate).
- * Palauttaa true tai virheilmoituksen.
- */
 /** Asettaa taulun tunnistelaskurin suurimman käytetyn tunnisteen jälkeen (MySQL/MariaDB). SQLitessä ei tehdä mitään. */
 function jasrek_reset_autoincrement($table) {
     global $wpdb;
@@ -183,6 +179,10 @@ function jasrek_reset_autoincrement($table) {
     $wpdb->suppress_errors($suppress);
 }
 
+/**
+ * Korvaa nykyiset tiedot varmuuskopiolla. Kutsujan pitää tarkistaa tiedosto ensin (jasrek_backup_validate).
+ * Palauttaa true tai virheilmoituksen.
+ */
 function jasrek_backup_restore($data) {
     global $wpdb;
     $tables = array('rivit', 'laskut', 'jasenet');
@@ -217,6 +217,7 @@ function jasrek_backup_restore($data) {
     $dbv = (int) $data['db_version'];
     if ($dbv < (int) JASREK_DB_VERSION) jasrek_migrate($dbv);
     jasrek_schedule_cron();
+    jasrek_schedule_autobackup();
     return true;
 }
 
