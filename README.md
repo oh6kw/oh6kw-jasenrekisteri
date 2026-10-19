@@ -1,6 +1,6 @@
 # OH6KW Jäsenrekisteri – WordPress-lisäosa yhdistyksille
 
-Jäsenrekisteri ja jäsenmaksulaskutus WordPressin hallintapaneeliin suomalaisille yhdistyksille.
+Jäsenrekisteri ja jäsenmaksulaskutus WordPressin hallintapaneeliin suomalaisille yhdistyksille. **Täysin ilmainen** – ei maksullista versiota, kuukausimaksuja eikä rajoituksia jäsenmäärään.
 
 Lähetä koko jäsenistölle jäsenmaksulaskut sähköpostilla yhdellä painalluksella, ja tulosta paperilaskut niille, jotka niitä haluavat. Jokainen lasku saa oman suomalaisen viitenumeron, QR-koodin ja pankkiviivakoodin. Tuo maksut pankin tiedostosta, ja ne kohdistuvat oikeille jäsenille viitteen perusteella, vaikka maksaja olisi puoliso tai vanhempi. Vuosikokoukseen saat vuosiraportin ja äänioikeusluettelon, kirjanpitäjälle valmiin vientiehdotuksen jäsenmaksuista ja kirjepostia varten osoitetarrat suoraan tavalliselle tarra-arkille.
 

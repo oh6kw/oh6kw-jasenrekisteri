@@ -5,7 +5,7 @@ Tags: membership, members, invoices, association, finland
 Requires at least: 6.2
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 4.8.7
+Stable tag: 4.8.8
 License: AGPLv3 or later
 License URI: https://www.gnu.org/licenses/agpl-3.0.html
 
@@ -13,7 +13,7 @@ Membership register and dues invoicing for Finnish associations: Finnish referen
 
 == Description ==
 
-OH6KW Jäsenrekisteri ("membership register") is a complete membership register and membership-fee invoicing tool for Finnish associations (yhdistys / ry), built into the WordPress admin. Send membership fee invoices by email, print paper invoices and address labels, import payments from the bank and get reports for the general meeting and the accountant. The user interface is in Finnish, because the plugin implements Finnish banking standards.
+OH6KW Jäsenrekisteri ("membership register") is a complete membership register and membership-fee invoicing tool for Finnish associations (yhdistys / ry), built into the WordPress admin. It is completely free: no paid version, no subscription and no limit on the number of members. Send membership fee invoices by email, print paper invoices and address labels, import payments from the bank and get reports for the general meeting and the accountant. The user interface is in Finnish, because the plugin implements Finnish banking standards.
 
 **Members**
 
@@ -86,6 +86,10 @@ Source code, issue tracker and full Finnish documentation: [github.com/oh6kw/oh6
 
 == Frequently Asked Questions ==
 
+= Is it really free? =
+
+Yes. Every feature is included: no paid version, no subscription, no limit on members or invoices, and no external service to pay for. If the plugin is useful to your association, you can buy the developer a coffee on Ko-fi, but that is entirely voluntary.
+
 = Does the plugin show anything on the website? =
 
 No. It works only in the WordPress admin. It adds no pages, forms, shortcodes or blocks, and visitors never see member data.
@@ -137,6 +141,10 @@ The Finnish reference payment file (KTL / viitesiirtoaineisto), ISO 20022 camt.0
 15. Data check: missing details and things to fix; the list of missing details can be printed.
 
 == Changelog ==
+
+= 4.8.8 =
+* Fix: after restoring a backup on MySQL/MariaDB, new members and invoices continue numbering right after the restored ones. Previously the database kept counting from the old highest number, so a cleaned-up backup did not start from 1.
+* The description and the About page now say clearly that the plugin is completely free, and a new FAQ answers "Is it really free?".
 
 = 4.8.7 =
 * New: Data check page (from the new "members with missing details" card on the Members page): paper-invoice recipients without an address, invalid email addresses and phone numbers, possible duplicates, and a table of current members missing an email address, postal address or phone number (optionally joining date and year of birth). The list of missing details can be printed for members to fill in – it shows only the names of the missing details, never anyone's existing contact details.
