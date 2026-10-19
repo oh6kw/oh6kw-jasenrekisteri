@@ -30,6 +30,9 @@ Kaikki uudet toiminnot ovat valinnaisia: maksuvahvistus ja automaattinen varmuus
 - **Testiviesti** (molemmilla välilehdillä) käyttää nyt arvotun vastaanottajan oikeita tietoja tyhjän mallin sijaan, ja ilmoitus kertoo, kenen tiedoilla testi lähti.
 - *Tietojen tarkistus* -sivulla uusi painike **Tietojentarkistuspyyntö sähköpostilla…**. Se avaa tarkistuspyynnön välilehden, jossa vastaanottajina ovat valmiiksi ne, joilta puuttuu tietoja. Viesti ei lähde heti: sivulla voi muokata tekstiä, vaihtaa vastaanottajat, katsoa esikatselun ja lähettää testin. Tämä kerrotaan myös painikkeen ohjeessa ja sivun kuvauksessa.
 
+### Uutta: `{omat_tiedot}`-kenttien valinta
+- *Asetukset → Jäsenen omat tiedot viesteissä:* valitse, mitkä tiedot `{omat_tiedot}` näyttää (nimi, tunnus, jäsenluokka, osoite, puhelin, sähköposti, liittymispäivä, syntymävuosi tai -päivä ja jokainen oma lisäkenttä erikseen). Oletuksena kaikki. Kun kaikki on valittu, myöhemmin lisättävät omat kentät tulevat mukaan automaattisesti. Valinta koskee tietojentarkistuspyyntöä ja laskun saatetta (sähköposti, paperi ja PDF).
+
 ### Uutta: `{omat_tiedot}` laskun saatteeseen
 - Paikkamerkin voi lisätä myös laskun saatteeseen (laskua luotaessa ja muokatessa sekä asetusten oletussaatteeseen ja muistutustekstiin). Silloin jäsenmaksulaskun mukana voi pyytää tarkistamaan ja täydentämään omat tiedot.
 - **Sähköpostilasku** (molemmat mallit): tiedot taulukkona, puuttuvat korostettuina.

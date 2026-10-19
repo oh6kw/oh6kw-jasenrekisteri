@@ -56,6 +56,7 @@ function jasrek_settings() {
         'sposti_pdf'      => '0',
         'tarrat'          => array(), // osoitetarrojen arkki ja hienosäätö (muistetaan tarrasivulta)
         'vahvistus_kaytossa' => '0',
+        'omat_tiedot_kentat' => 'kaikki', // {omat_tiedot}: valitut kentät pilkuilla tai 'kaikki'
         'vahvistus_otsikko'  => 'Maksu vastaanotettu – {laskun_nimi}',
         'vahvistus_teksti'   => "Hei {etunimi},\n\nkiitos! Olemme vastaanottaneet maksusi {summa} ({laskun_nimi}) {maksupaiva}.\n\nYstävällisin terveisin\n{yhdistys}",
         'autobackup'      => '0',

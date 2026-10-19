@@ -150,6 +150,7 @@ The Finnish reference payment file (KTL / viitesiirtoaineisto), ISO 20022 camt.0
 * New (optional): automatic backup by email – weekly, monthly or quarterly, at a rough time of day, to one or more addresses (default: the site admin). The attachment is the same compressed backup file that can be restored in the settings. "Send backup now" button, last successful send and any error are shown in the settings. Off by default.
 * New: the Email page has two tabs, "Newsletter" (Tiedote, empty as before) and "Data check request" (Tietojentarkistuspyyntö) with a ready-made message. The new placeholder {omat_tiedot} inserts the member's own details as a table, highlighting a missing address, phone or email. New recipient group: members missing a postal address or phone number. The Data check page links straight to it.
 * New: Preview button on both tabs shows the message as a randomly picked recipient would receive it; nothing is sent. The test email now uses a randomly picked recipient's real details and says whose.
+* New: choose in the settings which details {omat_tiedot} shows (name, member ID, class, address, phone, email, joining date, birth year and each custom field).
 * New: {omat_tiedot} can also be used in the invoice text: a table in email invoices, compact text lines on paper and PDF invoices.
 * Scheduled tasks and queued confirmations are removed when the plugin is deactivated or deleted.
 

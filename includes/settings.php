@@ -77,6 +77,13 @@ function jasrek_handle_save_settings() {
         'muistutus_teksti' => sanitize_textarea_field(jasrek_post('muistutus_teksti')),
         'tarrat'           => $vanha['tarrat'], // tarrasivun muistamat valinnat säilyvät
         'vahvistus_kaytossa' => jasrek_post('vahvistus_kaytossa') === '1' ? '1' : '0',
+        'omat_tiedot_kentat' => (function () {
+            $kaikki = array_keys(jasrek_omat_tiedot_valinnat());
+            $val = isset($_POST['ot_kentat']) ? array_map('sanitize_key', (array) wp_unslash($_POST['ot_kentat'])) : array(); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- nonce checked at the top of the handler.
+            $val = array_values(array_intersect($kaikki, $val));
+            if (!$val) $val = array('nimi');
+            return count($val) === count($kaikki) ? 'kaikki' : implode(',', $val);
+        })(),
         'vahvistus_otsikko'  => sanitize_text_field(jasrek_post('vahvistus_otsikko')),
         'vahvistus_teksti'   => sanitize_textarea_field(jasrek_post('vahvistus_teksti')),
         'autobackup'       => jasrek_post('autobackup') === '1' ? '1' : '0',
@@ -95,7 +102,7 @@ function jasrek_handle_save_settings() {
 /** Kirjaa muuttuneet asetukset muutoslokiin. */
 function jasrek_log_settings_change($a, $b) {
     $labels = array(
-        'yhdistys' => 'Yhdistyksen nimi', 'iban' => 'IBAN', 'bic' => 'BIC', 'ytunnus' => 'Y-tunnus', 'maksukoodi' => 'Maksukoodi', 'sposti_malli' => 'Sähköpostilaskun malli', 'sposti_pdf' => 'Sähköpostilasku PDF-liitteenä', 'vahvistus_kaytossa' => 'Maksuvahvistus jäsenelle', 'vahvistus_otsikko' => 'Maksuvahvistuksen otsikko', 'vahvistus_teksti' => 'Maksuvahvistuksen teksti', 'autobackup' => 'Automaattinen varmuuskopio', 'autobackup_vali' => 'Automaattinen varmuuskopio: väli', 'autobackup_aika' => 'Automaattinen varmuuskopio: kellonaika', 'autobackup_to' => 'Automaattinen varmuuskopio: vastaanottajat', 'autobackup_loki' => 'Automaattinen varmuuskopio: muutosloki mukaan', 'kp_pankki' => 'Kirjanpito: pankkitili', 'kp_tuotot' => 'Kirjanpito: jäsenmaksutuotot', 'kp_posti' => 'Kirjanpito: postimaksut',
+        'yhdistys' => 'Yhdistyksen nimi', 'iban' => 'IBAN', 'bic' => 'BIC', 'ytunnus' => 'Y-tunnus', 'maksukoodi' => 'Maksukoodi', 'sposti_malli' => 'Sähköpostilaskun malli', 'sposti_pdf' => 'Sähköpostilasku PDF-liitteenä', 'vahvistus_kaytossa' => 'Maksuvahvistus jäsenelle', 'omat_tiedot_kentat' => '{omat_tiedot}-kentät', 'vahvistus_otsikko' => 'Maksuvahvistuksen otsikko', 'vahvistus_teksti' => 'Maksuvahvistuksen teksti', 'autobackup' => 'Automaattinen varmuuskopio', 'autobackup_vali' => 'Automaattinen varmuuskopio: väli', 'autobackup_aika' => 'Automaattinen varmuuskopio: kellonaika', 'autobackup_to' => 'Automaattinen varmuuskopio: vastaanottajat', 'autobackup_loki' => 'Automaattinen varmuuskopio: muutosloki mukaan', 'kp_pankki' => 'Kirjanpito: pankkitili', 'kp_tuotot' => 'Kirjanpito: jäsenmaksutuotot', 'kp_posti' => 'Kirjanpito: postimaksut',
         'yhteystiedot' => 'Yhteystiedot', 'lahettaja_nimi' => 'Lähettäjän nimi', 'lahettaja_email' => 'Lähettäjän osoite',
         'vastaus_email' => 'Vastausosoite', 'tunnus_kaytossa' => 'Lisätunniste käytössä', 'tunnus_nimi' => 'Lisätunnisteen nimi',
         'tunnus_isot' => 'Lisätunniste isoilla', 'auto_muistutus' => 'Automaattinen muistutus', 'auto_paivia' => 'Muistutus päivää eräpäivän jälkeen',
@@ -308,6 +315,14 @@ function jasrek_page_settings() {
                 <p><label class="jasrek-radio"><input type="checkbox" name="auto_raportti" value="1" <?php checked($s['auto_raportti'], '1'); ?>> Lähetä yhteenveto lähetetyistä muistutuksista osoitteeseen <?php echo esc_html($raportti_to); ?></label></p>
                 <p class="description">Muistutuksen saavat vain jäsenet, joille lasku on jo lähetetty ja joilla on sähköpostiosoite. Automaattisen muistutuksen voi kytkeä pois myös yksittäiseltä laskulta. WordPress tarkistaa tilanteen kerran tunnissa, kun sivustolla on kävijöitä.
                 <?php if ($s['auto_muistutus'] === '1' && $next): ?><br>Seuraava tarkistus: <?php echo esc_html(wp_date('j.n.Y H:i', $next)); ?><?php endif; ?></p>
+            </div>
+
+            <div class="jasrek-panel" id="jasrek-omat-tiedot">
+                <h2>Jäsenen omat tiedot viesteissä <code>{omat_tiedot}</code></h2>
+                <p class="description">Valitse, mitkä tiedot paikkamerkki <code>{omat_tiedot}</code> näyttää jäsenelle tietojentarkistuspyynnössä ja laskun saatteessa. Puuttuva osoite, puhelin tai sähköposti korostetaan. Jos kaikki on valittu, myöhemmin lisättävät omat kentät tulevat mukaan automaattisesti.</p>
+                <p class="jasrek-checks"><?php $ot_val = jasrek_omat_tiedot_valitut(); foreach (jasrek_omat_tiedot_valinnat() as $k => $nimi): ?>
+                    <label class="jasrek-radio"><input type="checkbox" name="ot_kentat[]" value="<?php echo esc_attr($k); ?>" <?php checked(in_array($k, $ot_val, true)); ?>> <?php echo esc_html($nimi); ?></label>
+                <?php endforeach; ?></p>
             </div>
 
             <div class="jasrek-panel" id="jasrek-vahvistus">

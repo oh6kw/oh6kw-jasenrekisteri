@@ -36,25 +36,48 @@ function jasrek_tarkista_pohja() {
     );
 }
 
+/** Kentät, jotka {omat_tiedot} voi näyttää: avain => nimi. */
+function jasrek_omat_tiedot_valinnat() {
+    $v = array('nimi' => 'Nimi');
+    if (jasrek_tunnus_on()) $v['tunnus'] = jasrek_tunnus_nimi();
+    $v += array('jasenluokka' => 'Jäsenluokka', 'osoite' => 'Osoite', 'puhelin' => 'Puhelin', 'email' => 'Sähköposti',
+        'liittynyt' => 'Liittynyt', 'syntynyt' => 'Syntymävuosi tai -päivä');
+    foreach (jasrek_lisakentat() as $kid => $k) $v['lisa_' . $kid] = $k['nimi'];
+    return $v;
+}
+
+/** Asetuksissa valitut {omat_tiedot}-kentät ('kaikki' = kaikki, myös myöhemmin lisätyt omat kentät). */
+function jasrek_omat_tiedot_valitut() {
+    $arvo = (string) jasrek_settings()['omat_tiedot_kentat'];
+    $kaikki = array_keys(jasrek_omat_tiedot_valinnat());
+    if ($arvo === 'kaikki') return $kaikki;
+    $val = array_values(array_intersect($kaikki, array_map('trim', explode(',', $arvo))));
+    return $val ? $val : array('nimi');
+}
+
 /**
  * Jäsenen omat tiedot riveinä {omat_tiedot}-paikkamerkkiä varten: array(otsikko, arvo, tila),
  * tila '' = arvo, 'puuttuu' = perustieto puuttuu (korostetaan), 'ei' = ei ilmoitettu, 'viiva' = tyhjä lisäkenttä.
+ * Vain asetuksissa valitut kentät.
  */
 function jasrek_omat_tiedot_rivit($m) {
     $g = function ($k) use ($m) { return isset($m->$k) ? trim((string) $m->$k) : ''; };
-    $rivit = array(array('Nimi', trim($g('etunimi') . ' ' . $g('sukunimi')), ''));
-    if (jasrek_tunnus_on()) $rivit[] = array(jasrek_tunnus_nimi(), $g('tunnus'), $g('tunnus') !== '' ? '' : 'ei');
-    $rivit[] = array('Jäsenluokka', jasrek_laji_nimi($g('jasenlaji')) !== '' ? jasrek_laji_nimi($g('jasenlaji')) : 'Jäsen', '');
-    foreach (array('osoite' => 'Osoite', 'puhelin' => 'Puhelin', 'email' => 'Sähköposti') as $k => $nimi) {
-        $rivit[] = array($nimi, $g($k), $g($k) !== '' ? '' : 'puuttuu');
-    }
+    $nimet = jasrek_omat_tiedot_valinnat();
+    $kaikki = array('nimi' => array(trim($g('etunimi') . ' ' . $g('sukunimi')), ''));
+    if (jasrek_tunnus_on()) $kaikki['tunnus'] = array($g('tunnus'), $g('tunnus') !== '' ? '' : 'ei');
+    $kaikki['jasenluokka'] = array(jasrek_laji_nimi($g('jasenlaji')) !== '' ? jasrek_laji_nimi($g('jasenlaji')) : 'Jäsen', '');
+    foreach (array('osoite', 'puhelin', 'email') as $k) $kaikki[$k] = array($g($k), $g($k) !== '' ? '' : 'puuttuu');
     $liitt = $g('liittynyt') !== '' && $g('liittynyt') !== '0000-00-00';
-    $rivit[] = array('Liittynyt', $liitt ? jasrek_date($g('liittynyt')) : '', $liitt ? '' : 'ei');
-    $rivit[] = array('Syntymävuosi tai -päivä', $g('syntynyt') !== '' ? jasrek_syntynyt_teksti($g('syntynyt')) : '', $g('syntynyt') !== '' ? '' : 'ei');
+    $kaikki['liittynyt'] = array($liitt ? jasrek_date($g('liittynyt')) : '', $liitt ? '' : 'ei');
+    $kaikki['syntynyt'] = array($g('syntynyt') !== '' ? jasrek_syntynyt_teksti($g('syntynyt')) : '', $g('syntynyt') !== '' ? '' : 'ei');
     $lisa = is_object($m) ? jasrek_member_lisa($m) : array();
     foreach (jasrek_lisakentat() as $kid => $k) {
         $v = isset($lisa[$kid]) ? (string) $lisa[$kid] : '';
-        $rivit[] = array($k['nimi'], $v !== '' ? jasrek_lisa_value($k, $v, 'Kyllä') : '', $v !== '' ? '' : 'viiva');
+        $kaikki['lisa_' . $kid] = array($v !== '' ? jasrek_lisa_value($k, $v, 'Kyllä') : '', $v !== '' ? '' : 'viiva');
+    }
+    $rivit = array();
+    foreach (jasrek_omat_tiedot_valitut() as $k) {
+        if (isset($kaikki[$k])) $rivit[] = array($nimet[$k], $kaikki[$k][0], $kaikki[$k][1]);
     }
     return $rivit;
 }
