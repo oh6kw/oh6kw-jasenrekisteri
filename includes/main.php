@@ -24,6 +24,8 @@ require_once JASREK_DIR . 'includes/voters.php';
 require_once JASREK_DIR . 'includes/member-print.php';
 require_once JASREK_DIR . 'includes/labels.php';
 require_once JASREK_DIR . 'includes/checkup.php';
+require_once JASREK_DIR . 'includes/confirmations.php';
+require_once JASREK_DIR . 'includes/autobackup.php';
 require_once JASREK_DIR . 'includes/backup.php';
 require_once JASREK_DIR . 'includes/privacy.php';
 require_once JASREK_DIR . 'includes/mailer.php';

@@ -95,6 +95,8 @@ function jasrek_log_toiminnot() {
         'tuonti_paivitys'  => 'Päivitetty CSV-tuonnilla',
         'laskulle'         => 'Lisätty laskulle',
         'maksettu'         => 'Merkitty maksetuksi',
+        'vahvistus'        => 'Maksuvahvistus lähetetty',
+        'vahvistus_virhe'  => 'Maksuvahvistus epäonnistui',
         'maksu_peruttu'    => 'Maksumerkintä peruttu',
         'poistettu_laskulta' => 'Poistettu laskulta',
         'lahetetty'        => 'Lasku lähetetty',

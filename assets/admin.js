@@ -192,4 +192,17 @@
     $(function () {
         $('.jasrek-run[data-autostart]').each(function () { run($(this)); });
     });
+
+    // Sähköpostin esikatselu: kehys yhtä korkeaksi kuin viesti
+    function fitPreview(frame) {
+        try {
+            var doc = frame.contentDocument;
+            if (doc && doc.body) frame.style.height = (doc.documentElement.scrollHeight + 4) + 'px';
+        } catch (err) { /* ei saatavilla – oletuskorkeus jää */ }
+    }
+    $('.jasrek-preview-frame').each(function () {
+        var f = this;
+        $(f).on('load', function () { fitPreview(f); });
+        fitPreview(f);
+    });
 })(jQuery);

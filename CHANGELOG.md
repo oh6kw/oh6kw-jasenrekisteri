@@ -2,6 +2,46 @@
 
 Tekijä: Jarno Jaskari (oh6kw). Versiosta 3.0 alkaen lisäosaa on kehitetty yhdessä Claude-tekoälyn (Anthropic) kanssa.
 
+## 4.8.9 (2026-10-19)
+
+Kaikki uudet toiminnot ovat valinnaisia: maksuvahvistus ja automaattinen varmuuskopio ovat oletuksena pois päältä, eikä mikään muutu ennen kuin ne kytketään asetuksista päälle.
+
+### Uutta: Maksuvahvistus jäsenelle
+- *Asetukset → Maksuvahvistus jäsenelle:* kytkin, viestin otsikko ja teksti. Paikkamerkit `{etunimi}`, `{sukunimi}`, `{tunnus}`, `{jasenluokka}`, `{laskun_nimi}`, `{summa}`, `{maksupaiva}`, `{viite}` ja `{yhdistys}`. Valmis oletusteksti: *Hei {etunimi}, kiitos! Olemme vastaanottaneet maksusi …*
+- **Pankkitiedoston tuonti:** esikatselussa ruksi *Lähetä maksuvahvistus sähköpostilla jäsenille, joiden maksu nyt kirjataan* (valmiiksi valittu, kun toiminto on päällä).
+- **Laskun sivu:** joukkotoiminnon *Merkitse maksetuksi* viereen sama ruksi. Vahvistus lähtee vain riveille, jotka olivat ennen maksamattomia, eli jo maksettuja ei vahvisteta uudestaan.
+- **Laskun rivi:** maksetuilla riveillä painike *Lähetä vahvistus* yksittäistä lähetystä varten (esim. jos jäsen kysyy, onko maksu tullut perille).
+- Vahvistukset lähtevät taustalla 20 viestin erissä, joten pitkä pankkitiedosto ei hidasta tallennusta. Vahvistus lähetetään vain jäsenille, joilla on sähköpostiosoite. Paperilaskun saaneet ilman sähköpostia ohitetaan, ja ilmoitus kertoo, montako vahvistusta lähtee.
+- Jokainen vahvistus kirjataan muutoslokiin (*Maksuvahvistus lähetetty* / *Maksuvahvistus epäonnistui*). Jos toiminto kytketään pois päältä ennen kuin jono on lähetetty, jonossa olevat jätetään lähettämättä.
+
+### Uutta: Automaattinen varmuuskopio sähköpostiin
+- *Asetukset → Automaattinen varmuuskopio sähköpostilla:* kytkin, **kuinka usein** (viikoittain, kuukausittain tai neljännesvuosittain), **kellonaika** (yöllä n. klo 3, aamulla n. klo 7, päivällä n. klo 12 tai illalla n. klo 18) ja **kenelle** (yksi tai useampi osoite pilkulla erotettuna; tyhjänä sivuston ylläpitäjän osoite). Virheelliset osoitteet karsitaan tallennettaessa. Muutosloki voidaan ottaa mukaan tai jättää pois.
+- Liitteenä sama pakattu varmuuskopio (`.json.gz`), joka palautetaan kohdassa *Varmuuskopio ja siirto*. Tiedostonimessä on päivä ja kellonaika. Viestissä on yhteenveto: jäsenet (voimassa), laskut, laskurivit (maksettu) ja muutoslokin merkinnät.
+- Asetuksissa näkyy seuraava tarkistus, edellinen onnistunut lähetys ja mahdollinen virhe. Painike **Lähetä varmuuskopio nyt** lähettää kopion heti valittuihin osoitteisiin.
+- Lähetys käyttää WordPressin ajastettuja tehtäviä, jotka käynnistyvät sivuston kävijöistä. Hiljaisella sivustolla lähetys voi siksi tulla vähän valittua aikaa myöhemmin. Jos lähetys epäonnistuu, sitä yritetään uudelleen seuraavana päivänä.
+- Asetuksissa on muistutus: liite sisältää jäsenten henkilötietoja, joten vastaanottajaksi kannattaa valita oma, henkilökohtainen osoite eikä yhteistä postilaatikkoa.
+- Jokainen lähetys kirjataan muutoslokiin.
+
+### Uutta: Sähköpostisivulle välilehdet *Tiedote* ja *Tietojentarkistuspyyntö*
+- **Tiedote** on entisellään ja tyhjä, kun sen avaa – tarkistuspyynnön teksti ei enää täytä tiedotekenttää. Kummankin välilehden keskeneräinen viesti muistetaan erikseen. Paikkamerkki `{omat_tiedot}` on käytettävissä myös tiedotteessa. Jos tiedotteen luonnokseen oli jäänyt tarkistuspyynnön valmis teksti (4.8.9:n testiversiosta), se siirretään automaattisesti Tietojentarkistuspyyntö-välilehdelle.
+- **Tietojentarkistuspyyntö** on oma välilehtensä, jossa on valmis viesti (*Tarkistathan jäsentietosi*). Vastaanottajiksi voi valita kaikki jäsenet, yhden jäsenluokan tai **jäsenet, joilta puuttuu osoite tai puhelinnumero** (voimassa olevat, joilla on sähköposti). Linkki *Palauta oletusteksti* palauttaa alkuperäisen viestin.
+- Uusi paikkamerkki **`{omat_tiedot}`** lisää viestiin jäsenen omat tiedot taulukkona: nimi, tunnus, jäsenluokka, osoite, puhelin, sähköposti, liittymispäivä, syntymävuosi tai -päivä ja omat lisäkentät. Puuttuva osoite, puhelin tai sähköposti näkyy oranssina sanalla *puuttuu*. Jokainen jäsen näkee vain omat tietonsa.
+- **Esikatselu** (molemmilla välilehdillä): näyttää viestin sellaisena kuin arvottu vastaanottaja sen saisi. Mitään ei lähetetä. Uusi painallus arpoo toisen jäsenen.
+- **Testiviesti** (molemmilla välilehdillä) käyttää nyt arvotun vastaanottajan oikeita tietoja tyhjän mallin sijaan, ja ilmoitus kertoo, kenen tiedoilla testi lähti.
+- *Tietojen tarkistus* -sivulla uusi painike **Tietojentarkistuspyyntö sähköpostilla…**. Se avaa tarkistuspyynnön välilehden, jossa vastaanottajina ovat valmiiksi ne, joilta puuttuu tietoja. Viesti ei lähde heti: sivulla voi muokata tekstiä, vaihtaa vastaanottajat, katsoa esikatselun ja lähettää testin. Tämä kerrotaan myös painikkeen ohjeessa ja sivun kuvauksessa.
+
+### Uutta: `{omat_tiedot}`-kenttien valinta
+- *Asetukset → Jäsenen omat tiedot viesteissä:* valitse, mitkä tiedot `{omat_tiedot}` näyttää (nimi, tunnus, jäsenluokka, osoite, puhelin, sähköposti, liittymispäivä, syntymävuosi tai -päivä ja jokainen oma lisäkenttä erikseen). Oletuksena kaikki. Kun kaikki on valittu, myöhemmin lisättävät omat kentät tulevat mukaan automaattisesti. Valinta koskee tietojentarkistuspyyntöä ja laskun saatetta (sähköposti, paperi ja PDF).
+
+### Uutta: `{omat_tiedot}` laskun saatteeseen
+- Paikkamerkin voi lisätä myös laskun saatteeseen (laskua luotaessa ja muokatessa sekä asetusten oletussaatteeseen ja muistutustekstiin). Silloin jäsenmaksulaskun mukana voi pyytää tarkistamaan ja täydentämään omat tiedot.
+- **Sähköpostilasku** (molemmat mallit): tiedot taulukkona, puuttuvat korostettuina.
+- **Paperilasku ja PDF:** tiedot tiiviinä tekstinä, koska tilaa on vähän tilisiirtolomakkeen yläpuolella (esim. *Puhelin: PUUTTUU*). Tyhjät lisäkentät jätetään pois. Jos teksti ei mahdu, tulostussivu varoittaa kuten ennenkin.
+
+### Muuta
+- Lisäosan poistaminen käytöstä poistaa myös varmuuskopion ja maksuvahvistusten ajastukset. Lisäosan poistaminen kokonaan poistaa lisäksi lähettämättömät vahvistukset ja varmuuskopion tilatiedot.
+- Sähköpostin liitteen tyyppi määräytyy tiedostopäätteen mukaan (`.gz`, `.json`, `.pdf`).
+
 ## 4.8.8 (2026-10-19)
 
 ### Korjattu

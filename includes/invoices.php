@@ -383,8 +383,11 @@ function jasrek_handle_bulk_rows() {
     if ($op === 'paid') {
         $pvm = jasrek_date_or_null(jasrek_post('bulk_pvm'));
         if (!$pvm) $pvm = current_time('Y-m-d');
+        $uudet = array();
+        foreach ($kohteet as $r) if (!$r->maksettu) $uudet[] = (int) $r->id;
         $n = $wpdb->query($wpdb->prepare("UPDATE {$wpdb->jasrek_rivit} SET maksettu = %s WHERE lasku_id = %d AND id IN (" . implode(',', array_fill(0, count($ids), '%d')) . ")", array_merge(array($pvm, $lasku_id), $ids)));
-        jasrek_redirect('jasrek-laskutus', array('view' => 'lasku', 'id' => $lasku_id, 'jasrek_msg' => 'paid_updated', 'jasrek_n' => (int) $n));
+        $v = (jasrek_vahvistus_on() && jasrek_post('vahvistus') === '1') ? jasrek_queue_vahvistukset($uudet) : 0;
+        jasrek_redirect('jasrek-laskutus', array('view' => 'lasku', 'id' => $lasku_id, 'jasrek_msg' => 'paid_updated', 'jasrek_n' => (int) $n, 'jasrek_v' => $v));
     } elseif ($op === 'unpaid') {
         $n = $wpdb->query($wpdb->prepare("UPDATE {$wpdb->jasrek_rivit} SET maksettu = NULL, maksettu_summa = NULL, maksaja = NULL, arkistotunnus = NULL WHERE lasku_id = %d AND id IN (" . implode(',', array_fill(0, count($ids), '%d')) . ")", array_merge(array($lasku_id), $ids)));
         jasrek_redirect('jasrek-laskutus', array('view' => 'lasku', 'id' => $lasku_id, 'jasrek_msg' => 'paid_updated', 'jasrek_n' => (int) $n));
@@ -969,6 +972,9 @@ function jasrek_invoice_detail($id) {
                             <?php $tul_muist = $r->lahetetty && !$r->maksettu && jasrek_rivi_era($lasku, $r) < $today; ?>
                             <a class="button button-small" target="_blank" href="<?php echo esc_url(jasrek_print_url($id, $tul_muist ? array('rivi' => $r->id, 'muistutus' => 1) : array('rivi' => $r->id))); ?>" title="<?php echo esc_attr(($tul_muist ? 'Maksumuistutus' : 'Lasku') . ' tulostettavana A4-sivuna, samannäköisenä kuin paperilasku. Tulosta paperille tai tallenna PDF:nä (tulostin: Tallenna PDF-tiedostona) ja lähetä jäsenelle omasta sähköpostistasi, jos lasku on hukassa.'); ?>"><?php echo $tul_muist ? 'Tulosta muistutus' : 'Tulosta'; ?></a>
                         <?php endif; ?>
+                        <?php if ($r->maksettu && $r->to_email && jasrek_vahvistus_on()): ?>
+                            <a class="button button-small" href="<?php echo esc_url(wp_nonce_url($post_url . '?action=jasrek_send_vahvistus&rivi=' . $r->id, 'jasrek_vahvistus_' . $r->id)); ?>" data-confirm="<?php echo esc_attr('Lähetetäänkö maksuvahvistus osoitteeseen ' . $r->to_email . '?'); ?>">Lähetä vahvistus</a>
+                        <?php endif; ?>
                         <?php if ($r->to_email && !$paperi): ?>
                             <a class="button button-small" href="<?php echo esc_url($send_url); ?>"
                                data-confirm="<?php echo esc_attr(($r->lahetetty ? 'Lähetetäänkö lasku uudelleen' : 'Lähetetäänkö lasku') . ' osoitteeseen ' . $r->to_email . '?'); ?>"><?php echo $r->lahetetty ? 'Lähetä uudelleen' : 'Lähetä'; ?></a>
@@ -990,6 +996,7 @@ function jasrek_invoice_detail($id) {
             </select>
             <input type="date" name="bulk_pvm" value="<?php echo esc_attr($today); ?>">
             <button type="submit" class="button" data-confirm="Suoritetaanko toiminto valituille riveille?">Suorita</button>
+            <?php if (jasrek_vahvistus_on()): ?><label class="jasrek-radio jasrek-vahvistus-ruksi"><input type="checkbox" name="vahvistus" value="1" checked> Maksetuksi merkittäessä lähetä maksuvahvistus sähköpostilla</label><?php endif; ?>
         </div>
     </form>
 

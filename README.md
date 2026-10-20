@@ -41,6 +41,7 @@ Näin yhdistys saa jäsenrekisterin ilman erillistä palvelua, kuukausimaksuja t
 - Varoitus mahdollisesta tuplakirjauksesta.
 - **Tietosuoja (GDPR):** valmis pohja jäsenrekisterin tietosuojaselosteeseen yhdistyksen tiedoilla (Tietoja-sivu). WordPressin *Vie / Poista henkilötiedot* -työkalut tuntevat jäsenrekisterin, ja poisto nimettömöi jäsenen niin, että jäsenmaksujen summat säilyvät.
 - **Varmuuskopio ja siirto:** koko rekisteri (jäsenet, laskut, maksut, asetukset ja halutessa muutosloki) yhteen pakattuun tiedostoon. Palautus samalle tai toiselle sivustolle, esim. kun rekisteri siirtyy uudelle sivustolle tai rahastonhoitajalle. Ennen palautusta näytetään yhteenveto, ja palautuksen voi perua.
+- **Automaattinen varmuuskopio sähköpostiin** (valinnainen, oletuksena pois): viikoittain, kuukausittain tai neljännesvuosittain karkeasti valittuna kellonaikana (yö, aamu, päivä tai ilta) yhteen tai useampaan osoitteeseen. Liitteenä sama pakattu varmuuskopio, joka palautetaan asetuksista. Asetuksissa näkyy edellinen onnistunut lähetys ja mahdollinen virhe, ja kopion voi lähettää myös heti.
 - **Kesken kauden liittyvä jäsen** lisätään jäsenlomakkeesta suoraan jo lähetetylle laskulle. Hän saa oman viitteen ja eräpäivän, ja laskun voi lähettää heti.
 
 **Tulosteet ja viennit**
@@ -67,6 +68,7 @@ Näin yhdistys saa jäsenrekisterin ilman erillistä palvelua, kuukausimaksuja t
 - Maksut kohdistetaan viitteen perusteella, myös RF-muotoisesta viitteestä. Ennen tallennusta näytetään esikatselu, josta näkee täsmäävät maksut, poikkeavat summat, jo kirjatut maksut ja tuntemattomat viitteet.
 - Samaa maksua ei kirjata kahdesti, koska pankin arkistointitunnus tallennetaan.
 - Merkintä onnistuu myös käsin, yksittäin tai joukkona. Hakukenttä löytää laskun tiliotteen viitteellä.
+- **Maksuvahvistus jäsenelle** (valinnainen, oletuksena pois): kun maksu kirjataan pankkitiedostosta tai merkitään maksetuksi, jäsen saa lyhyen kiitosviestin. Otsikko ja teksti muokataan asetuksissa, ja lähetyksen voi ohittaa kerrallaan ruksilla. Yksittäisen vahvistuksen voi lähettää myös laskun riviltä. Vahvistukset lähtevät taustalla vain jäsenille, joilla on sähköpostiosoite.
 - **Excel-raportti:** yhdellä painalluksella kaikki laskut yhteen Excel-tiedostoon: yhteenveto, kaikki avoimet maksut ja jokainen lasku omalla välilehdellään (kuka on maksanut, kuka ei, maksupäivät ja maksajat).
 
 **Raportit vuosikokoukseen ja kirjanpitäjälle**
@@ -76,7 +78,9 @@ Näin yhdistys saa jäsenrekisterin ilman erillistä palvelua, kuukausimaksuja t
 - **Muutosloki:** kuka muutti mitä ja milloin – jäsenten tiedot vanha → uusi, maksumerkinnät, lähetykset, postitukset, laskut, asetukset, tiedotteet, tuonnit ja viennit. Jäsenen sivulla näkyy hänen oma muutoshistoriansa. Säilytysaika valitaan asetuksista.
 
 **Tiedotteet**
-- Sähköposti kaikille jäsenille, yhdelle jäsenluokalle tai viimeisimmän laskun maksamattomille.
+- Sähköposti kaikille jäsenille, yhdelle jäsenluokalle, viimeisimmän laskun maksamattomille tai jäsenille, joilta puuttuu osoite tai puhelinnumero.
+- **Tietojentarkistuspyyntö** (oma välilehti tiedotteen rinnalla): jokainen jäsen saa vain omat tietonsa taulukkona (`{omat_tiedot}`), puuttuvat korostettuina, ja vastaa viestiin, jos jokin on muuttunut. Tietojen tarkistus -sivulta pääsee suoraan pyytämään tietoja niiltä, joilta niitä puuttuu. `{omat_tiedot}` toimii myös laskun saatteessa (sähköpostissa taulukkona, paperilla ja PDF:ssä tekstinä).
+- **Esikatselu ja testi:** viestin voi esikatsella arvotun vastaanottajan tiedoilla, ja testiviesti omaan osoitteeseen käyttää arvotun jäsenen oikeita tietoja.
 - Viestissä voi käyttää paikkamerkkejä, kuten `{etunimi}` ja `{jasenluokka}`. Ne lisätään tekstiin klikkaamalla. Jokainen saa oman viestinsä, eivätkä osoitteet näy muille.
 
 ## Kuvat
@@ -197,6 +201,8 @@ includes/
   checkup.php               Tietojen tarkistus ja tulostettava puutelista
   voters.php                Äänioikeusluettelo
   backup.php                Varmuuskopio ja palautus (JSON)
+  autobackup.php            Automaattinen varmuuskopio sähköpostiin
+  confirmations.php         Maksuvahvistukset jäsenille
   privacy.php               Tietosuoja: henkilötietojen vienti ja poisto, tietosuojaselosteen pohja
   log.php                   Muutosloki
   export-xlsx.php           Laskujen Excel-raportti ja kaikki tiedot Exceliin

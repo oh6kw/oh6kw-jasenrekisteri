@@ -5,7 +5,7 @@ Tags: membership, members, invoices, association, finland
 Requires at least: 6.2
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 4.8.8
+Stable tag: 4.8.9
 License: AGPLv3 or later
 License URI: https://www.gnu.org/licenses/agpl-3.0.html
 
@@ -45,6 +45,7 @@ OH6KW Jäsenrekisteri ("membership register") is a complete membership register 
 
 * Import payments from the bank: Finnish reference payment file (KTL), ISO 20022 camt.054 / camt.053 XML, or a bank statement CSV. Payments are matched by reference number, including RF references.
 * A preview shows matching payments, differing amounts and unknown references before anything is saved. The same payment is never recorded twice.
+* Optional payment confirmation: members get a short thank-you email when their payment is recorded from the bank file or marked as paid. Switched off by default; the text is editable and every send can be skipped with a checkbox.
 * Excel export of all invoices: a summary, all open payments and one sheet per invoice.
 
 **Reports for the general meeting and the accountant**
@@ -58,10 +59,12 @@ OH6KW Jäsenrekisteri ("membership register") is a complete membership register 
 
 * Privacy (GDPR): a pre-filled privacy notice template for the member register, and support for the WordPress personal data export and erase tools (members are found by email address; erasing anonymises the member and keeps the fee amounts for bookkeeping).
 * Full backup in one file (JSON, compressed): members, invoices, payments, settings and optionally the audit log. Restore it on the same or another site, for example when the register moves to a new website. A summary is shown before restoring, the file is checked before anything is changed, and the previous state is kept so a restore can be undone.
+* Optional automatic backup by email: weekly, monthly or quarterly, at a rough time of day (night, morning, midday or evening), to one or more addresses. Switched off by default.
 
 **Newsletters**
 
-* Email to all members, one membership class, or members with unpaid invoices. Placeholders such as {etunimi} (first name) personalise every message.
+* Email to all members, one membership class, members with unpaid invoices, or members missing a postal address or phone number. Placeholders such as {etunimi} (first name) personalise every message.
+* Ready-made "Data check request" message: every member receives only their own details in a table, with missing ones highlighted, and replies with corrections. Preview with a randomly picked member before sending. The details can also be included in the invoice text.
 
 **Admin only – nothing is published on the website**
 
@@ -141,6 +144,15 @@ The Finnish reference payment file (KTL / viitesiirtoaineisto), ISO 20022 camt.0
 15. Data check: missing details and things to fix; the list of missing details can be printed.
 
 == Changelog ==
+
+= 4.8.9 =
+* New (optional): payment confirmation email to the member when a payment is imported from the bank file or marked as paid on the invoice page; a single confirmation can also be sent from the invoice row. Off by default; subject and text are editable in the settings. Sent in the background in small batches, only to members with an email address.
+* New (optional): automatic backup by email – weekly, monthly or quarterly, at a rough time of day, to one or more addresses (default: the site admin). The attachment is the same compressed backup file that can be restored in the settings. "Send backup now" button, last successful send and any error are shown in the settings. Off by default.
+* New: the Email page has two tabs, "Newsletter" (Tiedote, empty as before) and "Data check request" (Tietojentarkistuspyyntö) with a ready-made message. The new placeholder {omat_tiedot} inserts the member's own details as a table, highlighting a missing address, phone or email. New recipient group: members missing a postal address or phone number. The Data check page links straight to it.
+* New: Preview button on both tabs shows the message as a randomly picked recipient would receive it; nothing is sent. The test email now uses a randomly picked recipient's real details and says whose.
+* New: choose in the settings which details {omat_tiedot} shows (name, member ID, class, address, phone, email, joining date, birth year and each custom field).
+* New: {omat_tiedot} can also be used in the invoice text: a table in email invoices, compact text lines on paper and PDF invoices.
+* Scheduled tasks and queued confirmations are removed when the plugin is deactivated or deleted.
 
 = 4.8.8 =
 * Fix: after restoring a backup on MySQL/MariaDB, new members and invoices continue numbering right after the restored ones. Previously the database kept counting from the old highest number, so a cleaned-up backup did not start from 1.
