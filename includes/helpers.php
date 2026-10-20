@@ -718,7 +718,7 @@ function jasrek_placeholders($target_id, $tyyppi = 'lasku', $lisa = '') {
         'viite' => 'Viitenumero', 'erapaiva' => 'Eräpäivä', 'yhdistys' => 'Yhdistyksen nimi',
         'maksupaiva' => 'Maksupäivä', 'omat_tiedot' => 'Jäsenen omat tiedot (nimi, osoite, puhelin, sähköposti, liittymispäivä …), puuttuvat korostettuina – sähköpostissa taulukkona, paperilaskussa ja PDF:ssä tekstinä',
     );
-    if ($tyyppi === 'tiedote') $merkit = array('etunimi', 'sukunimi', 'nimi', 'tunnus', 'jasenluokka', 'yhdistys');
+    if ($tyyppi === 'tiedote') $merkit = array('etunimi', 'sukunimi', 'nimi', 'tunnus', 'jasenluokka', 'yhdistys', 'omat_tiedot');
     elseif ($tyyppi === 'tarkistus') $merkit = array('etunimi', 'sukunimi', 'nimi', 'tunnus', 'jasenluokka', 'yhdistys', 'omat_tiedot');
     elseif ($tyyppi === 'vahvistus') $merkit = array('etunimi', 'sukunimi', 'tunnus', 'jasenluokka', 'laskun_nimi', 'summa', 'maksupaiva', 'viite', 'yhdistys');
     else $merkit = array('etunimi', 'sukunimi', 'tunnus', 'jasenluokka', 'laskun_nimi', 'summa', 'maksettava', 'viite', 'erapaiva', 'yhdistys', 'omat_tiedot');

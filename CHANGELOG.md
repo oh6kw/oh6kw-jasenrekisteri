@@ -23,7 +23,7 @@ Kaikki uudet toiminnot ovat valinnaisia: maksuvahvistus ja automaattinen varmuus
 - Jokainen lähetys kirjataan muutoslokiin.
 
 ### Uutta: Sähköpostisivulle välilehdet *Tiedote* ja *Tietojentarkistuspyyntö*
-- **Tiedote** on entisellään ja tyhjä, kun sen avaa – tarkistuspyynnön teksti ei enää täytä tiedotekenttää. Kummankin välilehden keskeneräinen viesti muistetaan erikseen. Jos tiedotteen luonnokseen oli jäänyt tarkistuspyynnön teksti (4.8.9:n testiversiosta), se siirretään automaattisesti Tietojentarkistuspyyntö-välilehdelle.
+- **Tiedote** on entisellään ja tyhjä, kun sen avaa – tarkistuspyynnön teksti ei enää täytä tiedotekenttää. Kummankin välilehden keskeneräinen viesti muistetaan erikseen. Paikkamerkki `{omat_tiedot}` on käytettävissä myös tiedotteessa. Jos tiedotteen luonnokseen oli jäänyt tarkistuspyynnön valmis teksti (4.8.9:n testiversiosta), se siirretään automaattisesti Tietojentarkistuspyyntö-välilehdelle.
 - **Tietojentarkistuspyyntö** on oma välilehtensä, jossa on valmis viesti (*Tarkistathan jäsentietosi*). Vastaanottajiksi voi valita kaikki jäsenet, yhden jäsenluokan tai **jäsenet, joilta puuttuu osoite tai puhelinnumero** (voimassa olevat, joilla on sähköposti). Linkki *Palauta oletusteksti* palauttaa alkuperäisen viestin.
 - Uusi paikkamerkki **`{omat_tiedot}`** lisää viestiin jäsenen omat tiedot taulukkona: nimi, tunnus, jäsenluokka, osoite, puhelin, sähköposti, liittymispäivä, syntymävuosi tai -päivä ja omat lisäkentät. Puuttuva osoite, puhelin tai sähköposti näkyy oranssina sanalla *puuttuu*. Jokainen jäsen näkee vain omat tietonsa.
 - **Esikatselu** (molemmilla välilehdillä): näyttää viestin sellaisena kuin arvottu vastaanottaja sen saisi. Mitään ei lähetetä. Uusi painallus arpoo toisen jäsenen.
