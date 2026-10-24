@@ -5,7 +5,7 @@ Tags: membership, members, invoices, association, finland
 Requires at least: 6.2
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 4.8.9
+Stable tag: 4.9.0
 License: AGPLv3 or later
 License URI: https://www.gnu.org/licenses/agpl-3.0.html
 
@@ -144,6 +144,9 @@ The Finnish reference payment file (KTL / viitesiirtoaineisto), ISO 20022 camt.0
 15. Data check: missing details and things to fix; the list of missing details can be printed.
 
 == Changelog ==
+
+= 4.9.0 =
+* The settings page is now divided into tabs: Association, Members, Invoices, Email, Audit log, and Backups and removal. Invoice settings are grouped into boxes for all invoices, email invoices, paper invoices, reminders, payment confirmation and bookkeeping accounts. Only the layout changed – every setting is kept and still saved with one button.
 
 = 4.8.9 =
 * New (optional): payment confirmation email to the member when a payment is imported from the bank file or marked as paid on the invoice page; a single confirmation can also be sent from the invoice row. Off by default; subject and text are editable in the settings. Sent in the background in small batches, only to members with an email address.

@@ -145,13 +145,17 @@ function jasrek_page_settings() {
     <div class="wrap jasrek-wrap">
         <h1>Jäsenrekisterin asetukset</h1>
         <?php jasrek_notice(); ?>
-        <nav class="nav-tab-wrapper jasrek-navtabs jasrek-settabs">
+        <nav class="nav-tab-wrapper jasrek-navtabs jasrek-settabs" hidden>
             <a class="nav-tab" href="#yhdistys" data-tab="yhdistys">Yhdistys</a>
             <a class="nav-tab" href="#jasenet" data-tab="jasenet">Jäsenet</a>
             <a class="nav-tab" href="#laskut" data-tab="laskut">Laskut</a>
             <a class="nav-tab" href="#sposti" data-tab="sposti">Sähköposti</a>
-            <a class="nav-tab" href="#yllapito" data-tab="yllapito">Ylläpito</a>
+            <a class="nav-tab" href="#loki" data-tab="loki">Muutosloki</a>
+            <a class="nav-tab" href="#varmuus" data-tab="varmuus">Varmuuskopiot ja poisto</a>
         </nav>
+        <div class="jasrek-tab" data-tab="varmuus">
+            <?php jasrek_backup_panel(); ?>
+        </div>
         <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" class="jasrek-form">
             <input type="hidden" name="action" value="jasrek_save_settings">
             <?php wp_nonce_field('jasrek_save_settings'); ?>
@@ -382,7 +386,7 @@ function jasrek_page_settings() {
                 <?php endforeach; ?></p>
             </div>
             </div>
-            <div class="jasrek-tab" data-tab="yllapito">
+            <div class="jasrek-tab" data-tab="loki">
             <div class="jasrek-panel" id="jasrek-loki">
                 <h2>Muutosloki</h2>
                 <p>Kaikki muutokset jäsenten tietoihin, laskuihin, maksuihin ja asetuksiin kirjataan <a href="<?php echo esc_url(admin_url('admin.php?page=jasrek-loki')); ?>">muutoslokiin</a> (kuka, mitä ja milloin).</p>
@@ -394,7 +398,9 @@ function jasrek_page_settings() {
                    </select>
                    <span class="description">Loki sisältää henkilötietoja (esim. vanhoja osoitteita), joten sitä ei kannata säilyttää tarpeettoman pitkään. Vanhemmat merkinnät poistetaan automaattisesti.</span></p>
             </div>
+            </div>
 
+            <div class="jasrek-tab" data-tab="varmuus">
             <?php jasrek_autobackup_panel($s); ?>
 
             <div class="jasrek-panel" id="jasrek-poisto">
@@ -402,16 +408,13 @@ function jasrek_page_settings() {
                 <p>Kun lisäosa poistetaan WordPressistä (Lisäosat → Poista käytöstä → Poista):</p>
                 <label class="jasrek-radio"><input type="radio" name="poista_tiedot" value="0" <?php checked($s['poista_tiedot'], '0'); ?>> <strong>Säilytä tiedot</strong> – jäsenet, laskut, maksut ja asetukset jäävät tietokantaan, ja lisäosan voi asentaa myöhemmin uudelleen.</label>
                 <label class="jasrek-radio"><input type="radio" name="poista_tiedot" value="1" <?php checked($s['poista_tiedot'], '1'); ?> data-confirm="Haluatko varmasti, että kaikki jäsenrekisterin tiedot poistetaan pysyvästi, kun lisäosa poistetaan? Tätä ei voi perua."> <strong>Poista kaikki tiedot</strong> – kaikki lisäosan luomat taulut ja asetukset poistetaan pysyvästi.</label>
-                <p class="description">Ota ennen poistamista <a href="#jasrek-varmuuskopio">varmuuskopio</a> (alla), jolla kaikki tiedot voi palauttaa myöhemmin. Valinta kysytään myös, kun lisäosa poistetaan käytöstä.</p>
+                <p class="description">Ota ennen poistamista <a href="#jasrek-varmuuskopio">varmuuskopio</a> (ylempänä), jolla kaikki tiedot voi palauttaa myöhemmin. Valinta kysytään myös, kun lisäosa poistetaan käytöstä.</p>
             </div>
             </div>
 
             <p class="jasrek-save"><button type="submit" class="button button-primary button-large">Tallenna asetukset</button>
                <span class="description">Tallentaa kaikkien välilehtien asetukset.</span></p>
         </form>
-        <div class="jasrek-tab" data-tab="yllapito">
-            <?php jasrek_backup_panel(); ?>
-        </div>
     </div>
     <?php
 }

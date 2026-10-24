@@ -198,6 +198,7 @@
     (function () {
         var $nav = $('.jasrek-settabs');
         if (!$nav.length) return;
+        $nav.prop('hidden', false); // ilman JavaScriptiä välilehtirivi pysyy piilossa ja kaikki näkyy allekkain
         var KEY = 'jasrek_asetus_tab';
         function show(k, keepHash) {
             if (!$nav.find('a[data-tab="' + k + '"]').length) k = $nav.find('a').first().data('tab');
