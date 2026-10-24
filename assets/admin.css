@@ -253,3 +253,9 @@ a.jasrek-card-link:hover { border-color: #2271b1; }
 /* Sähköposti: esikatselu ja tarkistuspyynnön ohje */
 .jasrek-mail-intro { max-width: 900px; margin: 12px 0 14px; }
 .jasrek-esikatselu .jasrek-preview-frame { display: block; width: 100%; max-width: 700px; height: 640px; border: 1px solid var(--jasrek-border); border-radius: 6px; background: #eef1f5; }
+
+/* Asetussivun välilehdet */
+.jasrek-settabs { margin-bottom: 16px; }
+.jasrek-tab[hidden] { display: none; }
+.jasrek-panel h3 { font-size: 1em; margin: 18px 0 6px; }
+.jasrek-save { margin-top: 4px; }

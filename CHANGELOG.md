@@ -2,6 +2,17 @@
 
 Tekijä: Jarno Jaskari (oh6kw). Versiosta 3.0 alkaen lisäosaa on kehitetty yhdessä Claude-tekoälyn (Anthropic) kanssa.
 
+## Tulossa (kokeiluversio)
+
+### Asetussivu selkeämmäksi – vain ulkoasu muuttuu
+- Asetukset on jaettu välilehdille: **Yhdistys**, **Jäsenet**, **Laskut**, **Sähköposti** ja **Ylläpito**. Kaikki kentät ovat edelleen samassa lomakkeessa: *Tallenna asetukset* tallentaa kaikkien välilehtien asetukset kerralla, eikä mikään asetus muutu tai katoa. Avoinna ollut välilehti muistetaan.
+- **Yhdistys:** nimi, IBAN, BIC, Y-tunnus ja osoite.
+- **Jäsenet:** jäsenten lisätunniste (siirretty yhdistyksen tiedoista), jäsenluokat, omat lisäkentät ja merkkipäivät.
+- **Laskut** omissa lokeroissaan: *Kaikki laskut* (oletussaate ja maksukoodi), *Sähköpostilaskut* (malli ja PDF-liite), *Paperilaskut* (postimaksu, malli ja palautusosoite), *Maksumuistutukset* (muistutuksen teksti ja automaattinen muistutus yhdessä), *Maksuvahvistus* ja *Jäsenmaksut kirjanpitoon*.
+- **Sähköposti:** lähettäjä, vastausosoite ja yhteystiedot viestien alalaitaan sekä `{omat_tiedot}`-kentät.
+- **Ylläpito:** muutoslokin säilytysaika, automaattinen varmuuskopio, lisäosan poistaminen sekä varmuuskopio ja siirto.
+- Muilta sivuilta tulevat linkit (esim. *Asetukset → Paperilaskut*, *Jäsenluokat*, *Varmuuskopio*) avaavat oikean välilehden. Jos tallennettaessa jokin kenttä on virheellinen (esim. sähköpostiosoite), sen välilehti avataan, jotta selain voi näyttää virheen. Ilman JavaScriptiä kaikki asetukset näkyvät allekkain kuten ennen.
+
 ## 4.8.9 (2026-10-19)
 
 Kaikki uudet toiminnot ovat valinnaisia: maksuvahvistus ja automaattinen varmuuskopio ovat oletuksena pois päältä, eikä mikään muutu ennen kuin ne kytketään asetuksista päälle.

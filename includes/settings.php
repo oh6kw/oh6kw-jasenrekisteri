@@ -145,13 +145,22 @@ function jasrek_page_settings() {
     <div class="wrap jasrek-wrap">
         <h1>Jäsenrekisterin asetukset</h1>
         <?php jasrek_notice(); ?>
+        <nav class="nav-tab-wrapper jasrek-navtabs jasrek-settabs">
+            <a class="nav-tab" href="#yhdistys" data-tab="yhdistys">Yhdistys</a>
+            <a class="nav-tab" href="#jasenet" data-tab="jasenet">Jäsenet</a>
+            <a class="nav-tab" href="#laskut" data-tab="laskut">Laskut</a>
+            <a class="nav-tab" href="#sposti" data-tab="sposti">Sähköposti</a>
+            <a class="nav-tab" href="#yllapito" data-tab="yllapito">Ylläpito</a>
+        </nav>
         <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" class="jasrek-form">
             <input type="hidden" name="action" value="jasrek_save_settings">
             <?php wp_nonce_field('jasrek_save_settings'); ?>
 
+
+            <div class="jasrek-tab" data-tab="yhdistys">
             <div class="jasrek-panel">
                 <h2>Yhdistys ja tilitiedot</h2>
-                <p class="description">Näkyvät laskuissa.</p>
+                <p class="description">Näkyvät laskuissa ja tilisiirtolomakkeessa.</p>
                 <div class="jasrek-grid">
                     <p class="jasrek-span-2"><label for="jasrek-yhdistys">Yhdistyksen nimi (laskun saaja)</label>
                        <input type="text" id="jasrek-yhdistys" name="yhdistys" value="<?php echo esc_attr($s['yhdistys']); ?>"></p>
@@ -169,30 +178,18 @@ function jasrek_page_settings() {
                 <p><label for="jasrek-osoite">Yhdistyksen osoite</label>
                    <textarea id="jasrek-osoite" name="osoite" rows="2" style="max-width:420px" placeholder="esim. Kerhotie 1&#10;60100 Seinäjoki"><?php echo esc_textarea($s['osoite']); ?></textarea>
                    <span class="description">Yhdistyksen virallinen osoite. Näkyy tilisiirtolomakkeen Saaja-kentässä ja tietosuojaselosteen rekisterinpitäjän tiedoissa. Kuoren palautusosoitteen voi antaa erikseen kohdassa <em>Paperilaskut</em>.</span></p>
-                <fieldset class="jasrek-fieldset" id="jasrek-lisatunniste"><legend>Jäsenten lisätunniste</legend>
-                    <span class="description">Vapaaehtoinen lisäkenttä jäsenille, esim. jäsennumero, tunnus tai kutsutunnus. Näkyy jäsenlistassa, jäsenen lomakkeella ja laskussa. Nimen voi vaihtaa vapaasti.</span>
+            </div>
+            </div>
+            <div class="jasrek-tab" data-tab="jasenet">
+            <div class="jasrek-panel" id="jasrek-lisatunniste">
+                <h2>Jäsenten lisätunniste</h2>
+                <span class="description">Vapaaehtoinen lisäkenttä jäsenille, esim. jäsennumero, tunnus tai kutsutunnus. Näkyy jäsenlistassa, jäsenen lomakkeella ja laskussa. Nimen voi vaihtaa vapaasti.</span>
                     <label class="jasrek-radio"><input type="checkbox" name="tunnus_kaytossa" value="1" <?php checked($s['tunnus_kaytossa'], '1'); ?>> Lisätunniste käytössä</label>
                     <div class="jasrek-grid">
                         <p><label for="jasrek-tnimi">Kentän nimi</label>
                            <input type="text" id="jasrek-tnimi" name="tunnus_nimi" value="<?php echo esc_attr($s['tunnus_nimi']); ?>" placeholder="esim. Jäsennumero, Tunnus, Kutsutunnus"></p>
                         <p><label class="jasrek-radio" style="margin-top:28px"><input type="checkbox" name="tunnus_isot" value="1" <?php checked($s['tunnus_isot'], '1'); ?>> Muunna isoiksi kirjaimiksi (esim. kutsutunnukset)</label></p>
                     </div>
-                </fieldset>
-                <p><label for="jasrek-maksukoodi">Maksukoodi laskussa</label>
-                   <select id="jasrek-maksukoodi" name="maksukoodi">
-                       <option value="molemmat" <?php selected($s['maksukoodi'], 'molemmat'); ?>>QR-koodi ja pankkiviivakoodi</option>
-                       <option value="qr" <?php selected($s['maksukoodi'], 'qr'); ?>>Vain QR-koodi</option>
-                       <option value="viivakoodi" <?php selected($s['maksukoodi'], 'viivakoodi'); ?>>Vain pankkiviivakoodi</option>
-                       <option value="ei" <?php selected($s['maksukoodi'], 'ei'); ?>>Ei kuvaa (vain virtuaaliviivakoodi tekstinä)</option>
-                   </select>
-                   <span class="description">QR-koodi on EPC-standardin mukainen (viite RF-muodossa, jonka pankit kohdistavat samaan viitteeseen). Pankkiviivakoodi on perinteinen suomalainen laskun viivakoodi. Virtuaaliviivakoodi tekstinä on laskussa aina.</span></p>
-                <fieldset class="jasrek-fieldset"><legend>Sähköpostilaskun malli</legend>
-                    <label class="jasrek-radio"><input type="radio" name="sposti_malli" value="perus" <?php checked($s['sposti_malli'], 'perus'); ?>> <strong>Perusmalli</strong> – maksutiedot taulukkona sekä QR-koodi ja pankkiviivakoodi kuvina (kohdan <em>Maksukoodi laskussa</em> mukaan).</label>
-                    <label class="jasrek-radio"><input type="radio" name="sposti_malli" value="maksukortti" <?php checked($s['sposti_malli'], 'maksukortti'); ?>> <strong>Maksukortti</strong> (suositus) – summa ja eräpäivä isolla, maksun tiedot allekkain helposti kopioitavina, virtuaaliviivakoodi ja QR-koodi (jos valittu kohdassa <em>Maksukoodi laskussa</em>). Toimii hyvin puhelimessa ja tietokoneella. Pankkiviivakoodia ei näytetä, koska sitä ei voi lukea näytöltä – tulostettava lasku viivakoodeineen tulee PDF-liitteenä, jos se on valittu alla.</label>
-                    <label class="jasrek-radio"><input type="checkbox" name="sposti_pdf" value="1" <?php checked($s['sposti_pdf'], '1'); ?>> <strong>Liitä lasku PDF:nä</strong> – viestin liitteenä sama lasku kuin paperilaskussa: A4-sivu tilisiirtolomakkeineen, QR-koodi ja pankkiviivakoodi kohdan <em>Maksukoodi laskussa</em> mukaan. Jäsen voi tulostaa ja arkistoida laskun. Liite kasvattaa viestiä noin 5–10 kt. Koskee myös muistutuksia ja testilaskuja.</label>
-                </fieldset>
-                <p><label for="jasrek-yhteystiedot">Yhteystiedot viestien alalaitaan</label>
-                   <textarea id="jasrek-yhteystiedot" name="yhteystiedot" rows="3" placeholder="Esim. Yhdistys ry · rahastonhoitaja@example.fi · www.example.fi"><?php echo esc_textarea($s['yhteystiedot']); ?></textarea></p>
             </div>
 
             <div class="jasrek-panel" id="jasrek-luokat">
@@ -222,25 +219,6 @@ function jasrek_page_settings() {
                 </template>
                 <p><button type="button" class="button" id="jasrek-laji-add">+ Lisää jäsenluokka</button></p>
                 <p class="description">Jos poistat luokan, sen jäsenet siirtyvät välilehdelle ”Ilman jäsenluokkaa”, josta heille voi valita uuden luokan joukkona. Luokan voi nimetä uudelleen – jäsenet pysyvät siinä.</p>
-            </div>
-
-            <div class="jasrek-panel" id="jasrek-paperi-asetukset">
-                <h2>Paperilaskut</h2>
-                <p class="description">Paperilaskun saavat jäsenet, joille on valittu ”Haluaa laskun paperilla”, sekä jäsenet ilman sähköpostia.</p>
-                <p><label for="jasrek-postimaksu">Postimaksu (€)</label>
-                   <input type="text" id="jasrek-postimaksu" name="postimaksu" inputmode="decimal" style="max-width:140px" value="<?php echo esc_attr(number_format((float) $s['postimaksu'], 2, ',', '')); ?>" placeholder="0,00">
-                   <span class="description">Lisätään jäsenmaksuun vain paperilaskun saajille, esim. postimerkin ja kirjekuoren hinta. 0 = ei postimaksua. Summaa voi muuttaa laskua tehdessä.
-                   Postimaksu näkyy laskussa omana rivinään, ja se on mukana QR- ja viivakoodin summassa. Sähköpostilaskuihin sitä ei lisätä.
-                   Saatetekstissä <code>{summa}</code> on jäsenmaksu ilman postimaksua ja <code>{maksettava}</code> maksettava yhteensä.</span></p>
-                <fieldset class="jasrek-fieldset"><legend>Laskun malli</legend>
-                    <label class="jasrek-radio"><input type="radio" name="paperi_malli" value="perus" <?php checked($s['paperi_malli'], 'perus'); ?>> <strong>Perusmalli</strong> – maksutiedot, QR-koodi ja pankkiviivakoodi saatteen alla.</label>
-                    <label class="jasrek-radio"><input type="radio" name="paperi_malli" value="tilisiirto" <?php checked($s['paperi_malli'], 'tilisiirto'); ?>> <strong>Tilisiirtolomake</strong> – perinteinen suomalainen pankkisiirtolomake sivun alareunassa, QR-koodi sen yläpuolella. Saateteksti mahtuu noin puolelle sivulle.</label>
-                    <span class="description">Kummassakin mallissa jäsenen nimi ja osoite osuvat ikkunakuoren (C5 tai DL) ikkunaan. QR-koodi ja pankkiviivakoodi tulostuvat kohdan <em>Maksukoodi</em> mukaan.</span>
-                </fieldset>
-                <p><label for="jasrek-postiosoite">Palautusosoite (kuoren ikkuna)</label>
-                   <textarea id="jasrek-postiosoite" name="postiosoite" rows="2" style="max-width:420px" placeholder="esim. Rahastonhoitaja Matti Meikäläinen&#10;Kotikatu 5, 60100 Seinäjoki"><?php echo esc_textarea($s['postiosoite']); ?></textarea>
-                   <span class="description">Tulostetaan pienellä ikkunakuoren ikkunaan vastaanottajan yläpuolelle, jotta kirje palautuu, jos sitä ei voida toimittaa. Voi olla eri kuin yhdistyksen osoite, esim. rahastonhoitajan osoite, jos yhdistyksellä ei ole postilaatikkoa. Yhdistyksen nimi lisätään eteen automaattisesti.
-                   Mahtuu enintään kaksi riviä (noin 110 merkkiä yhdistyksen nimi mukaan lukien); pidempi teksti pienennetään tai siitä varoitetaan tulostettaessa. Tyhjänä palautusosoitetta ei tulosteta.</span></p>
             </div>
 
             <div class="jasrek-panel" id="jasrek-lisakentat">
@@ -275,20 +253,6 @@ function jasrek_page_settings() {
                 <p><button type="button" class="button jasrek-row-add" data-tpl="#jasrek-kentta-tpl" data-table="#jasrek-kentat">+ Lisää kenttä</button></p>
             </div>
 
-            <div class="jasrek-panel" id="jasrek-kirjanpito">
-                <h2>Jäsenmaksut kirjanpitoon</h2>
-                <p class="description">Tilit raportissa <a href="<?php echo esc_url(admin_url('admin.php?page=jasrek-raportti&view=kirjanpito')); ?>">Vuosiraportti → Jäsenmaksut kirjanpitoon</a>. Kirjoita kirjanpitäjän käyttämät tilit, esim. <em>1910 Pankkitili</em> ja <em>3000 Jäsenmaksutuotot</em>. Tyhjänä käytetään tilin nimeä ilman numeroa.</p>
-                <div class="jasrek-grid">
-                    <p><label for="jasrek-kp-pankki">Pankkitili (debet)</label>
-                       <input type="text" id="jasrek-kp-pankki" name="kp_pankki" value="<?php echo esc_attr($s['kp_pankki']); ?>" placeholder="Pankkitili"></p>
-                    <p><label for="jasrek-kp-tuotot">Jäsenmaksutuotot (kredit)</label>
-                       <input type="text" id="jasrek-kp-tuotot" name="kp_tuotot" value="<?php echo esc_attr($s['kp_tuotot']); ?>" placeholder="Jäsenmaksutuotot"></p>
-                    <p><label for="jasrek-kp-posti">Paperilaskujen postimaksut (kredit)</label>
-                       <input type="text" id="jasrek-kp-posti" name="kp_posti" value="<?php echo esc_attr($s['kp_posti']); ?>" placeholder="Postimaksut">
-                       <span class="description">Voi olla sama kuin jäsenmaksutuotot, tai esim. postikulujen tili.</span></p>
-                </div>
-            </div>
-
             <div class="jasrek-panel" id="jasrek-merkkipaivat">
                 <h2>Merkkipäivät</h2>
                 <p class="description">Vuosiraportti ja jäsenlista kertovat, ketkä täyttävät valittuja tasavuosia tai ovat olleet jäsenenä valitut vuodet. Täytettävät vuodet lasketaan jäsenen tiedoissa olevasta <em>syntymävuodesta tai -päivästä</em>. Kenttä on vapaaehtoinen, ja se näkyy jäsenen lomakkeella vain, kun merkkipäivät ovat käytössä. Jos jäsenestä on merkitty vain syntymävuosi, merkkipäivä näkyy vuosiraportissa ilman päivää. Jäsenyysvuodet lasketaan liittymispäivästä. Tyhjä kenttä = sitä merkkipäivää ei näytetä.</p>
@@ -301,9 +265,58 @@ function jasrek_page_settings() {
                        <input type="text" id="jasrek-merkki-jasen" name="merkki_jasen" value="<?php echo esc_attr($s['merkki_jasen']); ?>" placeholder="10, 20, 25, 30, 40, 50"></p>
                 </div>
             </div>
+            </div>
+            <div class="jasrek-tab" data-tab="laskut">
+            <div class="jasrek-panel" id="jasrek-laskut-yleiset">
+                <h2>Kaikki laskut</h2>
+                <p class="description">Koskevat sekä sähköposti- että paperilaskuja.</p>
+                <p><label for="jasrek-vo">Laskun saateteksti (oletus uusille laskuille)</label>
+                   <textarea id="jasrek-vo" name="viesti_oletus" rows="7"><?php echo esc_textarea($s['viesti_oletus']); ?></textarea>
+                   <?php echo wp_kses_post(jasrek_placeholders('jasrek-vo', 'lasku')); ?></p>
+                <p><label for="jasrek-maksukoodi">Maksukoodi laskussa</label>
+                   <select id="jasrek-maksukoodi" name="maksukoodi">
+                       <option value="molemmat" <?php selected($s['maksukoodi'], 'molemmat'); ?>>QR-koodi ja pankkiviivakoodi</option>
+                       <option value="qr" <?php selected($s['maksukoodi'], 'qr'); ?>>Vain QR-koodi</option>
+                       <option value="viivakoodi" <?php selected($s['maksukoodi'], 'viivakoodi'); ?>>Vain pankkiviivakoodi</option>
+                       <option value="ei" <?php selected($s['maksukoodi'], 'ei'); ?>>Ei kuvaa (vain virtuaaliviivakoodi tekstinä)</option>
+                   </select>
+                   <span class="description">QR-koodi on EPC-standardin mukainen (viite RF-muodossa, jonka pankit kohdistavat samaan viitteeseen). Pankkiviivakoodi on perinteinen suomalainen laskun viivakoodi. Virtuaaliviivakoodi tekstinä on laskussa aina.</span></p>
+            </div>
 
-            <div class="jasrek-panel">
-                <h2>Automaattinen maksumuistutus</h2>
+            <div class="jasrek-panel" id="jasrek-sposti-laskut">
+                <h2>Sähköpostilaskut</h2>
+                <fieldset class="jasrek-fieldset"><legend>Laskun malli</legend>
+                    <label class="jasrek-radio"><input type="radio" name="sposti_malli" value="perus" <?php checked($s['sposti_malli'], 'perus'); ?>> <strong>Perusmalli</strong> – maksutiedot taulukkona sekä QR-koodi ja pankkiviivakoodi kuvina (kohdan <em>Maksukoodi laskussa</em> mukaan).</label>
+                    <label class="jasrek-radio"><input type="radio" name="sposti_malli" value="maksukortti" <?php checked($s['sposti_malli'], 'maksukortti'); ?>> <strong>Maksukortti</strong> (suositus) – summa ja eräpäivä isolla, maksun tiedot allekkain helposti kopioitavina, virtuaaliviivakoodi ja QR-koodi (jos valittu kohdassa <em>Maksukoodi laskussa</em>). Toimii hyvin puhelimessa ja tietokoneella. Pankkiviivakoodia ei näytetä, koska sitä ei voi lukea näytöltä – tulostettava lasku viivakoodeineen tulee PDF-liitteenä, jos se on valittu alla.</label>
+                    <label class="jasrek-radio"><input type="checkbox" name="sposti_pdf" value="1" <?php checked($s['sposti_pdf'], '1'); ?>> <strong>Liitä lasku PDF:nä</strong> – viestin liitteenä sama lasku kuin paperilaskussa: A4-sivu tilisiirtolomakkeineen, QR-koodi ja pankkiviivakoodi kohdan <em>Maksukoodi laskussa</em> mukaan. Jäsen voi tulostaa ja arkistoida laskun. Liite kasvattaa viestiä noin 5–10 kt. Koskee myös muistutuksia ja testilaskuja.</label>
+                </fieldset>
+            </div>
+
+            <div class="jasrek-panel" id="jasrek-paperi-asetukset">
+                <h2>Paperilaskut</h2>
+                <p class="description">Paperilaskun saavat jäsenet, joille on valittu ”Haluaa laskun paperilla”, sekä jäsenet ilman sähköpostia.</p>
+                <p><label for="jasrek-postimaksu">Postimaksu (€)</label>
+                   <input type="text" id="jasrek-postimaksu" name="postimaksu" inputmode="decimal" style="max-width:140px" value="<?php echo esc_attr(number_format((float) $s['postimaksu'], 2, ',', '')); ?>" placeholder="0,00">
+                   <span class="description">Lisätään jäsenmaksuun vain paperilaskun saajille, esim. postimerkin ja kirjekuoren hinta. 0 = ei postimaksua. Summaa voi muuttaa laskua tehdessä.
+                   Postimaksu näkyy laskussa omana rivinään, ja se on mukana QR- ja viivakoodin summassa. Sähköpostilaskuihin sitä ei lisätä.
+                   Saatetekstissä <code>{summa}</code> on jäsenmaksu ilman postimaksua ja <code>{maksettava}</code> maksettava yhteensä.</span></p>
+                <fieldset class="jasrek-fieldset"><legend>Laskun malli</legend>
+                    <label class="jasrek-radio"><input type="radio" name="paperi_malli" value="perus" <?php checked($s['paperi_malli'], 'perus'); ?>> <strong>Perusmalli</strong> – maksutiedot, QR-koodi ja pankkiviivakoodi saatteen alla.</label>
+                    <label class="jasrek-radio"><input type="radio" name="paperi_malli" value="tilisiirto" <?php checked($s['paperi_malli'], 'tilisiirto'); ?>> <strong>Tilisiirtolomake</strong> – perinteinen suomalainen pankkisiirtolomake sivun alareunassa, QR-koodi sen yläpuolella. Saateteksti mahtuu noin puolelle sivulle.</label>
+                    <span class="description">Kummassakin mallissa jäsenen nimi ja osoite osuvat ikkunakuoren (C5 tai DL) ikkunaan. QR-koodi ja pankkiviivakoodi tulostuvat kohdan <em>Maksukoodi</em> mukaan.</span>
+                </fieldset>
+                <p><label for="jasrek-postiosoite">Palautusosoite (kuoren ikkuna)</label>
+                   <textarea id="jasrek-postiosoite" name="postiosoite" rows="2" style="max-width:420px" placeholder="esim. Rahastonhoitaja Matti Meikäläinen&#10;Kotikatu 5, 60100 Seinäjoki"><?php echo esc_textarea($s['postiosoite']); ?></textarea>
+                   <span class="description">Tulostetaan pienellä ikkunakuoren ikkunaan vastaanottajan yläpuolelle, jotta kirje palautuu, jos sitä ei voida toimittaa. Voi olla eri kuin yhdistyksen osoite, esim. rahastonhoitajan osoite, jos yhdistyksellä ei ole postilaatikkoa. Yhdistyksen nimi lisätään eteen automaattisesti.
+                   Mahtuu enintään kaksi riviä (noin 110 merkkiä yhdistyksen nimi mukaan lukien); pidempi teksti pienennetään tai siitä varoitetaan tulostettaessa. Tyhjänä palautusosoitetta ei tulosteta.</span></p>
+            </div>
+
+            <div class="jasrek-panel" id="jasrek-muistutukset">
+                <h2>Maksumuistutukset</h2>
+                <p><label for="jasrek-mt">Maksumuistutuksen teksti</label>
+                   <textarea id="jasrek-mt" name="muistutus_teksti" rows="6"><?php echo esc_textarea($s['muistutus_teksti']); ?></textarea>
+                   <?php echo wp_kses_post(jasrek_placeholders('jasrek-mt', 'lasku')); ?></p>
+                <h3>Automaattinen maksumuistutus</h3>
                 <p><label class="jasrek-radio"><input type="checkbox" name="auto_muistutus" value="1" <?php checked($s['auto_muistutus'], '1'); ?>> Lähetä maksamattomille muistutus automaattisesti</label></p>
                 <div class="jasrek-grid">
                     <p><label for="jasrek-apaiv">Päivää eräpäivän jälkeen</label>
@@ -317,14 +330,6 @@ function jasrek_page_settings() {
                 <?php if ($s['auto_muistutus'] === '1' && $next): ?><br>Seuraava tarkistus: <?php echo esc_html(wp_date('j.n.Y H:i', $next)); ?><?php endif; ?></p>
             </div>
 
-            <div class="jasrek-panel" id="jasrek-omat-tiedot">
-                <h2>Jäsenen omat tiedot viesteissä <code>{omat_tiedot}</code></h2>
-                <p class="description">Valitse, mitkä tiedot paikkamerkki <code>{omat_tiedot}</code> näyttää jäsenelle tietojentarkistuspyynnössä ja laskun saatteessa. Puuttuva osoite, puhelin tai sähköposti korostetaan. Jos kaikki on valittu, myöhemmin lisättävät omat kentät tulevat mukaan automaattisesti.</p>
-                <p class="jasrek-checks"><?php $ot_val = jasrek_omat_tiedot_valitut(); foreach (jasrek_omat_tiedot_valinnat() as $k => $nimi): ?>
-                    <label class="jasrek-radio"><input type="checkbox" name="ot_kentat[]" value="<?php echo esc_attr($k); ?>" <?php checked(in_array($k, $ot_val, true)); ?>> <?php echo esc_html($nimi); ?></label>
-                <?php endforeach; ?></p>
-            </div>
-
             <div class="jasrek-panel" id="jasrek-vahvistus">
                 <h2>Maksuvahvistus jäsenelle</h2>
                 <p><label class="jasrek-radio"><input type="checkbox" name="vahvistus_kaytossa" value="1" <?php checked($s['vahvistus_kaytossa'], '1'); ?>> Lähetä jäsenelle sähköpostilla vahvistus, kun hänen maksunsa kirjataan</label></p>
@@ -336,6 +341,21 @@ function jasrek_page_settings() {
                    <?php echo wp_kses_post(jasrek_placeholders('jasrek-vte', 'vahvistus', '{summa} on maksettu summa.')); ?></p>
             </div>
 
+            <div class="jasrek-panel" id="jasrek-kirjanpito">
+                <h2>Jäsenmaksut kirjanpitoon</h2>
+                <p class="description">Tilit raportissa <a href="<?php echo esc_url(admin_url('admin.php?page=jasrek-raportti&view=kirjanpito')); ?>">Vuosiraportti → Jäsenmaksut kirjanpitoon</a>. Kirjoita kirjanpitäjän käyttämät tilit, esim. <em>1910 Pankkitili</em> ja <em>3000 Jäsenmaksutuotot</em>. Tyhjänä käytetään tilin nimeä ilman numeroa.</p>
+                <div class="jasrek-grid">
+                    <p><label for="jasrek-kp-pankki">Pankkitili (debet)</label>
+                       <input type="text" id="jasrek-kp-pankki" name="kp_pankki" value="<?php echo esc_attr($s['kp_pankki']); ?>" placeholder="Pankkitili"></p>
+                    <p><label for="jasrek-kp-tuotot">Jäsenmaksutuotot (kredit)</label>
+                       <input type="text" id="jasrek-kp-tuotot" name="kp_tuotot" value="<?php echo esc_attr($s['kp_tuotot']); ?>" placeholder="Jäsenmaksutuotot"></p>
+                    <p><label for="jasrek-kp-posti">Paperilaskujen postimaksut (kredit)</label>
+                       <input type="text" id="jasrek-kp-posti" name="kp_posti" value="<?php echo esc_attr($s['kp_posti']); ?>" placeholder="Postimaksut">
+                       <span class="description">Voi olla sama kuin jäsenmaksutuotot, tai esim. postikulujen tili.</span></p>
+                </div>
+            </div>
+            </div>
+            <div class="jasrek-tab" data-tab="sposti">
             <div class="jasrek-panel">
                 <h2>Sähköpostin lähettäjä</h2>
                 <div class="jasrek-grid">
@@ -350,18 +370,19 @@ function jasrek_page_settings() {
                     <p class="jasrek-hint">⚠ Lähettäjän osoite (@<?php echo esc_html($from_host); ?>) ei ole sivuston verkkotunnuksessa. Laskut voivat päätyä roskapostiin, ellei sivustolla ole SMTP-lisäosaa, joka lähettää kyseisen osoitteen kautta.</p>
                 <?php endif; ?>
                 <p class="description">Suositus: asenna SMTP-lisäosa (esim. WP Mail SMTP tai FluentSMTP), jolloin viestit lähtevät yhdistyksen oikean sähköpostitilin kautta eivätkä päädy roskapostiin. Kokeile asetukset lähettämällä testilasku itsellesi.</p>
+                <p><label for="jasrek-yhteystiedot">Yhteystiedot viestien alalaitaan</label>
+                   <textarea id="jasrek-yhteystiedot" name="yhteystiedot" rows="3" placeholder="Esim. Yhdistys ry · rahastonhoitaja@example.fi · www.example.fi"><?php echo esc_textarea($s['yhteystiedot']); ?></textarea></p>
             </div>
 
-            <div class="jasrek-panel">
-                <h2>Oletustekstit</h2>
-                <p><label for="jasrek-vo">Laskun saateteksti (oletus uusille laskuille)</label>
-                   <textarea id="jasrek-vo" name="viesti_oletus" rows="7"><?php echo esc_textarea($s['viesti_oletus']); ?></textarea>
-                   <?php echo wp_kses_post(jasrek_placeholders('jasrek-vo', 'lasku')); ?></p>
-                <p><label for="jasrek-mt">Maksumuistutuksen teksti</label>
-                   <textarea id="jasrek-mt" name="muistutus_teksti" rows="6"><?php echo esc_textarea($s['muistutus_teksti']); ?></textarea>
-                   <?php echo wp_kses_post(jasrek_placeholders('jasrek-mt', 'lasku')); ?></p>
+            <div class="jasrek-panel" id="jasrek-omat-tiedot">
+                <h2>Jäsenen omat tiedot viesteissä <code>{omat_tiedot}</code></h2>
+                <p class="description">Valitse, mitkä tiedot paikkamerkki <code>{omat_tiedot}</code> näyttää jäsenelle tietojentarkistuspyynnössä ja laskun saatteessa. Puuttuva osoite, puhelin tai sähköposti korostetaan. Jos kaikki on valittu, myöhemmin lisättävät omat kentät tulevat mukaan automaattisesti.</p>
+                <p class="jasrek-checks"><?php $ot_val = jasrek_omat_tiedot_valitut(); foreach (jasrek_omat_tiedot_valinnat() as $k => $nimi): ?>
+                    <label class="jasrek-radio"><input type="checkbox" name="ot_kentat[]" value="<?php echo esc_attr($k); ?>" <?php checked(in_array($k, $ot_val, true)); ?>> <?php echo esc_html($nimi); ?></label>
+                <?php endforeach; ?></p>
             </div>
-
+            </div>
+            <div class="jasrek-tab" data-tab="yllapito">
             <div class="jasrek-panel" id="jasrek-loki">
                 <h2>Muutosloki</h2>
                 <p>Kaikki muutokset jäsenten tietoihin, laskuihin, maksuihin ja asetuksiin kirjataan <a href="<?php echo esc_url(admin_url('admin.php?page=jasrek-loki')); ?>">muutoslokiin</a> (kuka, mitä ja milloin).</p>
@@ -383,10 +404,14 @@ function jasrek_page_settings() {
                 <label class="jasrek-radio"><input type="radio" name="poista_tiedot" value="1" <?php checked($s['poista_tiedot'], '1'); ?> data-confirm="Haluatko varmasti, että kaikki jäsenrekisterin tiedot poistetaan pysyvästi, kun lisäosa poistetaan? Tätä ei voi perua."> <strong>Poista kaikki tiedot</strong> – kaikki lisäosan luomat taulut ja asetukset poistetaan pysyvästi.</label>
                 <p class="description">Ota ennen poistamista <a href="#jasrek-varmuuskopio">varmuuskopio</a> (alla), jolla kaikki tiedot voi palauttaa myöhemmin. Valinta kysytään myös, kun lisäosa poistetaan käytöstä.</p>
             </div>
+            </div>
 
-            <p><button type="submit" class="button button-primary button-large">Tallenna asetukset</button></p>
+            <p class="jasrek-save"><button type="submit" class="button button-primary button-large">Tallenna asetukset</button>
+               <span class="description">Tallentaa kaikkien välilehtien asetukset.</span></p>
         </form>
-        <?php jasrek_backup_panel(); ?>
+        <div class="jasrek-tab" data-tab="yllapito">
+            <?php jasrek_backup_panel(); ?>
+        </div>
     </div>
     <?php
 }

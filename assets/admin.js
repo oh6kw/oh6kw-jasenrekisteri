@@ -193,6 +193,52 @@
         $('.jasrek-run[data-autostart]').each(function () { run($(this)); });
     });
 
+    // Asetussivun välilehdet: kaikki kentät ovat samassa lomakkeessa, joten tallennus koskee aina kaikkia.
+    // Ilman JavaScriptiä kaikki välilehdet näkyvät allekkain.
+    (function () {
+        var $nav = $('.jasrek-settabs');
+        if (!$nav.length) return;
+        var KEY = 'jasrek_asetus_tab';
+        function show(k, keepHash) {
+            if (!$nav.find('a[data-tab="' + k + '"]').length) k = $nav.find('a').first().data('tab');
+            $('.jasrek-tab').each(function () { $(this).prop('hidden', $(this).data('tab') !== k); });
+            $nav.find('a').removeClass('nav-tab-active').filter('[data-tab="' + k + '"]').addClass('nav-tab-active');
+            try { window.localStorage.setItem(KEY, k); } catch (err) { /* ei tallennusta */ }
+            if (!keepHash && window.history && history.replaceState) history.replaceState(null, '', '#' + k);
+        }
+        // Avaa välilehti, jolla annettu elementti on (esim. linkki …#jasrek-paperi-asetukset)
+        function showFor(id) {
+            var $el = id ? $(document.getElementById(id)) : $();
+            if (!$el.length) return false;
+            var $tab = $el.closest('.jasrek-tab');
+            if (!$tab.length) return false;
+            show($tab.data('tab'), true);
+            setTimeout(function () { $el[0].scrollIntoView({ block: 'start' }); }, 0);
+            return true;
+        }
+        var hash = window.location.hash.replace('#', '');
+        if (!showFor(hash)) {
+            var k = hash;
+            if (!$nav.find('a[data-tab="' + k + '"]').length) {
+                try { k = window.localStorage.getItem(KEY) || ''; } catch (err) { k = ''; }
+            }
+            show(k, !hash);
+        }
+        $nav.on('click', 'a', function (e) { e.preventDefault(); show($(this).data('tab')); });
+        $(window).on('hashchange', function () {
+            var h = window.location.hash.replace('#', '');
+            if (!showFor(h) && $nav.find('a[data-tab="' + h + '"]').length) show(h, true);
+        });
+        $(document).on('click', 'a[href^="#jasrek-"]', function (e) {
+            if (showFor(this.getAttribute('href').slice(1))) e.preventDefault();
+        });
+        // Virheellinen kenttä piilotetulla välilehdellä: näytetään se, jotta selain voi kertoa virheestä
+        document.addEventListener('invalid', function (e) {
+            var tab = $(e.target).closest('.jasrek-tab');
+            if (tab.length && tab.prop('hidden')) show(tab.data('tab'));
+        }, true);
+    })();
+
     // Sähköpostin esikatselu: kehys yhtä korkeaksi kuin viesti
     function fitPreview(frame) {
         try {
