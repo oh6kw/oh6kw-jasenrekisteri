@@ -2,7 +2,7 @@
 
 Tekijä: Jarno Jaskari (oh6kw). Versiosta 3.0 alkaen lisäosaa on kehitetty yhdessä Claude-tekoälyn (Anthropic) kanssa.
 
-## 4.9.0 (kokeiluversio, julkaisematon)
+## 4.9.0 (2026-10-25)
 
 ### Asetussivu selkeämmäksi – vain ulkoasu muuttuu
 - Asetukset on jaettu välilehdille: **Yhdistys**, **Jäsenet**, **Laskut**, **Sähköposti** ja **Ylläpito**. Kaikki kentät ovat edelleen samassa lomakkeessa: *Tallenna asetukset* tallentaa kaikkien välilehtien asetukset kerralla, eikä mikään asetus muutu tai katoa. Avoinna ollut välilehti muistetaan.
@@ -13,7 +13,7 @@ Tekijä: Jarno Jaskari (oh6kw). Versiosta 3.0 alkaen lisäosaa on kehitetty yhde
 - **Muutosloki:** muutoslokin säilytysaika.
 - **Varmuuskopiot ja poisto:** varmuuskopio ja siirto, automaattinen varmuuskopio sähköpostiin sekä lisäosan poistaminen.
 - Muilta sivuilta tulevat linkit (esim. *Asetukset → Paperilaskut*, *Jäsenluokat*, *Varmuuskopio*) avaavat oikean välilehden. Jos tallennettaessa jokin kenttä on virheellinen (esim. sähköpostiosoite), sen välilehti avataan, jotta selain voi näyttää virheen. Ilman JavaScriptiä välilehtirivi on piilossa ja kaikki asetukset näkyvät allekkain kuten ennen.
-- Versionumero 4.9.0: selain hakee uudet tyyli- ja skriptitiedostot (kokeiluversiossa numerolla 4.8.9 selain käytti välimuistissa ollutta vanhaa skriptiä, eivätkä välilehdet toimineet).
+- README:n asetussivun kuva päivitetty (Laskut-välilehti).
 
 ## 4.8.9 (2026-10-19)
 
